@@ -1,0 +1,13 @@
+[
+{
+  "modid": "trophyslots",
+  "name": "Trophy Slots",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://www.lomeli12.net/",
+  "updateUrl": "",
+  "logoFile": "assets/lomlib/textures/logo.png",
+  "authorList": ["Lomeli12"]
+}
+]

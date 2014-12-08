@@ -1,0 +1,16 @@
+config.trophyslots.startingSlots=The number of slots a player starts with.
+config.trophyslots.unlockAchieve=Can you unlock slots by completing achievements?
+config.trophyslots.canUseTrophy=Can you use Trophies to unlock slots?
+config.trophyslots.canBuyTrophy=Can you buy Trophies from villagers?
+
+item.trophyslots.trophy.name=Trophy
+
+msg.trophyslots.unlock=§eYou unlocked an inventory slot! §r§f
+msg.trophyslots.villager=§4This trophy was bought from a villager! It cannot be §4used until buying from villagers is enabled! §r§f
+msg.trophyslots.trophy=§4Trophy unlocking disabled! Please enable it to use trophy! §r§f
+
+subtext.trophyslots.info=Press <§2§oShift§r§7> for more info.
+subtext.trophyslots.trophy=§6§oUnlocks a slot! §r§f
+subtext.trophyslots.trophy.canUse=§5§oTrophy unlock enabled! §r§f
+subtext.trophyslots.trophy.cannotUse=§4§oTrophy unlock disabled! §r§f
+subtext.torphyslots.trophy.villager=§4§oThis was trophy bought from a villager! §r§f
