@@ -35,7 +35,6 @@ import net.lomeli.trophyslots.core.SimpleUtil;
 
 @SideOnly(Side.CLIENT)
 public class EventHandlerClient {
-    private IIcon cross;
     public boolean markContainerUpdate;
 
     @SubscribeEvent
@@ -87,11 +86,11 @@ public class EventHandlerClient {
                 for (int i = 0; i < slotList.size(); i++) {
                     Slot slot = guiContainer.inventorySlots.getSlot(i);
                     if (slot != null && slot.isSlotInInventory(mc.thePlayer.inventory, slot.getSlotIndex())) {
-                        if (!SimpleUtil.slotUnlocked(slot.getSlotIndex(), mc.thePlayer) && cross != null) {
+                        if (!SimpleUtil.slotUnlocked(slot.getSlotIndex(), mc.thePlayer)) {
                             GL11.glPushMatrix();
-                            mc.renderEngine.bindTexture(new ResourceLocation("textures/atlas/items.png"));
+                            mc.renderEngine.bindTexture(new ResourceLocation(TrophySlots.MOD_ID + ":textures/cross.png"));
                             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
-                            guiContainer.drawTexturedModelRectFromIcon(xBase + slot.xDisplayPosition, yBase + slot.yDisplayPosition, cross, 16, 16);
+                            guiContainer.drawTexturedModalRect(xBase + slot.xDisplayPosition, yBase + slot.yDisplayPosition, 0, 0, 16, 16);
                             GL11.glPopMatrix();
                         }
                     }
@@ -137,12 +136,6 @@ public class EventHandlerClient {
                 }
             }
         }
-    }
-
-    @SubscribeEvent
-    public void registerIcons(TextureStitchEvent.Pre event) {
-        if (event.map.getTextureType() == 1 && cross == null)
-            cross = event.map.registerIcon(TrophySlots.MOD_ID + ":cross");
     }
 
     public void renderItemToolTip(ItemStack stack, int x, int y, Minecraft mc) {

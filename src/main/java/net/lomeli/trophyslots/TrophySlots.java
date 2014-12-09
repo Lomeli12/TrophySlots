@@ -52,7 +52,8 @@ public class TrophySlots {
         modConfig = new Config(event.getSuggestedConfigurationFile());
         modConfig.loadConfig();
         versionHandler = new VersionHandler(updateUrl, MOD_NAME, MAJOR, MINOR, REV);
-        versionHandler.checkForUpdates();
+        if (checkForUpdates)
+            versionHandler.checkForUpdates();
         proxy.preInit();
     }
 

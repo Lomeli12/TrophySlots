@@ -51,9 +51,9 @@ public class VersionHandler {
     }
 
     public void checkForUpdates() {
+        int major = 0, minor = 0, revision = 0;
         try {
             URL url = new URL(this.jsonURL);
-            int major = 0, minor = 0, revision = 0;
             JsonParser parser = new JsonParser();
             JsonReader reader = new JsonReader(new InputStreamReader(url.openStream()));
             if (reader != null) {
@@ -64,24 +64,28 @@ public class VersionHandler {
                 revision = jsonObject.get("revision").getAsInt();
                 this.downloadURL = jsonObject.get("downloadURL").getAsString();
                 this.isDirect = jsonObject.get("direct").getAsBoolean();
-                JsonArray changeLog = jsonObject.get("changeLog").getAsJsonArray();
-                Iterator<JsonElement> it = changeLog.iterator();
-                while (it.hasNext()) {
-                    this.changeList.add(it.next().getAsString());
-                }
-                reader.endObject();
+                if (jsonObject.get("changeLog").isJsonArray()) {
+                    JsonArray changeLog = jsonObject.get("changeLog").getAsJsonArray();
+                    Iterator<JsonElement> it = changeLog.iterator();
+                    while (it.hasNext()) {
+                        this.changeList.add(it.next().getAsString());
+                    }
+                } else
+                    this.changeList.add(jsonObject.get("changeLog").getAsString());
                 reader.close();
             }
 
-            this.needsUpdate = (this.mod_major > major ? (this.mod_minor > minor ? (this.mod_rev > revision ? false : true) : true) : true);
-            if (this.needsUpdate) {
-                this.version = major + "." + minor + "." + revision;
-                this.promptMsg = true;
-                sendMessage();
-            }
+
         } catch (Exception e) {
-            TrophySlots.log(1, "Could not check for updates!");
+            TrophySlots.log(1, "Exception when reading update JSON.");
         }
+        this.needsUpdate = (this.mod_major >= major ? (this.mod_minor >= minor ? (this.mod_rev >= revision ? false : true) : true) : true);
+        if (this.needsUpdate) {
+            this.version = major + "." + minor + "." + revision;
+            this.promptMsg = true;
+            sendMessage();
+        } else
+            TrophySlots.log(0,TrophySlots.MOD_NAME + " is up-to-date");
     }
 
     private void sendMessage() {
