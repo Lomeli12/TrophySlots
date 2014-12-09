@@ -49,8 +49,10 @@ public class ModItems {
                 else if (!TrophySlots.canUseTrophy)
                     player.addChatComponentMessage(new ChatComponentText(SimpleUtil.translate("msg.trophyslots.trophy")));
                 else {
-                    if (SimpleUtil.unlockSlot(player))
-                        stack.stackSize--;
+                    if (SimpleUtil.unlockSlot(player)) {
+                        if (!player.capabilities.isCreativeMode)
+                            stack.stackSize--;
+                    }
                 }
             }
             return stack;
@@ -59,7 +61,7 @@ public class ModItems {
         @Override
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean var) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+            if (SimpleUtil.safeKeyDown(Keyboard.KEY_LSHIFT)) {
                 if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
                     list.add(SimpleUtil.translate("subtext.torphyslots.trophy.villager"));
                 list.add(SimpleUtil.translate("subtext.trophyslots.trophy"));
@@ -73,7 +75,7 @@ public class ModItems {
 
         @Override
         public EnumRarity getRarity(ItemStack p_77613_1_) {
-            return EnumRarity.epic;
+            return EnumRarity.uncommon;
         }
     }
 }

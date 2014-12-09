@@ -1,12 +1,14 @@
 config.trophyslots.startingSlots=The number of slots a player starts with.
-config.trophyslots.unlockAchieve=Can you unlock slots by completing achievements?
-config.trophyslots.canUseTrophy=Can you use Trophies to unlock slots?
-config.trophyslots.canBuyTrophy=Can you buy Trophies from villagers?
+config.trophyslots.unlockAchieve=Allows you to unlock slots by completing achievements.
+config.trophyslots.canUseTrophy=Allows you to unlock slots using trophies.
+config.trophyslots.canBuyTrophy=Allows you to buy trophies from villagers. Disabling this will disable any trophies bought from villagers!
+config.trophyslots.disable3=Disables slot unlocking for the first 3 vanilla achievements.
+config.trophyslots.update=Enable checking for updates
 
 item.trophyslots.trophy.name=Trophy
 
 msg.trophyslots.unlock=§eYou unlocked an inventory slot! §r§f
-msg.trophyslots.villager=§4This trophy was bought from a villager! It cannot be §4used until buying from villagers is enabled! §r§f
+msg.trophyslots.villager=§4This trophy was bought from a villager! It cannot be used §4until buying from villagers is enabled! §r§f
 msg.trophyslots.trophy=§4Trophy unlocking disabled! Please enable it to use trophy! §r§f
 
 subtext.trophyslots.info=Press <§2§oShift§r§7> for more info.
@@ -14,3 +16,10 @@ subtext.trophyslots.trophy=§6§oUnlocks a slot! §r§f
 subtext.trophyslots.trophy.canUse=§5§oTrophy unlock enabled! §r§f
 subtext.trophyslots.trophy.cannotUse=§4§oTrophy unlock disabled! §r§f
 subtext.torphyslots.trophy.villager=§4§oThis was trophy bought from a villager! §r§f
+
+achievement.firstSlotAchievement=Pockets
+achievement.firstSlotAchievement.desc=Unlock your first slot. §4(Does NOT unlock a slot) §r§f
+achievement.maximumCapacityAchievement=Maximum Capacity!
+achievement.maximumCapacityAchievement.desc=Unlock all inventory slots! §4(Does NOT unlock a slot) §r§f
+
+update.trophyslots=Version %1$s is available at: %2$s

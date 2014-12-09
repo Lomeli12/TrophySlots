@@ -22,4 +22,6 @@ public class Proxy {
         FMLCommonHandler.instance().bus().register(handler);
         MinecraftForge.EVENT_BUS.register(handler);
     }
+
+    public void markContainerUpdate() {}
 }

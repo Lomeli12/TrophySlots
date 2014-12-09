@@ -21,10 +21,12 @@ public class Config {
     }
 
     public void loadConfig() {
-        TrophySlots.startingSlots = config.getInt("startingSlots", Configuration.CATEGORY_GENERAL, 9, 9, 36, SimpleUtil.translate("config.trophyslots.startingSlots"));
+        TrophySlots.startingSlots = config.getInt("startingSlots", Configuration.CATEGORY_GENERAL, 9, 0, 36, SimpleUtil.translate("config.trophyslots.startingSlots"));
         TrophySlots.unlockViaAchievements = config.getBoolean("unlockViaAchievements", Configuration.CATEGORY_GENERAL, true, SimpleUtil.translate("config.trophyslots.unlockAchieve"));
         TrophySlots.canUseTrophy = config.getBoolean("canUseTrophy", Configuration.CATEGORY_GENERAL, true, SimpleUtil.translate("config.trophyslots.canUseTrophy"));
         TrophySlots.canBuyTrophy = config.getBoolean("canBuyTrophies", Configuration.CATEGORY_GENERAL, false, SimpleUtil.translate("config.trophyslots.canBuyTrophy"));
+        TrophySlots.disable3 = config.getBoolean("disableFirst3", Configuration.CATEGORY_GENERAL, false, SimpleUtil.translate("config.trophyslots.disable3"));
+        TrophySlots.checkForUpdates = config.getBoolean("checkForUpdates", Configuration.CATEGORY_GENERAL, true, SimpleUtil.translate("config.trophyslots.update"));
         if (config.hasChanged())
             config.save();
     }
