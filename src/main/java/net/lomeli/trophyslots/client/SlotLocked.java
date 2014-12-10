@@ -5,8 +5,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A slot that cannot be edited in anyway via GUIs. {@link net.lomeli.trophyslots.core.handler.EventHandler} will
@@ -38,7 +38,7 @@ public class SlotLocked extends Slot {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean func_111238_b() {
+    public boolean canBeHovered() {
         return false;
     }
 }

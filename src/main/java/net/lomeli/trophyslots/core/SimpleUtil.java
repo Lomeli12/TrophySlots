@@ -9,9 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import net.lomeli.trophyslots.TrophySlots;
 
@@ -33,7 +34,7 @@ public class SimpleUtil {
 
     public static boolean unlockAllSlots(EntityPlayer player) {
         if (!hasAllSlotsUnlocked(player)) {
-            TrophySlots.log(0, "Unlocking all slots for " + player.getCommandSenderName());
+            TrophySlots.log(0, "Unlocking all slots for " + player.getName());
             player.addChatComponentMessage(new ChatComponentText(translate("msg.trophyslots.unlockAll")));
             player.getEntityData().setInteger(TrophySlots.slotsUnlocked, player.inventory.getSizeInventory() - 4);
             EntityPlayerMP playerMP = getPlayerMP(player);
@@ -81,15 +82,15 @@ public class SimpleUtil {
     public static boolean unlockSlot(EntityPlayer player) {
         int i = player.getEntityData().getInteger(TrophySlots.slotsUnlocked);
         if (!hasAllSlotsUnlocked(player)) {
-            TrophySlots.log(0, "Awarding slot to " + player.getCommandSenderName());
+            TrophySlots.log(0, "Awarding slot to " + player.getName());
             i++;
             player.getEntityData().setInteger(TrophySlots.slotsUnlocked, i);
 
             EntityPlayerMP playerMP = getPlayerMP(player);
-            if (i >= 1 && !playerMP.func_147099_x().hasAchievementUnlocked(TrophySlots.firstSlot))
+            if (i >= 1 && !playerMP.getStatFile().hasAchievementUnlocked(TrophySlots.firstSlot))
                 playerMP.addStat(TrophySlots.firstSlot, 1);
-            if (hasAllSlotsUnlocked(player) && playerMP.func_147099_x().canUnlockAchievement(TrophySlots.maxCapcity)) {
-                if (!playerMP.func_147099_x().hasAchievementUnlocked(TrophySlots.maxCapcity))
+            if (hasAllSlotsUnlocked(player) && playerMP.getStatFile().canUnlockAchievement(TrophySlots.maxCapcity)) {
+                if (!playerMP.getStatFile().hasAchievementUnlocked(TrophySlots.maxCapcity))
                     playerMP.addStat(TrophySlots.maxCapcity, 1);
             }
             TrophySlots.proxy.markContainerUpdate();
@@ -114,7 +115,7 @@ public class SimpleUtil {
     }
 
     public static EntityPlayerMP getPlayerMP(EntityPlayer player) {
-        return (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
+        return (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).getPlayerEntityByUUID(player.getUniqueID());
     }
 
     public static boolean hasAllSlotsUnlocked(EntityPlayer player) {
@@ -123,13 +124,15 @@ public class SimpleUtil {
 
     public static String nameFromStack(ItemStack stack) {
         try {
-            ModContainer mod = GameData.findModOwner(GameData.getItemRegistry().getNameForObject(stack.getItem()));
-            String modname = mod == null ? "Minecraft" : mod.getName();
+            GameRegistry.UniqueIdentifier modUID = GameRegistry.findUniqueIdentifierFor(stack.getItem());
+            String modname = modUID == null ? "Minecraft" : modUID.name;
             return modname;
         } catch (NullPointerException var3) {
             return "";
         }
     }
+
+    
 
     public static boolean safeKeyDown(int keyCode) {
         try {

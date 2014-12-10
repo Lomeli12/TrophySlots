@@ -6,12 +6,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.stats.Achievement;
 
 import net.minecraftforge.common.AchievementPage;
-
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import net.lomeli.trophyslots.core.Config;
 import net.lomeli.trophyslots.core.ModItems;
@@ -62,8 +61,8 @@ public class TrophySlots {
     public void init(FMLInitializationEvent event) {
         proxy.init();
 
-        firstSlot = new Achievement("achievement.trophyslots.firstSlot", "firstSlotAchievement", 0, 0, Blocks.chest, null).registerStat();
-        maxCapcity = new Achievement("achievement.trophyslots.maximumCapacity", "maximumCapacityAchievement", 2, 0, ModItems.trophy, firstSlot).registerStat();
+        firstSlot = (Achievement) new Achievement("achievement.trophyslots.firstSlot", "firstSlotAchievement", 0, 0, Blocks.chest, null).registerStat();
+        maxCapcity = (Achievement) new Achievement("achievement.trophyslots.maximumCapacity", "maximumCapacityAchievement", 2, 0, ModItems.trophy, firstSlot).registerStat();
 
         achievementPage = new AchievementPage(MOD_NAME, firstSlot, maxCapcity);
         AchievementPage.registerAchievementPage(achievementPage);

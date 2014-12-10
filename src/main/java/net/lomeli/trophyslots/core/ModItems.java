@@ -12,9 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import net.lomeli.trophyslots.TrophySlots;
 
@@ -32,7 +32,6 @@ public class ModItems {
             this.setCreativeTab(CreativeTabs.tabMisc);
             this.setMaxStackSize(1);
             this.setUnlocalizedName(TrophySlots.MOD_ID + ".trophy");
-            this.setTextureName(TrophySlots.MOD_ID + ":trophy");
         }
 
         public static boolean fromVillager(ItemStack stack) {
@@ -95,7 +94,7 @@ public class ModItems {
 
         @Override
         public EnumRarity getRarity(ItemStack p_77613_1_) {
-            return EnumRarity.uncommon;
+            return EnumRarity.UNCOMMON;
         }
     }
 }

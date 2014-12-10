@@ -2,8 +2,7 @@ package net.lomeli.trophyslots.core;
 
 import net.minecraftforge.common.MinecraftForge;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.handler.EventHandler;
@@ -14,7 +13,7 @@ public class Proxy {
         ModItems.loadItems();
         FMLCommonHandler.instance().bus().register(TrophySlots.modConfig);
 
-        VillagerRegistry.instance().registerVillageTradeHandler(1, new VillagerHandler());
+        VillagerHandler.addVillagerTrades();
     }
 
     public void init() {

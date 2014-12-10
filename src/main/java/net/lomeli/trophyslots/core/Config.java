@@ -4,8 +4,8 @@ import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
 
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import net.lomeli.trophyslots.TrophySlots;
 
