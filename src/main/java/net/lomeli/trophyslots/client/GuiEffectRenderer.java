@@ -77,8 +77,6 @@ public class GuiEffectRenderer {
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
 
-
-
             if (renderTick % 2 == 0) {
                 y += speed;
                 if (rand.nextBoolean())
