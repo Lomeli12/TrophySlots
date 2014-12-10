@@ -32,7 +32,7 @@ public class GuiEffectRenderer {
         for (int i = 0; i < snowFlakeList.size(); i++) {
             SnowFlake snowFlake = snowFlakeList.get(i);
             if (snowFlake != null) {
-                if (snowFlake.y == 0) {
+                if (snowFlake.y < 0) {
                     if (rand.nextInt(50) < 1)
                         snowFlake.draw(event.gui);
                 } else
@@ -78,8 +78,9 @@ public class GuiEffectRenderer {
             GL11.glPopMatrix();
 
 
-                y += speed;
+
             if (renderTick % 2 == 0) {
+                y += speed;
                 if (rand.nextBoolean())
                     x += rand.nextBoolean() ? 1 : -1;
             }
