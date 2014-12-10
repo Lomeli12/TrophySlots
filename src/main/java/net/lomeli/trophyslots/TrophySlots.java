@@ -43,6 +43,7 @@ public class TrophySlots {
     public static boolean canBuyTrophy = false;
     public static boolean disable3 = false;
     public static boolean checkForUpdates = true;
+    public static boolean xmas = true;
 
     public static Achievement firstSlot, maxCapcity;
     public static AchievementPage achievementPage;

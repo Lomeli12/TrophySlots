@@ -34,7 +34,7 @@ public class EventHandler {
     @SubscribeEvent
     public void playerTickEvent(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
-        if (event.phase == TickEvent.Phase.END && !player.worldObj.isRemote && !player.capabilities.isCreativeMode) {
+        if (event.phase == TickEvent.Phase.END && !player.worldObj.isRemote && !player.capabilities.isCreativeMode&& !SimpleUtil.hasAllSlotsUnlocked(player)) {
             for (int i = 0; i < player.inventory.getSizeInventory() - 4; i++) {
                 ItemStack stack = player.inventory.getStackInSlot(i);
                 if (stack != null && stack.getItem() != null) {
@@ -50,7 +50,7 @@ public class EventHandler {
     // Prevents items from being picked up if there are not empty unlocked slots
     @SubscribeEvent
     public void itemPickupEvent(EntityItemPickupEvent event) {
-        if (!event.entityPlayer.worldObj.isRemote && !event.entityPlayer.capabilities.isCreativeMode) {
+        if (!event.entityPlayer.worldObj.isRemote && !event.entityPlayer.capabilities.isCreativeMode && !SimpleUtil.hasAllSlotsUnlocked(event.entityPlayer)) {
             ItemStack stack = event.item.getEntityItem();
             if (stack != null && stack.getItem() != null && stack.stackSize > 0) {
                 int slot = SimpleUtil.searchForPossibleSlot(stack, event.entityPlayer.inventory);

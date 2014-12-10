@@ -42,6 +42,12 @@ public class ModItems {
         }
 
         @Override
+        public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_) {
+            p_150895_3_.add(new ItemStack(p_150895_1_));
+            p_150895_3_.add(new ItemStack(p_150895_1_, 1, 1));
+        }
+
+        @Override
         public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
             if (!world.isRemote) {
                 if (!TrophySlots.canBuyTrophy && fromVillager(stack))
@@ -49,9 +55,16 @@ public class ModItems {
                 else if (!TrophySlots.canUseTrophy)
                     player.addChatComponentMessage(new ChatComponentText(SimpleUtil.translate("msg.trophyslots.trophy")));
                 else {
-                    if (SimpleUtil.unlockSlot(player)) {
-                        if (!player.capabilities.isCreativeMode)
-                            stack.stackSize--;
+                    if (stack.getItemDamage() == 0) {
+                        if (SimpleUtil.unlockSlot(player)) {
+                            if (!player.capabilities.isCreativeMode)
+                                stack.stackSize--;
+                        }
+                    } else {
+                        if (SimpleUtil.unlockAllSlots(player)) {
+                            if (!player.capabilities.isCreativeMode)
+                                stack.stackSize--;
+                        }
                     }
                 }
             }
@@ -61,15 +74,22 @@ public class ModItems {
         @Override
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean var) {
-            if (SimpleUtil.safeKeyDown(Keyboard.KEY_LSHIFT)) {
-                if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
-                    list.add(SimpleUtil.translate("subtext.torphyslots.trophy.villager"));
-                list.add(SimpleUtil.translate("subtext.trophyslots.trophy"));
-                list.add(SimpleUtil.translate(TrophySlots.canUseTrophy ? "subtext.trophyslots.trophy.canUse" : "subtext.trophyslots.trophy.cannotUse"));
+            if (stack.getItemDamage() == 0) {
+                if (SimpleUtil.safeKeyDown(Keyboard.KEY_LSHIFT)) {
+                    if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
+                        list.add(SimpleUtil.translate("subtext.torphyslots.trophy.villager"));
+                    list.add(SimpleUtil.translate("subtext.trophyslots.trophy"));
+                    list.add(SimpleUtil.translate(TrophySlots.canUseTrophy ? "subtext.trophyslots.trophy.canUse" : "subtext.trophyslots.trophy.cannotUse"));
+                } else {
+                    list.add(SimpleUtil.translate("subtext.trophyslots.info"));
+                    if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
+                        list.add(SimpleUtil.translate("subtext.torphyslots.trophy.villager"));
+                }
             } else {
-                list.add(SimpleUtil.translate("subtext.trophyslots.info"));
                 if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
                     list.add(SimpleUtil.translate("subtext.torphyslots.trophy.villager"));
+                list.add(SimpleUtil.translate("subtext.torphyslots.trophy.cheat"));
+                list.add(SimpleUtil.translate(TrophySlots.canUseTrophy ? "subtext.trophyslots.trophy.canUse" : "subtext.trophyslots.trophy.cannotUse"));
             }
         }
 

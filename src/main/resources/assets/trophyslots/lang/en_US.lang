@@ -8,6 +8,7 @@ config.trophyslots.update=Enable checking for updates
 item.trophyslots.trophy.name=Trophy
 
 msg.trophyslots.unlock=§eYou unlocked an inventory slot! §r§f
+msg.trophyslots.unlockAll=§eAll slots unlocked! §r§f
 msg.trophyslots.villager=§4This trophy was bought from a villager! It cannot be used §4until buying from villagers is enabled! §r§f
 msg.trophyslots.trophy=§4Trophy unlocking disabled! Please enable it to use trophy! §r§f
 
@@ -16,6 +17,7 @@ subtext.trophyslots.trophy=§6§oUnlocks a slot! §r§f
 subtext.trophyslots.trophy.canUse=§5§oTrophy unlock enabled! §r§f
 subtext.trophyslots.trophy.cannotUse=§4§oTrophy unlock disabled! §r§f
 subtext.torphyslots.trophy.villager=§4§oThis was trophy bought from a villager! §r§f
+subtext.torphyslots.trophy.cheat=§6§oMaster Trophy: Unlocks all slots! §r§f
 
 achievement.firstSlotAchievement=Pockets
 achievement.firstSlotAchievement.desc=Unlock your first slot. §4(Does NOT unlock a slot) §r§f

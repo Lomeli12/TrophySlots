@@ -27,6 +27,8 @@ public class Config {
         TrophySlots.canBuyTrophy = config.getBoolean("canBuyTrophies", Configuration.CATEGORY_GENERAL, false, SimpleUtil.translate("config.trophyslots.canBuyTrophy"));
         TrophySlots.disable3 = config.getBoolean("disableFirst3", Configuration.CATEGORY_GENERAL, false, SimpleUtil.translate("config.trophyslots.disable3"));
         TrophySlots.checkForUpdates = config.getBoolean("checkForUpdates", Configuration.CATEGORY_GENERAL, true, SimpleUtil.translate("config.trophyslots.update"));
+
+        TrophySlots.xmas = config.getBoolean("xmas", Configuration.CATEGORY_GENERAL, true, "");
         if (config.hasChanged())
             config.save();
     }

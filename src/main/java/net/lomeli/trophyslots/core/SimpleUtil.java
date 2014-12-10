@@ -10,10 +10,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.lomeli.trophyslots.TrophySlots;
 
@@ -31,6 +29,20 @@ public class SimpleUtil {
                 i = pl.getEntityData().getInteger(TrophySlots.slotsUnlocked);
         }
         return i;
+    }
+
+    public static boolean unlockAllSlots(EntityPlayer player) {
+        if (!hasAllSlotsUnlocked(player)) {
+            TrophySlots.log(0, "Unlocking all slots for " + player.getCommandSenderName());
+            player.addChatComponentMessage(new ChatComponentText(translate("msg.trophyslots.unlockAll")));
+            player.getEntityData().setInteger(TrophySlots.slotsUnlocked, player.inventory.getSizeInventory() - 4);
+            EntityPlayerMP playerMP = getPlayerMP(player);
+            playerMP.addStat(TrophySlots.firstSlot, 1);
+            playerMP.addStat(TrophySlots.maxCapcity, 1);
+            TrophySlots.proxy.markContainerUpdate();
+            return true;
+        }
+        return false;
     }
 
     public static boolean doStackMatch(ItemStack stack1, ItemStack stack2) {
@@ -68,7 +80,7 @@ public class SimpleUtil {
      */
     public static boolean unlockSlot(EntityPlayer player) {
         int i = player.getEntityData().getInteger(TrophySlots.slotsUnlocked);
-        if (i + TrophySlots.startingSlots < player.inventory.getSizeInventory() - 4) {
+        if (!hasAllSlotsUnlocked(player)) {
             TrophySlots.log(0, "Awarding slot to " + player.getCommandSenderName());
             i++;
             player.getEntityData().setInteger(TrophySlots.slotsUnlocked, i);
@@ -76,7 +88,7 @@ public class SimpleUtil {
             EntityPlayerMP playerMP = getPlayerMP(player);
             if (i >= 1 && !playerMP.func_147099_x().hasAchievementUnlocked(TrophySlots.firstSlot))
                 playerMP.addStat(TrophySlots.firstSlot, 1);
-            if (i + TrophySlots.startingSlots >= (player.inventory.getSizeInventory() - 4) && playerMP.func_147099_x().canUnlockAchievement(TrophySlots.maxCapcity)) {
+            if (hasAllSlotsUnlocked(player) && playerMP.func_147099_x().canUnlockAchievement(TrophySlots.maxCapcity)) {
                 if (!playerMP.func_147099_x().hasAchievementUnlocked(TrophySlots.maxCapcity))
                     playerMP.addStat(TrophySlots.maxCapcity, 1);
             }
@@ -103,6 +115,10 @@ public class SimpleUtil {
 
     public static EntityPlayerMP getPlayerMP(EntityPlayer player) {
         return (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
+    }
+
+    public static boolean hasAllSlotsUnlocked(EntityPlayer player) {
+        return SimpleUtil.getSlotsUnlocked(player) + TrophySlots.startingSlots >= player.inventory.getSizeInventory() - 4;
     }
 
     public static String nameFromStack(ItemStack stack) {
