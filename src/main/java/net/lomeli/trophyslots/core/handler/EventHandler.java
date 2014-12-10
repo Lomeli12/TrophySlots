@@ -8,8 +8,8 @@ import net.minecraft.stats.AchievementList;
 import net.minecraftforge.event.entity.player.AchievementEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.SimpleUtil;
@@ -22,8 +22,8 @@ public class EventHandler {
         if (event.isCanceled() || event.entityPlayer.worldObj.isRemote)
             return;
         EntityPlayerMP playerMP = (EntityPlayerMP) event.entityPlayer;
-        if (!playerMP.func_147099_x().hasAchievementUnlocked(event.achievement) && TrophySlots.unlockViaAchievements) {
-            if (playerMP.func_147099_x().canUnlockAchievement(event.achievement) && event.achievement != TrophySlots.firstSlot && event.achievement != TrophySlots.maxCapcity) {
+        if (!playerMP.getStatFile().hasAchievementUnlocked(event.achievement) && TrophySlots.unlockViaAchievements) {
+            if (playerMP.getStatFile().canUnlockAchievement(event.achievement) && event.achievement != TrophySlots.firstSlot && event.achievement != TrophySlots.maxCapcity) {
                 if (TrophySlots.disable3 ? !(event.achievement == AchievementList.openInventory || event.achievement == AchievementList.mineWood || event.achievement == AchievementList.buildWorkBench) : true)
                     SimpleUtil.unlockSlot(event.entityPlayer);
             }

@@ -1,11 +1,5 @@
 package net.lomeli.trophyslots.core.handler;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,18 +10,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.SimpleUtil;
 
-import static cpw.mods.fml.relauncher.Side.CLIENT;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+
+import static net.minecraftforge.fml.relauncher.Side.CLIENT;
 
 public class VersionHandler {
     private int mod_major, mod_minor, mod_rev;
@@ -85,7 +85,7 @@ public class VersionHandler {
             this.promptMsg = true;
             sendMessage();
         } else
-            TrophySlots.log(0,TrophySlots.MOD_NAME + " is up-to-date");
+            TrophySlots.log(0, TrophySlots.MOD_NAME + " is up-to-date");
     }
 
     private void sendMessage() {
