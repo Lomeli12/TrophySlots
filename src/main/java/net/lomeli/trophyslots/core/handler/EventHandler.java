@@ -24,7 +24,9 @@ public class EventHandler {
         EntityPlayerMP playerMP = (EntityPlayerMP) event.entityPlayer;
         if (!playerMP.func_147099_x().hasAchievementUnlocked(event.achievement) && TrophySlots.unlockViaAchievements) {
             if (playerMP.func_147099_x().canUnlockAchievement(event.achievement) && event.achievement != TrophySlots.firstSlot && event.achievement != TrophySlots.maxCapcity) {
-                if (TrophySlots.disable3 ? !(event.achievement == AchievementList.openInventory || event.achievement == AchievementList.mineWood || event.achievement == AchievementList.buildWorkBench) : true)
+                if (TrophySlots.disable3 ? (event.achievement == AchievementList.openInventory || event.achievement == AchievementList.mineWood || event.achievement == AchievementList.buildWorkBench) : false)
+                    return;
+                if (TrophySlots.useWhiteList ? TrophySlots.achievementWhiteList.contains(event.achievement.statId) : true)
                     SimpleUtil.unlockSlot(event.entityPlayer);
             }
         }
@@ -34,7 +36,7 @@ public class EventHandler {
     @SubscribeEvent
     public void playerTickEvent(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
-        if (event.phase == TickEvent.Phase.END && !player.worldObj.isRemote && !player.capabilities.isCreativeMode&& !SimpleUtil.hasAllSlotsUnlocked(player)) {
+        if (event.phase == TickEvent.Phase.END && !player.worldObj.isRemote && !player.capabilities.isCreativeMode && !SimpleUtil.hasAllSlotsUnlocked(player)) {
             for (int i = 0; i < player.inventory.getSizeInventory() - 4; i++) {
                 ItemStack stack = player.inventory.getStackInSlot(i);
                 if (stack != null && stack.getItem() != null) {

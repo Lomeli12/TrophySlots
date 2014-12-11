@@ -4,6 +4,8 @@ config.trophyslots.canUseTrophy=Allows you to unlock slots using trophies.
 config.trophyslots.canBuyTrophy=Allows you to buy trophies from villagers. Disabling this will disable any trophies bought from villagers!
 config.trophyslots.disable3=Disables slot unlocking for the first 3 vanilla achievements.
 config.trophyslots.update=Enable checking for updates
+config.trophyslots.useWhitelist=Use achievement white list.
+config.trophyslots.whitelist=Place the IDs of the Achievements you want to white list here. Separate IDs using ";". Example: achievement.openInventory;achievement.woodenGear;achievement.wrench
 
 item.trophyslots.trophy.name=Trophy
 

@@ -120,7 +120,7 @@ public class EventHandlerClient {
                     ContainerPlayer containerPlayer = new ContainerPlayer(mc.thePlayer.inventory, !mc.theWorld.isRemote, mc.thePlayer);
                     List slotList = containerPlayer.inventorySlots;
                     if (slotList != null) {
-                        for (int i = 4; i < slotList.size(); i++) {
+                        for (int i = 5; i < slotList.size(); i++) {
                             Slot slot = containerPlayer.getSlot(i);
                             if (slot != null && !(slot instanceof SlotCrafting)) {
                                 if (slot.inventory != containerPlayer.craftMatrix && !SimpleUtil.slotUnlocked(slot.getSlotIndex(), mc.thePlayer))

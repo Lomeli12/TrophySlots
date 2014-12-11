@@ -1,5 +1,7 @@
 package net.lomeli.trophyslots;
 
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 
 import net.minecraft.init.Blocks;
@@ -24,7 +26,7 @@ public class TrophySlots {
     public static final String MOD_ID = "trophyslots";
     public static final String MOD_NAME = "Trophy Slots";
 
-    public static final int MAJOR = 1, MINOR = 0, REV = 0;
+    public static final int MAJOR = 1, MINOR = 0, REV = 1;
     public static final String VERSION = MAJOR + "." + MINOR + "." + REV;
 
     public static final String slotsUnlocked = MOD_ID + "_slotsUnlocked";
@@ -44,6 +46,8 @@ public class TrophySlots {
     public static boolean disable3 = false;
     public static boolean checkForUpdates = true;
     public static boolean xmas = true;
+    public static boolean useWhiteList = false;
+    public static List<String> achievementWhiteList;
 
     public static Achievement firstSlot, maxCapcity;
     public static AchievementPage achievementPage;
