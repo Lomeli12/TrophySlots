@@ -1,0 +1,30 @@
+config.trophyslots.startingSlots=Количество стартовых ячеек инвентаря.
+config.trophyslots.unlockAchieve=позволяет разблокировать ячейки инвентаря выполняя достижения.
+config.trophyslots.canUseTrophy=позволяет разблокировать ячейки инвентаря используя трофеи.
+config.trophyslots.canBuyTrophy=Позволяет покупать трофеи у жителей. Отключение данной возможности уничтожит все купленные трофеи!
+config.trophyslots.disable3=Отключает 3 первые разблокировки ячеек за достижения оригинальной игры.
+config.trophyslots.update=Разрешить проверку обновлений
+config.trophyslots.useWhitelist=Использовать белый список достижений.
+config.trophyslots.whitelist=Впишите IDs достижений, которые будут добавлены в белый список. Разделять ID с помощью ";". Пример: achievement.openInventory;achievement.woodenGear;achievement.wrench
+config.trophyslots.renderLockedSlots=Настройки отображения заблокированных ячеек. 0 = Перечёркнуто; 1 = Затемнено; 2 = Затемнено и перечёркнуто; 3 = Без отображения.
+
+item.trophyslots.trophy.name=Трофей
+
+msg.trophyslots.unlock=§eВы разблокировали ячейку инвентаря! §r§f
+msg.trophyslots.unlockAll=§eВсе слоты разблокированны! §r§f
+msg.trophyslots.villager=§4Этот трофей куплен у жителя! Он не может быть использован §4пока покупка у жителей не разрешена конфигом! §r§f
+msg.trophyslots.trophy=§4Разблокировка с помощью трофеев запрещена! Пожалуйста, разрешите для использования трофеев! §r§f
+
+subtext.trophyslots.info=Зажмите <§2§oShift§r§7> для дополнительной информации.
+subtext.trophyslots.trophy=§6§oРазблокировать ячейку! §r§f
+subtext.trophyslots.trophy.canUse=§5§oРазблокировка с помощью трофеев разрешена! §r§f
+subtext.trophyslots.trophy.cannotUse=§4§oРазблокировка с помощью трофеев запрещена! §r§f
+subtext.torphyslots.trophy.villager=§4§oЭтот трофей был куплен у жителя! §r§f
+subtext.torphyslots.trophy.cheat=§6§oТрофей мастера: Разблокирует все ячейки! §r§f
+
+achievement.firstSlotAchievement=Карманы
+achievement.firstSlotAchievement.desc=Разблокировать первую ячейку инвентаря. §4(Не позволяет разблокировать ячейку) §r§f
+achievement.maximumCapacityAchievement=Максимальная вместимость!
+achievement.maximumCapacityAchievement.desc=Разблокировать все ячейки инвенторя! §4(Не позволяет разблокировать ячейку) §r§f
+
+update.trophyslots=§1[Trophy Slots] Версия %1$s доступна для загрузки:§1 %2$s
