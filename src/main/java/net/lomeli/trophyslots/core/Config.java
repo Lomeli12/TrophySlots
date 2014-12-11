@@ -29,6 +29,7 @@ public class Config {
         TrophySlots.disable3 = config.getBoolean("disableFirst3", Configuration.CATEGORY_GENERAL, false, SimpleUtil.translate("config.trophyslots.disable3"));
         TrophySlots.checkForUpdates = config.getBoolean("checkForUpdates", Configuration.CATEGORY_GENERAL, true, SimpleUtil.translate("config.trophyslots.update"));
         TrophySlots.useWhiteList = config.getBoolean("useWhitelist", Configuration.CATEGORY_GENERAL, false, SimpleUtil.translate("config.trophyslots.useWhitelist"));
+        TrophySlots.slotRenderType = config.getInt("slotRenderType", Configuration.CATEGORY_GENERAL, 0, 0, 4, SimpleUtil.translate("config.trophyslots.renderLockedSlots"));
         String whiteList = config.getString("WhiteList", Configuration.CATEGORY_GENERAL, "", SimpleUtil.translate("config.trophyslots.whitelist"));
 
         TrophySlots.xmas = config.getBoolean("xmas", Configuration.CATEGORY_GENERAL, true, "");

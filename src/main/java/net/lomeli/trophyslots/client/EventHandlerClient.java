@@ -83,15 +83,28 @@ public class EventHandlerClient {
                 int xBase = guiContainer.guiLeft;
                 int yBase = guiContainer.guiTop;
                 List slotList = guiContainer.inventorySlots.inventorySlots;
-                if (slotList != null) {
+                if (slotList != null && TrophySlots.slotRenderType != 3) {
                     for (int i = 0; i < slotList.size(); i++) {
                         Slot slot = guiContainer.inventorySlots.getSlot(i);
                         if (slot != null && slot.isSlotInInventory(mc.thePlayer.inventory, slot.getSlotIndex())) {
                             if (!SimpleUtil.slotUnlocked(slot.getSlotIndex(), mc.thePlayer)) {
                                 GL11.glPushMatrix();
-                                mc.renderEngine.bindTexture(resourceFile);
-                                GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
-                                guiContainer.drawTexturedModalRect(xBase + slot.xDisplayPosition, yBase + slot.yDisplayPosition, 0, 0, 16, 16);
+                                GL11.glDisable(GL11.GL_LIGHTING);
+                                GL11.glDisable(GL11.GL_DEPTH_TEST);
+                                int x = xBase + slot.xDisplayPosition;
+                                int y = yBase + slot.yDisplayPosition;
+                                if (TrophySlots.slotRenderType == 0 || TrophySlots.slotRenderType == 2) {
+                                    mc.renderEngine.bindTexture(resourceFile);
+                                    GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
+                                    guiContainer.drawTexturedModalRect(x, y, 0, 0, 16, 16);
+                                }
+                                if (TrophySlots.slotRenderType == 1 || TrophySlots.slotRenderType == 2) {
+                                    GL11.glColorMask(true, true, true, false);
+                                    this.drawGradientRect(x, y, 300f, x + 16, y + 16, 2130706433, 2130706433);
+                                    GL11.glColorMask(true, true, true, true);
+                                }
+                                GL11.glEnable(GL11.GL_LIGHTING);
+                                GL11.glEnable(GL11.GL_DEPTH_TEST);
                                 GL11.glPopMatrix();
                             }
                         }

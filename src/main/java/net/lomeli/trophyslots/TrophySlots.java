@@ -40,6 +40,7 @@ public class TrophySlots {
     public static VersionHandler versionHandler;
 
     public static int startingSlots = 9;
+    public static int slotRenderType = 0;
     public static boolean unlockViaAchievements = true;
     public static boolean canUseTrophy = true;
     public static boolean canBuyTrophy = false;
