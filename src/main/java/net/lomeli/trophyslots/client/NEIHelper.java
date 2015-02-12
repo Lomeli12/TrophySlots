@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public class NEIHelper {
     public static String itemInfoString(ItemStack stack) {
-        String out =  " " + Item.getIdFromItem(stack.getItem()) + (stack.getItemDamage() != 0 ? "/" + stack.getItemDamage() : "");
+        String out = " " + Item.getIdFromItem(stack.getItem()) + (stack.getItemDamage() != 0 ? "/" + stack.getItemDamage() : "");
         return !NEIClientConfig.isHidden() ? out : "";
     }
 }

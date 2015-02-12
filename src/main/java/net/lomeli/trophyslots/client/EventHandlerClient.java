@@ -22,63 +22,48 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.SimpleUtil;
 
 @SideOnly(Side.CLIENT)
 public class EventHandlerClient {
-    public boolean markContainerUpdate;
-    public static ResourceLocation resourceFile = new ResourceLocation(TrophySlots.MOD_ID + ":textures/cross.png");
+    public static final ResourceLocation resourceFile = new ResourceLocation(TrophySlots.MOD_ID + ":textures/cross.png");
 
-    @SubscribeEvent
-    public void playerTickEvent(TickEvent.PlayerTickEvent event) {
-        EntityPlayer player = event.player;
-        Minecraft mc = Minecraft.getMinecraft();
-        if (event.phase == TickEvent.Phase.END && !player.capabilities.isCreativeMode && markContainerUpdate && !SimpleUtil.hasAllSlotsUnlocked(mc.thePlayer)) {
-            if (mc.currentScreen != null && mc.currentScreen instanceof GuiContainer) {
-                GuiContainer gui = (GuiContainer) mc.currentScreen;
-                if (gui instanceof GuiInventory) {
-                    ContainerPlayer containerPlayer = new ContainerPlayer(mc.thePlayer.inventory, !mc.theWorld.isRemote, mc.thePlayer);
-                    List slotList = containerPlayer.inventorySlots;
-                    if (slotList != null) {
-                        for (int i = 4; i < slotList.size(); i++) {
-                            Slot slot = containerPlayer.getSlot(i);
-                            if (slot != null && !(slot instanceof SlotCrafting)) {
-                                if (slot.inventory != containerPlayer.craftMatrix && !SimpleUtil.slotUnlocked(slot.getSlotIndex(), mc.thePlayer))
-                                    containerPlayer.inventorySlots.set(i, new SlotLocked(mc.thePlayer.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition));
-                            }
-                        }
-                    }
-                    gui.inventorySlots = containerPlayer;
-                } else {
-                    List slotList = gui.inventorySlots.inventorySlots;
-                    if (slotList != null) {
-                        for (int i = 0; i < slotList.size(); i++) {
-                            Slot slot = gui.inventorySlots.getSlot(i);
-                            if (slot != null && slot instanceof SlotLocked) {
-                                if (SimpleUtil.slotUnlocked(slot.getSlotIndex(), player))
-                                    ((GuiContainer) mc.currentScreen).inventorySlots.inventorySlots.set(i, new Slot(mc.thePlayer.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition));
-                            }
-                        }
-                    }
-                }
-            }
-            markContainerUpdate = true;
+    public static String nameFromStack(ItemStack stack) {
+        try {
+            GameRegistry.UniqueIdentifier modUID = GameRegistry.findUniqueIdentifierFor(stack.getItem());
+            ModContainer mod = getModContainer(modUID.modId);
+            String modname = mod == null ? "Minecraft" : mod.getName();
+            return modname;
+        } catch (NullPointerException var3) {
+            return "";
         }
+    }
+
+    public static ModContainer getModContainer(String modid) {
+        List<ModContainer> modList = Loader.instance().getModList();
+        if (modList != null && !modList.isEmpty()) {
+            for (ModContainer mod : modList) {
+                if (mod != null && mod.getModId().equals(modid))
+                    return mod;
+            }
+        }
+        return null;
     }
 
     @SubscribeEvent
     public void postDrawGuiEvent(GuiScreenEvent.DrawScreenEvent.Post event) {
         Minecraft mc = Minecraft.getMinecraft();
+        EntityPlayer player = mc.thePlayer;
         if (event.gui != null && event.gui instanceof GuiContainer) {
             if (GuiEffectRenderer.validDate())
                 GuiEffectRenderer.snowFlakeRenderer(event);
-            if (!SimpleUtil.hasAllSlotsUnlocked(mc.thePlayer) && !mc.thePlayer.capabilities.isCreativeMode) {
+            if (!TrophySlots.proxy.hasUnlockedAllSlots() && !player.capabilities.isCreativeMode) {
                 GuiContainer guiContainer = (GuiContainer) event.gui;
                 int xBase = guiContainer.guiLeft;
                 int yBase = guiContainer.guiTop;
@@ -86,26 +71,30 @@ public class EventHandlerClient {
                 if (slotList != null && TrophySlots.slotRenderType != 3) {
                     for (int i = 0; i < slotList.size(); i++) {
                         Slot slot = guiContainer.inventorySlots.getSlot(i);
-                        if (slot != null && slot.isSlotInInventory(mc.thePlayer.inventory, slot.getSlotIndex())) {
-                            if (!SimpleUtil.slotUnlocked(slot.getSlotIndex(), mc.thePlayer)) {
-                                GL11.glPushMatrix();
-                                GL11.glDisable(GL11.GL_LIGHTING);
-                                GL11.glDisable(GL11.GL_DEPTH_TEST);
-                                int x = xBase + slot.xDisplayPosition;
-                                int y = yBase + slot.yDisplayPosition;
-                                if (TrophySlots.slotRenderType == 0 || TrophySlots.slotRenderType == 2) {
-                                    mc.renderEngine.bindTexture(resourceFile);
-                                    GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
-                                    guiContainer.drawTexturedModalRect(x, y, 0, 0, 16, 16);
+                        if (slot != null) {
+                            int x = xBase + slot.xDisplayPosition;
+                            int y = yBase + slot.yDisplayPosition;
+                            if (slot.isSlotInInventory(player.inventory, slot.getSlotIndex())) {
+                                if (!TrophySlots.proxy.slotUnlocked(slot.getSlotIndex())) {
+                                    GL11.glPushMatrix();
+                                    GL11.glDisable(GL11.GL_LIGHTING);
+                                    GL11.glDisable(GL11.GL_DEPTH_TEST);
+
+                                    if (TrophySlots.slotRenderType == 0 || TrophySlots.slotRenderType == 2) {
+                                        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
+                                        mc.renderEngine.bindTexture(resourceFile);
+                                        guiContainer.drawTexturedModalRect(x, y, 0, 0, 16, 16);
+                                        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
+                                    }
+                                    if (TrophySlots.slotRenderType == 1 || TrophySlots.slotRenderType == 2) {
+                                        GL11.glColorMask(true, true, true, false);
+                                        this.drawGradientRect(x, y, 300f, x + 16, y + 16, 2130706433, 2130706433);
+                                        GL11.glColorMask(true, true, true, true);
+                                    }
+                                    GL11.glEnable(GL11.GL_LIGHTING);
+                                    GL11.glEnable(GL11.GL_DEPTH_TEST);
+                                    GL11.glPopMatrix();
                                 }
-                                if (TrophySlots.slotRenderType == 1 || TrophySlots.slotRenderType == 2) {
-                                    GL11.glColorMask(true, true, true, false);
-                                    this.drawGradientRect(x, y, 300f, x + 16, y + 16, 2130706433, 2130706433);
-                                    GL11.glColorMask(true, true, true, true);
-                                }
-                                GL11.glEnable(GL11.GL_LIGHTING);
-                                GL11.glEnable(GL11.GL_DEPTH_TEST);
-                                GL11.glPopMatrix();
                             }
                         }
                     }
@@ -114,8 +103,19 @@ public class EventHandlerClient {
                 int x = Mouse.getEventX() * guiContainer.width / mc.displayWidth;
                 int y = guiContainer.height - Mouse.getEventY() * guiContainer.height / mc.displayHeight - 1;
 
+                    /*
+                    if (player.inventory.getItemStack() != null && player.inventory.getItemStack().getItem() != null) {
+                        ItemStack stack = player.inventory.getItemStack();
+                        GL11.glPushMatrix();
+                        RenderHelper.enableGUIStandardItemLighting();
+                        GL11.glDisable(GL11.GL_DEPTH_TEST);
+                        String s = "" + (stack.stackSize == 0 ? EnumChatFormatting.YELLOW + "0" : (stack.stackSize == 1 ? "" : stack.stackSize));
+                        gui.drawItemStack(stack, x - 8, y - 8, s);
+                        GL11.glEnable(GL11.GL_DEPTH_TEST);
+                        GL11.glPopMatrix();
+                    }*/
 
-                if (mc.thePlayer.inventory.getItemStack() == null && mouseSlot != null && mouseSlot.getHasStack())
+                if (player.inventory.getItemStack() == null && mouseSlot != null && mouseSlot.getHasStack())
                     renderItemToolTip(mouseSlot.getStack(), x, y, mc);
             }
         }
@@ -127,7 +127,7 @@ public class EventHandlerClient {
         if (event.gui != null && event.gui instanceof GuiContainer) {
             if (GuiEffectRenderer.validDate())
                 GuiEffectRenderer.clearPrevList();
-            if (!mc.thePlayer.capabilities.isCreativeMode && !SimpleUtil.hasAllSlotsUnlocked(mc.thePlayer)) {
+            if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy.hasUnlockedAllSlots()) {
                 GuiContainer gui = (GuiContainer) event.gui;
                 if (gui instanceof GuiInventory) {
                     ContainerPlayer containerPlayer = new ContainerPlayer(mc.thePlayer.inventory, !mc.theWorld.isRemote, mc.thePlayer);
@@ -136,7 +136,7 @@ public class EventHandlerClient {
                         for (int i = 5; i < slotList.size(); i++) {
                             Slot slot = containerPlayer.getSlot(i);
                             if (slot != null && !(slot instanceof SlotCrafting)) {
-                                if (slot.inventory != containerPlayer.craftMatrix && !SimpleUtil.slotUnlocked(slot.getSlotIndex(), mc.thePlayer))
+                                if (slot.inventory != containerPlayer.craftMatrix && !TrophySlots.proxy.slotUnlocked(slot.getSlotIndex()))
                                     containerPlayer.inventorySlots.set(i, new SlotLocked(mc.thePlayer.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition));
                             }
                         }
@@ -148,7 +148,7 @@ public class EventHandlerClient {
                         for (int i = 0; i < slotList.size(); i++) {
                             Slot slot = gui.inventorySlots.getSlot(i);
                             if (slot != null && slot.isSlotInInventory(mc.thePlayer.inventory, slot.getSlotIndex())) {
-                                if (!SimpleUtil.slotUnlocked(slot.getSlotIndex(), mc.thePlayer))
+                                if (!TrophySlots.proxy.slotUnlocked(slot.getSlotIndex()))
                                     ((GuiContainer) event.gui).inventorySlots.inventorySlots.set(i, new SlotLocked(mc.thePlayer.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition));
                             }
                         }
@@ -169,7 +169,8 @@ public class EventHandlerClient {
             } else
                 list.set(i, EnumChatFormatting.GRAY + (String) list.get(i));
         }
-        list.add(EnumChatFormatting.BLUE + "" + EnumChatFormatting.ITALIC + SimpleUtil.nameFromStack(stack));
+        if (Loader.isModLoaded("Waila"))
+            list.add(EnumChatFormatting.BLUE + "" + EnumChatFormatting.ITALIC + nameFromStack(stack));
 
         renderTooltip(list, x, y);
     }

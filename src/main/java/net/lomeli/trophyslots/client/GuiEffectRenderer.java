@@ -55,8 +55,8 @@ public class GuiEffectRenderer {
     }
 
     public static class SnowFlake {
-        private int startX, x;
         public int y;
+        private int startX, x;
         private int speed;
         private float alpha;
 

@@ -1,33 +1,46 @@
 package net.lomeli.trophyslots.client;
 
-import net.minecraftforge.common.MinecraftForge;
-
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.Proxy;
 
 public class ClientProxy extends Proxy {
-    private EventHandlerClient handlerClient;
+    private int slotsUnlocked;
 
     @Override
     public void preInit() {
         super.preInit();
-        FMLCommonHandler.instance().bus().register(TrophySlots.versionHandler);
-        FMLCommonHandler.instance().bus().register(TrophySlots.modConfig);
     }
 
     @Override
     public void init() {
         super.init();
-        handlerClient = new EventHandlerClient();
-        FMLCommonHandler.instance().bus().register(handlerClient);
-        MinecraftForge.EVENT_BUS.register(handlerClient);
+        registerForgeEvent(new EventHandlerClient());
+        registerFMLEvent(TrophySlots.versionHandler);
+        registerFMLEvent(TrophySlots.modConfig);
     }
 
     @Override
-    public void markContainerUpdate() {
-        handlerClient.markContainerUpdate = true;
+    public boolean slotUnlocked(int slotNum) {
+        return slotNum < 36 ? slotNum < TrophySlots.startingSlots + slotsUnlocked : true;
+    }
+
+    @Override
+    public int getSlotsUnlocked() {
+        return slotsUnlocked;
+    }
+
+    @Override
+    public void setSlotsUnlocked(int var) {
+        slotsUnlocked = var;
+    }
+
+    @Override
+    public boolean hasUnlockedAllSlots() {
+        return slotsUnlocked >= 36;
+    }
+
+    @Override
+    public void reset() {
+        slotsUnlocked = 0;
     }
 }

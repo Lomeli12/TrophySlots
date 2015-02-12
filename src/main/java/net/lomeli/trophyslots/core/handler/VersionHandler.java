@@ -15,6 +15,7 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -25,7 +26,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.SimpleUtil;
+import net.lomeli.trophyslots.core.Logger;
 
 import static cpw.mods.fml.relauncher.Side.CLIENT;
 
@@ -64,20 +65,20 @@ public class VersionHandler {
                 revision = jsonObject.get("revision").getAsInt();
                 this.downloadURL = jsonObject.get("downloadURL").getAsString();
                 this.isDirect = jsonObject.get("direct").getAsBoolean();
-                if (jsonObject.get("changeLog").isJsonArray()) {
-                    JsonArray changeLog = jsonObject.get("changeLog").getAsJsonArray();
-                    Iterator<JsonElement> it = changeLog.iterator();
-                    while (it.hasNext()) {
-                        this.changeList.add(it.next().getAsString());
-                    }
-                } else
-                    this.changeList.add(jsonObject.get("changeLog").getAsString());
+                if (jsonObject.has("changeLog")) {
+                    if (jsonObject.get("changeLog").isJsonArray()) {
+                        JsonArray changeLog = jsonObject.get("changeLog").getAsJsonArray();
+                        Iterator<JsonElement> it = changeLog.iterator();
+                        while (it.hasNext()) {
+                            this.changeList.add(it.next().getAsString());
+                        }
+                    } else
+                        this.changeList.add(jsonObject.get("changeLog").getAsString());
+                }
                 reader.close();
             }
-
-
         } catch (Exception e) {
-            TrophySlots.log(1, "Exception when reading update JSON.");
+            Logger.logError("Exception when reading update JSON.");
         }
         this.needsUpdate = (this.mod_major >= major ? (this.mod_minor >= minor ? (this.mod_rev >= revision ? false : true) : true) : true);
         if (this.needsUpdate) {
@@ -85,7 +86,7 @@ public class VersionHandler {
             this.promptMsg = true;
             sendMessage();
         } else
-            TrophySlots.log(0,TrophySlots.MOD_NAME + " is up-to-date");
+            Logger.logInfo(TrophySlots.MOD_NAME + " is up-to-date");
     }
 
     private void sendMessage() {
@@ -103,7 +104,7 @@ public class VersionHandler {
             tag.setString("changeLog", changeLog);
             FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag);
         }
-        TrophySlots.log(0, String.format(SimpleUtil.translate("update.trophyslots"), this.version, this.downloadURL));
+        Logger.logInfo(String.format(StatCollector.translateToLocal("update.trophyslots"), this.version, this.downloadURL));
     }
 
     @SubscribeEvent
@@ -112,7 +113,7 @@ public class VersionHandler {
         if (event.phase == TickEvent.Phase.END && FMLClientHandler.instance().getClient().thePlayer != null) {
             EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
             if (this.promptMsg) {
-                player.addChatComponentMessage(new ChatComponentText(String.format(SimpleUtil.translate("update.trophyslots"), this.version, this.downloadURL)));
+                player.addChatComponentMessage(new ChatComponentText(String.format(StatCollector.translateToLocal("update.trophyslots"), this.version, this.downloadURL)));
                 this.promptMsg = false;
             }
         }

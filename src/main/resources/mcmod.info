@@ -5,7 +5,7 @@
   "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://www.lomeli12.net/",
+  "url": "https://www.lomeli12.net/",
   "updateUrl": "",
   "logoFile": "assets/trophyslots/textures/logo.png",
   "authorList": ["Lomeli12"]
