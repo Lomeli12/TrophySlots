@@ -18,10 +18,6 @@ public class SlotLocked extends Slot {
     }
 
     @Override
-    public void putStack(ItemStack stack) {
-    }
-
-    @Override
     public ItemStack decrStackSize(int par1) {
         return null;
     }
