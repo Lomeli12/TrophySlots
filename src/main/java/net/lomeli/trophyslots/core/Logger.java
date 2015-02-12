@@ -9,7 +9,8 @@ import net.lomeli.trophyslots.TrophySlots;
 public class Logger {
 
     public static void log(Level logLevel, Object message) {
-        FMLLog.log(TrophySlots.MOD_ID, logLevel, String.valueOf(message));
+        if (TrophySlots.debug)
+            FMLLog.log(TrophySlots.MOD_ID, logLevel, String.valueOf(message));
     }
 
     public static void logWarning(Object message) {

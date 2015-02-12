@@ -2,9 +2,6 @@ package net.lomeli.trophyslots.core.network;
 
 import io.netty.buffer.ByteBuf;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentTranslation;
-
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -34,7 +31,6 @@ public class MessageSlotsClient implements IMessage, IMessageHandler<MessageSlot
     @Override
     public IMessage onMessage(MessageSlotsClient message, MessageContext ctx) {
         TrophySlots.proxy.setSlotsUnlocked(message.slots);
-        Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentTranslation(message.slots >= 36 ? "msg.trophyslots.unlockAll" : "msg.trophyslots.unlock"));
         return null;
     }
 }

@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * A slot that cannot be edited in anyway via GUIs. {@link net.lomeli.trophyslots.core.handler.EventHandler} will
+ * A slot that cannot be edited in anyway via GUIs. {@link net.lomeli.trophyslots.core.handler.EventHandlerServer} will
  * handle any items placed into locked slots.
  */
 public class SlotLocked extends Slot {

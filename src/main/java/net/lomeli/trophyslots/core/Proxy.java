@@ -2,6 +2,7 @@ package net.lomeli.trophyslots.core;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentTranslation;
 
 import net.minecraftforge.common.MinecraftForge;
 
@@ -38,6 +39,7 @@ public class Proxy {
         if (player != null && !SlotUtil.hasUnlockedAllSlots(player)) {
             int i = SlotUtil.getSlotsUnlocked(player) + 1;
             SlotUtil.setSlotsUnlocked(player, i);
+            player.addChatComponentMessage(new ChatComponentTranslation(i >= 36 ? "msg.trophyslots.unlockAll" : "msg.trophyslots.unlock"));
             EntityPlayer mp = FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
             if (mp != null)
                 TrophySlots.packetHandler.sendTo(new MessageSlotsClient(i), (EntityPlayerMP) player);
@@ -49,6 +51,7 @@ public class Proxy {
     public boolean unlockAllSlots(EntityPlayer player) {
         if (player != null && !SlotUtil.hasUnlockedAllSlots(player)) {
             SlotUtil.setSlotsUnlocked(player, 36);
+            player.addChatComponentMessage(new ChatComponentTranslation("msg.trophyslots.unlockAll"));
             EntityPlayer mp = FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
             if (mp != null)
                 TrophySlots.packetHandler.sendTo(new MessageSlotsClient(36), (EntityPlayerMP) player);

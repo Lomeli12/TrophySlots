@@ -58,7 +58,7 @@ public class TrophySlots {
     public static List<String> achievementWhiteList;
     public static Achievement firstSlot, maxCapcity;
     public static AchievementPage achievementPage;
-    private static boolean debug;
+    public static boolean debug;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

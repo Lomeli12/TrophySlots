@@ -103,18 +103,6 @@ public class EventHandlerClient {
                 int x = Mouse.getEventX() * guiContainer.width / mc.displayWidth;
                 int y = guiContainer.height - Mouse.getEventY() * guiContainer.height / mc.displayHeight - 1;
 
-                    /*
-                    if (player.inventory.getItemStack() != null && player.inventory.getItemStack().getItem() != null) {
-                        ItemStack stack = player.inventory.getItemStack();
-                        GL11.glPushMatrix();
-                        RenderHelper.enableGUIStandardItemLighting();
-                        GL11.glDisable(GL11.GL_DEPTH_TEST);
-                        String s = "" + (stack.stackSize == 0 ? EnumChatFormatting.YELLOW + "0" : (stack.stackSize == 1 ? "" : stack.stackSize));
-                        gui.drawItemStack(stack, x - 8, y - 8, s);
-                        GL11.glEnable(GL11.GL_DEPTH_TEST);
-                        GL11.glPopMatrix();
-                    }*/
-
                 if (player.inventory.getItemStack() == null && mouseSlot != null && mouseSlot.getHasStack())
                     renderItemToolTip(mouseSlot.getStack(), x, y, mc);
             }
