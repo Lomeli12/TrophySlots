@@ -1,0 +1,30 @@
+config.trophyslots.startingSlots=玩家起始格子數量
+config.trophyslots.unlockAchieve=使你可以透過完成成就解鎖格子.
+config.trophyslots.canUseTrophy=讓你用獎杯解鎖格子。
+config.trophyslots.canBuyTrophy=允許您從村民買獎杯。禁用這將禁用村民買任何獎杯！
+config.trophyslots.disable3=停用前三個內建成就解鎖格子
+config.trophyslots.update=啟用檢查更新
+config.trophyslots.useWhitelist=使用用成就白名單。
+config.trophyslots.whitelist=從這裡放入白名單的成就IDS.使用 ";" 來隔開多個成就. 例如: achievement.openInventory;achievement.woodenGear;achievement.wrench
+config.trophyslots.renderLockedSlots=設定鎖住的格子外觀. 0 = 叉叉; 1 = 灰格子; 2 = 灰格子與叉叉; 3 = 沒外觀.
+
+item.trophyslots.trophy.name=獎盃
+
+msg.trophyslots.unlock=§e你解鎖物品欄的格子! §r§f
+msg.trophyslots.unlockAll=§e全部格子都解鎖了! §r§f
+msg.trophyslots.villager=§4這個獎盃是從村民購買來的,目前 §4村民購買的獎盃格子沒有啟用! §r§f
+msg.trophyslots.trophy=§4獎盃解鎖停用! 請啟用它才能使用獎盃! §r§f
+
+subtext.trophyslots.info=請按 <§2§oShift§r§7> 查看更多訊息.
+subtext.trophyslots.trophy=§6§o解鎖一個格子! §r§f
+subtext.trophyslots.trophy.canUse=§5§o獎盃解鎖啟用! §r§f
+subtext.trophyslots.trophy.cannotUse=§4§o獎盃解鎖關閉! §r§f
+subtext.torphyslots.trophy.villager=§4§o從村民買這獎杯! §r§f
+subtext.torphyslots.trophy.cheat=§6§o大師級獎盃: 解鎖全部格子! §r§f
+
+achievement.firstSlotAchievement=口袋
+achievement.firstSlotAchievement.desc=解鎖你的第一個格子. §4(這個成就不解鎖格子) §r§f
+achievement.maximumCapacityAchievement=達成最大容量！
+achievement.maximumCapacityAchievement.desc=解鎖全部的物品欄格子! §4(這個成就不解鎖格子) §r§f
+
+update.trophyslots=§1[獎盃格子] 版本 %1$s 已經釋出:§1 %2$s
