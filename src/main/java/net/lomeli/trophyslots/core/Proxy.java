@@ -40,9 +40,14 @@ public class Proxy {
             int i = SlotUtil.getSlotsUnlocked(player) + 1;
             SlotUtil.setSlotsUnlocked(player, i);
             player.addChatComponentMessage(new ChatComponentTranslation(i >= 36 ? "msg.trophyslots.unlockAll" : "msg.trophyslots.unlock"));
-            EntityPlayer mp = FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
-            if (mp != null)
+            EntityPlayerMP mp = (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
+            if (mp != null) {
+                if (!mp.func_147099_x().hasAchievementUnlocked(TrophySlots.firstSlot) && mp.func_147099_x().canUnlockAchievement(TrophySlots.firstSlot))
+                    mp.addStat(TrophySlots.firstSlot, 1);
+                if (i >= 36 && !mp.func_147099_x().hasAchievementUnlocked(TrophySlots.maxCapcity) && mp.func_147099_x().canUnlockAchievement(TrophySlots.maxCapcity))
+                    mp.addStat(TrophySlots.maxCapcity, 1);
                 TrophySlots.packetHandler.sendTo(new MessageSlotsClient(i), (EntityPlayerMP) player);
+            }
             return true;
         }
         return false;
@@ -52,9 +57,12 @@ public class Proxy {
         if (player != null && !SlotUtil.hasUnlockedAllSlots(player)) {
             SlotUtil.setSlotsUnlocked(player, 36);
             player.addChatComponentMessage(new ChatComponentTranslation("msg.trophyslots.unlockAll"));
-            EntityPlayer mp = FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
-            if (mp != null)
-                TrophySlots.packetHandler.sendTo(new MessageSlotsClient(36), (EntityPlayerMP) player);
+            EntityPlayerMP mp = (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
+            if (mp != null) {
+                if (!mp.func_147099_x().hasAchievementUnlocked(TrophySlots.maxCapcity) && mp.func_147099_x().canUnlockAchievement(TrophySlots.maxCapcity))
+                    mp.addStat(TrophySlots.maxCapcity, 1);
+                TrophySlots.packetHandler.sendTo(new MessageSlotsClient(36), mp);
+            }
             return true;
         }
         return false;
