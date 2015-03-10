@@ -1,4 +1,4 @@
-package net.lomeli.trophyslots.client;
+package net.lomeli.trophyslots.client.slots;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

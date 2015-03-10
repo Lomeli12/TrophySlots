@@ -32,7 +32,7 @@ public class TrophySlots {
     public static final String MOD_NAME = "Trophy Slots";
     public static final String slotsUnlocked = MOD_ID + "_slotsUnlocked";
 
-    public static final int MAJOR = 1, MINOR = 1, REV = 0;
+    public static final int MAJOR = 1, MINOR = 1, REV = 1;
     public static final String VERSION = MAJOR + "." + MINOR + "." + REV;
 
     public static final String updateUrl = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/master/update.json";
@@ -41,7 +41,7 @@ public class TrophySlots {
 
     @SidedProxy(clientSide = "net.lomeli.trophyslots.client.ClientProxy", serverSide = "net.lomeli.trophyslots.core.Proxy")
     public static Proxy proxy;
-    
+
     public static Config modConfig;
     public static VersionHandler versionHandler;
 

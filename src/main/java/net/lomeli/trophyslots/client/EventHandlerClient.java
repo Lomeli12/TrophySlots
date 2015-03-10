@@ -29,6 +29,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.client.slots.SlotHandler;
+import net.lomeli.trophyslots.client.slots.SlotLocked;
 
 @SideOnly(Side.CLIENT)
 public class EventHandlerClient {
@@ -136,8 +138,10 @@ public class EventHandlerClient {
                         for (int i = 0; i < slotList.size(); i++) {
                             Slot slot = gui.inventorySlots.getSlot(i);
                             if (slot != null && slot.isSlotInInventory(mc.thePlayer.inventory, slot.getSlotIndex())) {
-                                if (!TrophySlots.proxy.slotUnlocked(slot.getSlotIndex()))
-                                    ((GuiContainer) event.gui).inventorySlots.inventorySlots.set(i, new SlotLocked(mc.thePlayer.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition));
+                                if (!TrophySlots.proxy.slotUnlocked(slot.getSlotIndex())) {
+                                    Slot replacementSlot = SlotHandler.getSlotBasedOnGui(gui, slot);
+                                    ((GuiContainer) event.gui).inventorySlots.inventorySlots.set(i, replacementSlot);
+                                }
                             }
                         }
                     }
