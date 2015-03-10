@@ -1,12 +1,10 @@
 {
     "major" : 1,
     "minor" : 1,
-    "revision" : 0,
+    "revision" : 1,
     "downloadURL" : "http://minecraft.curseforge.com/mc-mods/226077-trophy-slots/files/2227043",
     "direct" : false,
     "changeLog" : [
-        "The update that took far too long.",
-        "Fixed crafting grid render items invisible (which seemed to only affect the vanilla player inventory screen)",
-        "Fixed multiplayer crashing and sync issues, you can now play this mod with friends (yay)"
+        "Fixed crash when opening Steve's Workshop's table."
     ]
 }
