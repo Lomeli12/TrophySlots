@@ -11,7 +11,7 @@ public class SlotHandler {
     public static Slot getSlotBasedOnGui(GuiContainer gui, Slot oldSlot) {
         Minecraft mc = Minecraft.getMinecraft();
         if (Loader.isModLoaded("StevesWorkshop")) {
-            if (SlotLockedPlayer.isValidGuiAndSlot(gui, oldSlot))
+            if (gui.getClass().getCanonicalName() == "vswe.production.gui.GuiTable" && oldSlot.getClass().getCanonicalName() == "vswe.production.gui.container.slot.SlotPlayer")
                 return SlotLockedPlayer.getSlot(mc, gui, oldSlot);
         }
         return new SlotLocked(mc.thePlayer.inventory, oldSlot.getSlotIndex(), oldSlot.xDisplayPosition, oldSlot.yDisplayPosition);

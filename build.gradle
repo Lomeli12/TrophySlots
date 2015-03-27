@@ -30,16 +30,6 @@ def loadProperties(String sourceFileName) {
 
 loadProperties 'build.properties'
 
-repositories {
-    maven {
-        name = 'codechicken'
-        url = "http://chickenbones.net/maven/"
-    }
-}
-
-dependencies {
-    compile "codechicken:NotEnoughItems:$mcVersion-$neiVersion:dev"
-}
 
 group = "$modGroup"
 archivesBaseName = "$modName"

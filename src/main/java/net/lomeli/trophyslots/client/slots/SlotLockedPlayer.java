@@ -19,10 +19,6 @@ public class SlotLockedPlayer extends SlotPlayer {
         super(inventory, table, id, x, y);
     }
 
-    public static boolean isValidGuiAndSlot(GuiContainer gui, Slot slot) {
-        return gui instanceof GuiTable && slot instanceof SlotPlayer;
-    }
-
     public static SlotLockedPlayer getSlot(Minecraft mc, GuiContainer gui, Slot oldSlot) {
         SlotPlayer playerSlot = (SlotPlayer) oldSlot;
         GuiTable tableGui = (GuiTable) gui;
