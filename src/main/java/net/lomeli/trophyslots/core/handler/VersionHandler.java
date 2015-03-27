@@ -80,7 +80,7 @@ public class VersionHandler {
         } catch (Exception e) {
             Logger.logError("Exception when reading update JSON.");
         }
-        this.needsUpdate = (this.mod_major >= major ? (this.mod_minor >= minor ? (this.mod_rev >= revision ? false : true) : true) : true);
+        this.needsUpdate = (this.mod_major < major) || (this.mod_minor < minor && this.mod_major <= major) || (this.mod_rev < revision && this.mod_minor <= minor && this.mod_major <= major);
         if (this.needsUpdate) {
             this.version = major + "." + minor + "." + revision;
             this.promptMsg = true;

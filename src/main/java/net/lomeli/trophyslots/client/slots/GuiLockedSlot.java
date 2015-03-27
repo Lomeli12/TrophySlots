@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 
 import net.lomeli.trophyslots.TrophySlots;
@@ -19,8 +20,9 @@ public class GuiLockedSlot extends GuiButton {
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible) {
             GL11.glPushMatrix();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+            GL11.glEnable(GL11.GL_BLEND);
+            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
             if (TrophySlots.slotRenderType == 0 || TrophySlots.slotRenderType == 2) {
                 GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
@@ -33,8 +35,7 @@ public class GuiLockedSlot extends GuiButton {
                 drawGradientRect(xPosition, yPosition, 300f, xPosition + 16, yPosition + 16, 2130706433, 2130706433);
                 GL11.glColorMask(true, true, true, true);
             }
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
         }
     }
