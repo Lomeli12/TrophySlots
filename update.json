@@ -1,10 +1,12 @@
 {
     "major" : 1,
-    "minor" : 1,
-    "revision" : 1,
-    "downloadURL" : "http://minecraft.curseforge.com/mc-mods/226077-trophy-slots/files/2227043",
+    "minor" : 2,
+    "revision" : 0,
+    "downloadURL" : "http://minecraft.curseforge.com/mc-mods/226077-trophy-slots/files/2231599",
     "direct" : false,
     "changeLog" : [
-        "Fixed crash when opening Steve's Workshop's table."
+        "Fixed crash when not using Steve's Workshop",
+        "Fixed rendering of tooltips and crosses drawing over buttons and other stuff.",
+        "Fixed version checker."
     ]
 }
