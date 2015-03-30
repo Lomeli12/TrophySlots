@@ -24,16 +24,16 @@ public class GuiLockedSlot extends GuiButton {
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
+            if (TrophySlots.slotRenderType == 1 || TrophySlots.slotRenderType == 2) {
+                GL11.glColorMask(true, true, true, false);
+                drawGradientRect(xPosition, yPosition, 300f, xPosition + 16, yPosition + 16, 2130706433, 2130706433);
+                GL11.glColorMask(true, true, true, true);
+            }
             if (TrophySlots.slotRenderType == 0 || TrophySlots.slotRenderType == 2) {
                 GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
                 mc.renderEngine.bindTexture(EventHandlerClient.resourceFile);
                 drawTexturedModalRect(xPosition, yPosition, 0, 0, 16, 16);
                 GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
-            }
-            if (TrophySlots.slotRenderType == 1 || TrophySlots.slotRenderType == 2) {
-                GL11.glColorMask(true, true, true, false);
-                drawGradientRect(xPosition, yPosition, 300f, xPosition + 16, yPosition + 16, 2130706433, 2130706433);
-                GL11.glColorMask(true, true, true, true);
             }
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();

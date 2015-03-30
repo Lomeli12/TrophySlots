@@ -10,8 +10,6 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
-import net.minecraftforge.client.event.GuiScreenEvent;
-
 import net.lomeli.trophyslots.TrophySlots;
 
 /**
@@ -24,7 +22,7 @@ public class GuiEffectRenderer {
     private static int renderTick;
     private static List<SnowFlake> snowFlakeList;
 
-    public static void snowFlakeRenderer(GuiScreenEvent.DrawScreenEvent.Post event) {
+    public static void snowFlakeRenderer(GuiScreen gui) {
         if (snowFlakeList.isEmpty()) {
             for (int i = 0; i < snowMax; i++)
                 snowFlakeList.add(new SnowFlake(6 + rand.nextInt(mc.displayWidth), 1));
@@ -34,9 +32,9 @@ public class GuiEffectRenderer {
             if (snowFlake != null) {
                 if (snowFlake.y < 0) {
                     if (rand.nextInt(50) < 1)
-                        snowFlake.draw(event.gui);
+                        snowFlake.draw(gui);
                 } else
-                    snowFlake.draw(event.gui);
+                    snowFlake.draw(gui);
             }
         }
         renderTick++;

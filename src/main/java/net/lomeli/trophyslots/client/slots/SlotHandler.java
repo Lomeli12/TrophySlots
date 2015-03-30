@@ -9,6 +9,8 @@ import net.minecraft.inventory.Slot;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
+import net.lomeli.trophyslots.core.ObfUtil;
+
 public class SlotHandler {
 
     public static Slot getSlotBasedOnGui(GuiContainer gui, Slot oldSlot) {
@@ -20,27 +22,10 @@ public class SlotHandler {
         return new SlotLocked(mc.thePlayer.inventory, oldSlot.getSlotIndex(), oldSlot.xDisplayPosition, oldSlot.yDisplayPosition);
     }
 
-    public static Method getMethod(Class<?> clazz, String... names) {
-        try {
-            Method[] methods = clazz.getDeclaredMethods();
-            for (Method method : methods) {
-                for (String methodName : names) {
-                    if (method.getName().equalsIgnoreCase(methodName)) {
-                        method.setAccessible(true);
-                        return method;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new ReflectionHelper.UnableToFindMethodException(names, e);
-        }
-        return null;
-    }
-
     public static <T, E> Object invokeMethod(String name, E instance, String[] names, Object... args) {
         try {
             Class<?> clazz = Class.forName(name);
-            Method method = getMethod(clazz, names);
+            Method method = ObfUtil.getMethod(clazz, names);
             if (method != null)
                 return method.invoke(instance, args);
         } catch (Exception e) {

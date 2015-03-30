@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
@@ -14,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,11 +29,9 @@ public class EventHandlerClient {
 
     @SubscribeEvent
     public void postDrawGuiEvent(GuiScreenEvent.DrawScreenEvent.Post event) {
-        Minecraft mc = Minecraft.getMinecraft();
-        EntityPlayer player = mc.thePlayer;
         if (event.gui != null && event.gui instanceof GuiContainer) {
             if (GuiEffectRenderer.validDate())
-                GuiEffectRenderer.snowFlakeRenderer(event);
+                GuiEffectRenderer.snowFlakeRenderer(event.gui);
         }
     }
 
@@ -43,8 +41,12 @@ public class EventHandlerClient {
         if (event.gui != null && event.gui instanceof GuiContainer) {
             if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy.hasUnlockedAllSlots()) {
                 GuiContainer gui = (GuiContainer) event.gui;
-                int guiLeft = (event.gui.width - gui.xSize) / 2;
-                int guiTop = (event.gui.height - gui.ySize) / 2;
+                int guiLeft = (gui.width - gui.xSize) / 2;
+                int guiTop = (gui.height - gui.ySize) / 2;
+                if (Loader.isModLoaded("TConstruct")) {
+                    guiLeft += TiConHandler.applyXChange(gui);
+                    guiTop += TiConHandler.applyYChange(gui);
+                }
                 if (gui instanceof GuiInventory) {
                     ContainerPlayer containerPlayer = new ContainerPlayer(mc.thePlayer.inventory, !mc.theWorld.isRemote, mc.thePlayer);
                     List slotList = containerPlayer.inventorySlots;
