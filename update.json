@@ -1,12 +1,11 @@
 {
     "major" : 1,
     "minor" : 2,
-    "revision" : 0,
+    "revision" : 2,
     "downloadURL" : "http://minecraft.curseforge.com/mc-mods/226077-trophy-slots/files/2231599",
     "direct" : false,
     "changeLog" : [
-        "Fixed crash when not using Steve's Workshop",
-        "Fixed rendering of tooltips and crosses drawing over buttons and other stuff.",
-        "Fixed version checker."
+        "Fixed issue Steve's Workshop",
+        "Adds option to have slots in reverse order (bottom right instead of top left)."
     ]
 }
