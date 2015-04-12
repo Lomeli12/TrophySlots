@@ -21,6 +21,8 @@ public class ClientProxy extends Proxy {
 
     @Override
     public boolean slotUnlocked(int slotNum) {
+        if (TrophySlots.reverse && slotNum >= 9)
+            return slotNum < 36 ? slotNum > 44 - (TrophySlots.startingSlots + slotsUnlocked) : true;
         return slotNum < 36 ? slotNum < TrophySlots.startingSlots + slotsUnlocked : true;
     }
 

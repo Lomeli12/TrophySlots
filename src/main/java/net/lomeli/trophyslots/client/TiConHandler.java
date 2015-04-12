@@ -35,7 +35,7 @@ public class TiConHandler {
             ObfUtil.setFieldAccessible(CraftingStationGui.class, "logic");
             CraftingStationLogic logic = ObfUtil.getFieldValue(CraftingStationGui.class, craft, "logic");
             if (logic != null && logic.doubleChest != null)
-                    change += 11;
+                change += 11;
         }
         return change;
     }

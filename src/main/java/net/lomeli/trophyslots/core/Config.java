@@ -34,6 +34,7 @@ public class Config {
         TrophySlots.checkForUpdates = config.getBoolean("checkForUpdates", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.update"));
         TrophySlots.useWhiteList = config.getBoolean("useWhitelist", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.useWhitelist"));
         TrophySlots.slotRenderType = config.getInt("slotRenderType", Configuration.CATEGORY_GENERAL, 0, 0, 4, translate("config.trophyslots.renderLockedSlots"));
+        TrophySlots.reverse = config.getBoolean("reverseUnlock", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.reverse"));
         String whiteList = config.getString("WhiteList", Configuration.CATEGORY_GENERAL, "", translate("config.trophyslots.whitelist"));
 
         TrophySlots.xmas = config.getBoolean("xmas", Configuration.CATEGORY_GENERAL, true, "");

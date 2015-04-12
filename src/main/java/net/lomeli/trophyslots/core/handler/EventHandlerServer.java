@@ -20,11 +20,29 @@ import net.lomeli.trophyslots.core.network.MessageSlotsClient;
 
 public class EventHandlerServer {
     public int searchForPossibleSlot(ItemStack stack, InventoryPlayer inventoryPlayer) {
+        if (TrophySlots.reverse) {
+            for (int i = inventoryPlayer.getSizeInventory() - 5; i > 0; i--) {
+                ItemStack item = inventoryPlayer.getStackInSlot(i);
+                if (item == null || item.getItem() == null)
+                    return i;
+                else if (doStackMatch(stack, item) && (item.stackSize + stack.stackSize) < item.getMaxStackSize())
+                    return i;
+            }
+        }
         for (int i = 0; i < inventoryPlayer.getSizeInventory() - 4; i++) {
-            ItemStack item = inventoryPlayer.getStackInSlot(i);
+            ItemStack item = inventoryPlayer.getStackInSlot(TrophySlots.reverse ? 35 - i : i);
             if (item == null || item.getItem() == null)
                 return i;
             else if (doStackMatch(stack, item) && (item.stackSize + stack.stackSize) < item.getMaxStackSize())
+                return i;
+        }
+        return -1;
+    }
+
+    public int findNextEmptySlot(ItemStack stack, EntityPlayer player) {
+        for (int i = 0; i < player.inventory.getSizeInventory() - 4; i++) {
+            ItemStack item = player.inventory.getStackInSlot(i);
+            if (item == null && SlotUtil.slotUnlocked(player, i))
                 return i;
         }
         return -1;
@@ -62,8 +80,12 @@ public class EventHandlerServer {
                 ItemStack stack = player.inventory.getStackInSlot(i);
                 if (stack != null && stack.getItem() != null) {
                     if (!SlotUtil.slotUnlocked(player, i)) {
-                        player.entityDropItem(stack, 0);
-                        player.inventory.setInventorySlotContents(i, null);
+                        int slot = TrophySlots.reverse ? findNextEmptySlot(stack, player) : -1;
+                        if (slot <= -1) {
+                            player.entityDropItem(stack, 0);
+                            player.inventory.setInventorySlotContents(i, null);
+                        } else
+                            player.inventory.setInventorySlotContents(slot, player.inventory.getStackInSlotOnClosing(i));
                     }
                 }
             }

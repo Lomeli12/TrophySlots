@@ -17,7 +17,7 @@ public class SlotHandler {
         Minecraft mc = Minecraft.getMinecraft();
         if (Loader.isModLoaded("StevesWorkshop")) {
             if (gui.getClass().getCanonicalName() == "vswe.production.gui.GuiTable" && oldSlot.getClass().getCanonicalName() == "vswe.production.gui.container.slot.SlotPlayer")
-                return (Slot) invokeMethod("net.lomeli.trophyslots.client.slots", null, new String[]{"getSlot"}, mc, gui, oldSlot); // I hate having to deal with NoClassDefFoundErrors.... T_T
+                return (Slot) invokeMethod("net.lomeli.trophyslots.client.slots.SlotLockedPlayer", null, new String[]{"getSlot"}, mc, gui, oldSlot); // I hate having to deal with NoClassDefFoundErrors.... T_T
         }
         return new SlotLocked(mc.thePlayer.inventory, oldSlot.getSlotIndex(), oldSlot.xDisplayPosition, oldSlot.yDisplayPosition);
     }

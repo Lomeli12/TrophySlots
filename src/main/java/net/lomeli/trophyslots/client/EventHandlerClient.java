@@ -105,7 +105,7 @@ public class EventHandlerClient {
                             Slot slot = gui.inventorySlots.getSlot(i);
                             if (slot != null && slot.isSlotInInventory(mc.thePlayer.inventory, slot.getSlotIndex())) {
                                 if (!TrophySlots.proxy.slotUnlocked(slot.getSlotIndex())) {
-                                    Slot replacementSlot = SlotHandler.getSlotBasedOnGui(gui, slot);
+                                    Slot replacementSlot = Loader.isModLoaded("StevesWorkshop") ? SlotHandler.getSlotBasedOnGui(gui, slot) : new SlotLocked(mc.thePlayer.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
                                     ((GuiContainer) event.gui).inventorySlots.inventorySlots.set(i, replacementSlot);
                                 }
                             }
