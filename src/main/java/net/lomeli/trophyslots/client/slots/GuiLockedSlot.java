@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 
@@ -12,9 +13,12 @@ import net.lomeli.trophyslots.client.EventHandlerClient;
 
 public class GuiLockedSlot extends GuiButton {
 
-    public GuiLockedSlot(int id, int x, int y) {
+    private GuiContainer gui;
+
+    public GuiLockedSlot(int id, int x, int y, GuiContainer parent) {
         super(id, x, y, 16, 16, "");
         this.enabled = false;
+        this.gui = parent;
     }
 
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
@@ -26,13 +30,13 @@ public class GuiLockedSlot extends GuiButton {
 
             if (TrophySlots.slotRenderType == 1 || TrophySlots.slotRenderType == 2) {
                 GL11.glColorMask(true, true, true, false);
-                drawGradientRect(xPosition, yPosition, 300f, xPosition + 16, yPosition + 16, 2130706433, 2130706433);
+                drawGradientRect(gui.guiLeft + xPosition, gui.guiTop + yPosition, 300f, gui.guiLeft + xPosition + 16, gui.guiTop + yPosition + 16, 2130706433, 2130706433);
                 GL11.glColorMask(true, true, true, true);
             }
             if (TrophySlots.slotRenderType == 0 || TrophySlots.slotRenderType == 2) {
                 GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
                 mc.renderEngine.bindTexture(EventHandlerClient.resourceFile);
-                drawTexturedModalRect(xPosition, yPosition, 0, 0, 16, 16);
+                drawTexturedModalRect(gui.guiLeft + xPosition, gui.guiTop + yPosition, 0, 0, 16, 16);
                 GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
             }
             GL11.glDisable(GL11.GL_BLEND);

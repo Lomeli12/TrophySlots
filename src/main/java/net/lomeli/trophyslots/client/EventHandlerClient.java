@@ -41,12 +41,6 @@ public class EventHandlerClient {
         if (event.gui != null && event.gui instanceof GuiContainer) {
             if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy.hasUnlockedAllSlots()) {
                 GuiContainer gui = (GuiContainer) event.gui;
-                int guiLeft = (gui.width - gui.xSize) / 2;
-                int guiTop = (gui.height - gui.ySize) / 2;
-                if (Loader.isModLoaded("TConstruct")) {
-                    guiLeft += TiConHandler.applyXChange(gui);
-                    guiTop += TiConHandler.applyYChange(gui);
-                }
                 if (gui instanceof GuiInventory) {
                     ContainerPlayer containerPlayer = new ContainerPlayer(mc.thePlayer.inventory, !mc.theWorld.isRemote, mc.thePlayer);
                     List slotList = containerPlayer.inventorySlots;
@@ -56,7 +50,7 @@ public class EventHandlerClient {
                             Slot slot = containerPlayer.getSlot(i);
                             if (slot != null && !(slot instanceof SlotCrafting)) {
                                 if (slot.inventory != containerPlayer.craftMatrix && !TrophySlots.proxy.slotUnlocked(slot.getSlotIndex()))
-                                    event.buttonList.add(new GuiLockedSlot(id++, guiLeft + slot.xDisplayPosition, guiTop + slot.yDisplayPosition));
+                                    event.buttonList.add(new GuiLockedSlot(id++, slot.xDisplayPosition, slot.yDisplayPosition, gui));
                             }
                         }
                     }
@@ -68,7 +62,7 @@ public class EventHandlerClient {
                             Slot slot = gui.inventorySlots.getSlot(i);
                             if (slot != null && slot.isSlotInInventory(mc.thePlayer.inventory, slot.getSlotIndex())) {
                                 if (!TrophySlots.proxy.slotUnlocked(slot.getSlotIndex()))
-                                    event.buttonList.add(new GuiLockedSlot(id++, guiLeft + slot.xDisplayPosition, guiTop + slot.yDisplayPosition));
+                                    event.buttonList.add(new GuiLockedSlot(id++, slot.xDisplayPosition, slot.yDisplayPosition, gui));
                             }
                         }
                     }
