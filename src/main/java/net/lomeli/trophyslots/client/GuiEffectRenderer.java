@@ -10,6 +10,8 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
+import cpw.mods.fml.client.FMLClientHandler;
+
 import net.lomeli.trophyslots.TrophySlots;
 
 /**
@@ -17,7 +19,7 @@ import net.lomeli.trophyslots.TrophySlots;
  */
 public class GuiEffectRenderer {
     private static Random rand = new Random();
-    private static Minecraft mc = Minecraft.getMinecraft();
+    private static Minecraft mc = FMLClientHandler.instance().getClient();
     private static int snowMax = 750;
     private static int renderTick;
     private static List<SnowFlake> snowFlakeList;

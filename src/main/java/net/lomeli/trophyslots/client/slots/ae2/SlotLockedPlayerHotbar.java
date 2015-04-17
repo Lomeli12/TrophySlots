@@ -1,4 +1,6 @@
-package net.lomeli.trophyslots.client.slots;
+package net.lomeli.trophyslots.client.slots.ae2;
+
+import appeng.container.slot.SlotPlayerHotBar;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -8,12 +10,8 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-/**
- * A slot that cannot be edited in anyway via GUIs. {@link net.lomeli.trophyslots.core.handler.EventHandlerServer} will
- * handle any items placed into locked slots.
- */
-public class SlotLocked extends Slot {
-    public SlotLocked(IInventory iInventory, int slot, int x, int y) {
+public class SlotLockedPlayerHotbar extends SlotPlayerHotBar {
+    public SlotLockedPlayerHotbar(IInventory iInventory, int slot, int x, int y) {
         super(iInventory, slot, x, y);
     }
 
@@ -39,6 +37,6 @@ public class SlotLocked extends Slot {
     }
 
     public static Slot getSlot(EntityPlayer player, Slot old) {
-        return new SlotLocked(player.inventory, old.getSlotIndex(), old.xDisplayPosition, old.yDisplayPosition);
+        return new SlotLockedPlayerHotbar(player.inventory, old.getSlotIndex(), old.xDisplayPosition, old.yDisplayPosition);
     }
 }

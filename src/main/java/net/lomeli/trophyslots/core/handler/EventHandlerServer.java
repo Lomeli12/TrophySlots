@@ -39,7 +39,7 @@ public class EventHandlerServer {
         return -1;
     }
 
-    public int findNextEmptySlot(ItemStack stack, EntityPlayer player) {
+    public int findNextEmptySlot(EntityPlayer player) {
         for (int i = 0; i < player.inventory.getSizeInventory() - 4; i++) {
             ItemStack item = player.inventory.getStackInSlot(i);
             if (item == null && SlotUtil.slotUnlocked(player, i))
@@ -80,7 +80,7 @@ public class EventHandlerServer {
                 ItemStack stack = player.inventory.getStackInSlot(i);
                 if (stack != null && stack.getItem() != null) {
                     if (!SlotUtil.slotUnlocked(player, i)) {
-                        int slot = TrophySlots.reverse ? findNextEmptySlot(stack, player) : -1;
+                        int slot = findNextEmptySlot( player);
                         if (slot <= -1) {
                             player.entityDropItem(stack, 0);
                             player.inventory.setInventorySlotContents(i, null);

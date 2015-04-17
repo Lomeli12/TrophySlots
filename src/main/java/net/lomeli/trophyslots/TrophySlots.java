@@ -12,12 +12,14 @@ import net.minecraftforge.common.AchievementPage;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 
+import net.lomeli.trophyslots.compat.CompatManager;
 import net.lomeli.trophyslots.core.Config;
 import net.lomeli.trophyslots.core.Logger;
 import net.lomeli.trophyslots.core.ModItems;
@@ -92,6 +94,11 @@ public class TrophySlots {
 
         achievementPage = new AchievementPage(MOD_NAME, firstSlot, maxCapcity);
         AchievementPage.registerAchievementPage(achievementPage);
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        CompatManager.initCompatModules();
     }
 
     @Mod.EventHandler

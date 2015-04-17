@@ -14,7 +14,7 @@ public class ClientProxy extends Proxy {
     @Override
     public void init() {
         super.init();
-        registerForgeEvent(new EventHandlerClient());
+        registerForgeEvent(eventHandlerClient = new EventHandlerClient());
         registerFMLEvent(TrophySlots.versionHandler);
         registerFMLEvent(TrophySlots.modConfig);
     }

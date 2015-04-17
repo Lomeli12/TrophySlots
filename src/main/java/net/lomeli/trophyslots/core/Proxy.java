@@ -10,11 +10,14 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 
 import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.client.EventHandlerClient;
 import net.lomeli.trophyslots.core.handler.EventHandlerServer;
 import net.lomeli.trophyslots.core.handler.VillagerHandler;
 import net.lomeli.trophyslots.core.network.MessageSlotsClient;
 
 public class Proxy {
+    public EventHandlerClient eventHandlerClient;
+    public EventHandlerServer eventHandlerServer;
 
     public void preInit() {
         ModItems.registerItems();
@@ -22,7 +25,7 @@ public class Proxy {
     }
 
     public void init() {
-        EventHandlerServer eventHandlerServer = new EventHandlerServer();
+        eventHandlerServer = new EventHandlerServer();
         registerFMLEvent(eventHandlerServer);
         registerForgeEvent(eventHandlerServer);
     }

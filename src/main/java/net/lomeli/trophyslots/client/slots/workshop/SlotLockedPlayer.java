@@ -1,4 +1,4 @@
-package net.lomeli.trophyslots.client.slots;
+package net.lomeli.trophyslots.client.slots.workshop;
 
 import vswe.production.gui.GuiTable;
 import vswe.production.gui.container.slot.SlotPlayer;
