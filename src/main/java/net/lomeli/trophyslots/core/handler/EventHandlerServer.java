@@ -80,7 +80,7 @@ public class EventHandlerServer {
                 ItemStack stack = player.inventory.getStackInSlot(i);
                 if (stack != null && stack.getItem() != null) {
                     if (!SlotUtil.slotUnlocked(player, i)) {
-                        int slot = findNextEmptySlot( player);
+                        int slot = findNextEmptySlot(player);
                         if (slot <= -1) {
                             player.entityDropItem(stack, 0);
                             player.inventory.setInventorySlotContents(i, null);

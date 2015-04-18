@@ -57,8 +57,9 @@ public class TrophySlots {
     public static boolean xmas = true;
     public static boolean useWhiteList = false;
     public static boolean reverse = false;
+    public static boolean useBlackList;
 
-    public static List<String> achievementWhiteList;
+    public static List<String> achievementWhiteList, achievementBlackList;
     public static Achievement firstSlot, maxCapcity;
     public static AchievementPage achievementPage;
     public static boolean debug;

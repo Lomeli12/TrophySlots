@@ -24,7 +24,7 @@ import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.client.slots.ae2.SlotLockedPlayerHotbar;
 import net.lomeli.trophyslots.client.slots.ae2.SlotLockedPlayerInv;
 
-public class AE2Mod {
+public class AE2Mod implements ICompatModule {
     private Object aeStyle, prevStyle, searchMode, prevSearchMode;
 
     public AE2Mod() {
@@ -34,7 +34,7 @@ public class AE2Mod {
     @SubscribeEvent
     public void tickHandler(TickEvent.ClientTickEvent event) {
         Minecraft mc = FMLClientHandler.instance().getClient();
-        if (mc.currentScreen != null && mc.currentScreen instanceof GuiContainer) {
+        if (event.phase == TickEvent.Phase.END && mc.currentScreen != null && mc.currentScreen instanceof GuiContainer) {
             GuiContainer gui = (GuiContainer) mc.currentScreen;
             if (isCompatibleGui(gui)) {
                 GuiMEMonitorable me = (GuiMEMonitorable) gui;
@@ -56,7 +56,7 @@ public class AE2Mod {
         }
     }
 
-    public void replaceAESlots(GuiContainer container, EntityPlayer player) {
+    public void replaceSlots(GuiContainer container, EntityPlayer player) {
         GuiMEMonitorable gui = (GuiMEMonitorable) container;
         List slotList = gui.inventorySlots.inventorySlots;
         if (slotList != null) {
@@ -64,7 +64,7 @@ public class AE2Mod {
                 Slot slot = gui.inventorySlots.getSlot(i);
                 if (slot != null && slot.isSlotInInventory(player.inventory, slot.getSlotIndex())) {
                     if (!TrophySlots.proxy.slotUnlocked(slot.getSlotIndex())) {
-                        Slot replacementSlot = getSlotForType(player, slot);
+                        Slot replacementSlot = getSlot(player, slot);
                         gui.inventorySlots.inventorySlots.set(i, replacementSlot);
                     }
                 }
@@ -72,7 +72,7 @@ public class AE2Mod {
         }
     }
 
-    private Slot getSlotForType(EntityPlayer player, Slot slot) {
+    public Slot getSlot(EntityPlayer player, Slot slot) {
         return slot instanceof SlotPlayerInv ? SlotLockedPlayerInv.getSlot(player, slot) : slot instanceof SlotPlayerHotBar ? SlotLockedPlayerHotbar.getSlot(player, slot) : null;
     }
 

@@ -30,7 +30,6 @@ def loadProperties(String sourceFileName) {
 
 loadProperties 'build.properties'
 
-
 group = "$modGroup"
 archivesBaseName = "$modName"
 version = "$releaseVersion"

@@ -15,6 +15,10 @@ public class SlotLockedPlayerHotbar extends SlotPlayerHotBar {
         super(iInventory, slot, x, y);
     }
 
+    public static Slot getSlot(EntityPlayer player, Slot old) {
+        return new SlotLockedPlayerHotbar(player.inventory, old.getSlotIndex(), old.xDisplayPosition, old.yDisplayPosition);
+    }
+
     @Override
     public ItemStack decrStackSize(int par1) {
         return null;
@@ -34,9 +38,5 @@ public class SlotLockedPlayerHotbar extends SlotPlayerHotBar {
     @SideOnly(Side.CLIENT)
     public boolean func_111238_b() {
         return false;
-    }
-
-    public static Slot getSlot(EntityPlayer player, Slot old) {
-        return new SlotLockedPlayerHotbar(player.inventory, old.getSlotIndex(), old.xDisplayPosition, old.yDisplayPosition);
     }
 }

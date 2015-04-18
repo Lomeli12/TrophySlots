@@ -33,6 +33,7 @@ public class Config {
         TrophySlots.disable3 = config.getBoolean("disableFirst3", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.disable3"));
         TrophySlots.checkForUpdates = config.getBoolean("checkForUpdates", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.update"));
         TrophySlots.useWhiteList = config.getBoolean("useWhitelist", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.useWhitelist"));
+
         TrophySlots.slotRenderType = config.getInt("slotRenderType", Configuration.CATEGORY_GENERAL, 0, 0, 4, translate("config.trophyslots.renderLockedSlots"));
         TrophySlots.reverse = config.getBoolean("reverseUnlock", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.reverse"));
         String whiteList = config.getString("WhiteList", Configuration.CATEGORY_GENERAL, "", translate("config.trophyslots.whitelist"));
@@ -41,6 +42,8 @@ public class Config {
 
         if (TrophySlots.useWhiteList)
             fillWhitelist(whiteList);
+        if (TrophySlots.useBlackList)
+            fillBlackList("");
         if (config.hasChanged())
             config.save();
     }
@@ -55,6 +58,19 @@ public class Config {
         if (achievementIDs != null && achievementIDs.length > 0) {
             for (String id : achievementIDs)
                 TrophySlots.achievementWhiteList.add(id);
+        }
+    }
+
+    public void fillBlackList(String blackList) {
+        if (TrophySlots.achievementBlackList == null)
+            TrophySlots.achievementBlackList = new ArrayList<String>();
+        if (!TrophySlots.achievementBlackList.isEmpty())
+            TrophySlots.achievementBlackList.clear();
+
+        String[] achievementIDs = blackList.split(";");
+        if (achievementIDs != null && achievementIDs.length > 0) {
+            for (String id : achievementIDs)
+                TrophySlots.achievementBlackList.add(id);
         }
     }
 

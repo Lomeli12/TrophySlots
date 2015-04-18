@@ -1,15 +1,41 @@
 package net.lomeli.trophyslots.compat;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+
 import cpw.mods.fml.common.Loader;
 
 public class CompatManager {
-    public static AE2Mod ae2Mod;
-    public static StWorkshopMod stWorkshopMod;
+    private static List<ICompatModule> moduleList;
 
     public static void initCompatModules() {
+        addModlue(new PlayerInvMod());
         if (Loader.isModLoaded("appliedenergistics2"))
-            ae2Mod = new AE2Mod();
+            addModlue(new AE2Mod());
         if (Loader.isModLoaded("StevesWorkshop"))
-            stWorkshopMod = new StWorkshopMod();
+            addModlue(new StWorkshopMod());
+    }
+
+    public static void addModlue(ICompatModule module) {
+        if (moduleList == null)
+            moduleList = new ArrayList<ICompatModule>();
+        if (module == null)
+            return;
+        moduleList.add(module);
+    }
+
+    public static boolean useCompatReplace(GuiContainer gui, EntityPlayer player) {
+        boolean flag = false;
+        for (ICompatModule module : moduleList) {
+            if (module.isCompatibleGui(gui)) {
+                flag = true;
+                module.replaceSlots(gui, player);
+                break;
+            }
+        }
+        return flag;
     }
 }

@@ -15,8 +15,8 @@ public class GuiLockedSlot extends GuiButton {
 
     private GuiContainer gui;
 
-    public GuiLockedSlot(int id, int x, int y, GuiContainer parent) {
-        super(id, x, y, 16, 16, "");
+    public GuiLockedSlot(int x, int y, GuiContainer parent) {
+        super(0, x, y, 16, 16, "");
         this.enabled = false;
         this.gui = parent;
     }

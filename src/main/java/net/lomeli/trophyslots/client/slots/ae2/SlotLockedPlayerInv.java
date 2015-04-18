@@ -15,6 +15,10 @@ public class SlotLockedPlayerInv extends SlotPlayerInv {
         super(iInventory, slot, x, y);
     }
 
+    public static Slot getSlot(EntityPlayer player, Slot old) {
+        return new SlotLockedPlayerInv(player.inventory, old.getSlotIndex(), old.xDisplayPosition, old.yDisplayPosition);
+    }
+
     @Override
     public ItemStack decrStackSize(int par1) {
         return null;
@@ -34,9 +38,5 @@ public class SlotLockedPlayerInv extends SlotPlayerInv {
     @SideOnly(Side.CLIENT)
     public boolean func_111238_b() {
         return false;
-    }
-
-    public static Slot getSlot(EntityPlayer player, Slot old) {
-        return new SlotLockedPlayerInv(player.inventory, old.getSlotIndex(), old.xDisplayPosition, old.yDisplayPosition);
     }
 }
