@@ -30,6 +30,9 @@ public class Proxy {
         registerForgeEvent(eventHandlerServer);
     }
 
+    public void postInit() {
+    }
+
     protected void registerFMLEvent(Object obj) {
         FMLCommonHandler.instance().bus().register(obj);
     }

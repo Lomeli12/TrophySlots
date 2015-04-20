@@ -1,6 +1,7 @@
 package net.lomeli.trophyslots.client;
 
 import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.compat.CompatManager;
 import net.lomeli.trophyslots.core.Proxy;
 
 public class ClientProxy extends Proxy {
@@ -17,6 +18,12 @@ public class ClientProxy extends Proxy {
         registerForgeEvent(eventHandlerClient = new EventHandlerClient());
         registerFMLEvent(TrophySlots.versionHandler);
         registerFMLEvent(TrophySlots.modConfig);
+    }
+
+    @Override
+    public void postInit() {
+        super.postInit();
+        CompatManager.initCompatModules();
     }
 
     @Override
