@@ -19,7 +19,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 
-import net.lomeli.trophyslots.compat.CompatManager;
 import net.lomeli.trophyslots.core.Config;
 import net.lomeli.trophyslots.core.Logger;
 import net.lomeli.trophyslots.core.ModItems;

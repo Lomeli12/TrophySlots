@@ -4,7 +4,6 @@ import vswe.production.gui.GuiTable;
 import vswe.production.gui.container.slot.SlotPlayer;
 import vswe.production.tileentity.TileEntityTable;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
