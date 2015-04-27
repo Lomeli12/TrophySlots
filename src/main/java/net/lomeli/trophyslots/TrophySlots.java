@@ -33,7 +33,7 @@ public class TrophySlots {
     public static final String MOD_NAME = "Trophy Slots";
     public static final String slotsUnlocked = MOD_ID + "_slotsUnlocked";
 
-    public static final int MAJOR = 1, MINOR = 2, REV = 4;
+    public static final int MAJOR = 1, MINOR = 2, REV = 5;
     public static final String VERSION = MAJOR + "." + MINOR + "." + REV;
 
     public static final String updateUrl = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/master/update.json";
@@ -55,7 +55,6 @@ public class TrophySlots {
     public static boolean checkForUpdates = true;
     public static boolean xmas = true;
     public static boolean useWhiteList = false;
-    public static boolean reverse = false;
     public static boolean useBlackList;
 
     public static List<String> achievementWhiteList, achievementBlackList;

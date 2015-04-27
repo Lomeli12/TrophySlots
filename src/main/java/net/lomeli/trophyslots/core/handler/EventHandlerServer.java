@@ -19,22 +19,16 @@ import net.lomeli.trophyslots.core.SlotUtil;
 import net.lomeli.trophyslots.core.network.MessageSlotsClient;
 
 public class EventHandlerServer {
-    public int searchForPossibleSlot(ItemStack stack, InventoryPlayer inventoryPlayer) {
-        if (TrophySlots.reverse) {
-            for (int i = inventoryPlayer.getSizeInventory() - 5; i > 0; i--) {
-                ItemStack item = inventoryPlayer.getStackInSlot(i);
+    public int searchForPossibleSlot(ItemStack stack, EntityPlayer player) {
+        InventoryPlayer inventoryPlayer = player.inventory;
+        for (int i = 0; i < inventoryPlayer.getSizeInventory() - 4; i++) {
+            ItemStack item = inventoryPlayer.getStackInSlot(i);
+            if (SlotUtil.slotUnlocked(player, i)) {
                 if (item == null || item.getItem() == null)
                     return i;
                 else if (doStackMatch(stack, item) && (item.stackSize + stack.stackSize) < item.getMaxStackSize())
                     return i;
             }
-        }
-        for (int i = 0; i < inventoryPlayer.getSizeInventory() - 4; i++) {
-            ItemStack item = inventoryPlayer.getStackInSlot(TrophySlots.reverse ? 35 - i : i);
-            if (item == null || item.getItem() == null)
-                return i;
-            else if (doStackMatch(stack, item) && (item.stackSize + stack.stackSize) < item.getMaxStackSize())
-                return i;
         }
         return -1;
     }
@@ -98,7 +92,7 @@ public class EventHandlerServer {
         if (!event.entityPlayer.worldObj.isRemote && !event.entityPlayer.capabilities.isCreativeMode && !SlotUtil.hasUnlockedAllSlots(event.entityPlayer)) {
             ItemStack stack = event.item.getEntityItem();
             if (stack != null && stack.getItem() != null && stack.stackSize > 0) {
-                int slot = searchForPossibleSlot(stack, event.entityPlayer.inventory);
+                int slot = searchForPossibleSlot(stack, event.entityPlayer);
                 event.setCanceled(slot == -1 || !SlotUtil.slotUnlocked(event.entityPlayer, slot));
             }
         }
@@ -106,12 +100,13 @@ public class EventHandlerServer {
 
     @SubscribeEvent
     public void playerJoinedServer(EntityJoinWorldEvent event) {
+        TrophySlots.proxy.resetConfig();
         if (!event.world.isRemote && event.entity != null && event.entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.entity;
             if (player != null && SlotUtil.getSlotsUnlocked(player) > 0) {
                 EntityPlayerMP mp = (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
                 if (mp != null)
-                    TrophySlots.packetHandler.sendTo(new MessageSlotsClient(SlotUtil.getSlotsUnlocked(player)), mp);
+                    TrophySlots.packetHandler.sendTo(new MessageSlotsClient(SlotUtil.getSlotsUnlocked(player), TrophySlots.proxy.unlockReverse()), mp);
             }
         }
     }

@@ -18,6 +18,7 @@ import net.lomeli.trophyslots.core.network.MessageSlotsClient;
 public class Proxy {
     public EventHandlerClient eventHandlerClient;
     public EventHandlerServer eventHandlerServer;
+    protected boolean reverseOrder;
 
     public void preInit() {
         ModItems.registerItems();
@@ -90,5 +91,16 @@ public class Proxy {
     }
 
     public void reset() {
+    }
+
+    public boolean unlockReverse() {
+        return reverseOrder;
+    }
+
+    public void setReverse(boolean bool) {
+        reverseOrder = bool;
+    }
+
+    public void resetConfig() {
     }
 }

@@ -17,7 +17,7 @@ public class SlotUtil {
     }
 
     public static boolean slotUnlocked(EntityPlayer player, int slotNum) {
-        if (TrophySlots.reverse && slotNum > 8)
+        if (TrophySlots.proxy.unlockReverse() && slotNum > 8)
             return slotNum < 36 ? slotNum > 44 - (TrophySlots.startingSlots + getSlotsUnlocked(player)) : true;
         return slotNum < 36 ? slotNum < TrophySlots.startingSlots + getSlotsUnlocked(player) : true;
     }
