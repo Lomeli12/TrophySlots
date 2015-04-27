@@ -1,13 +1,10 @@
 {
     "major" : 1,
     "minor" : 2,
-    "revision" : 3,
-    "downloadURL" : "http://minecraft.curseforge.com/mc-mods/226077-trophy-slots/files/2234613",
+    "revision" : 5,
+    "downloadURL" : "http://minecraft.curseforge.com/mc-mods/226077-trophy-slots/files/2235589",
     "direct" : false,
     "changeLog" : [
-        "Fixes disable slot rendering when the player has a potion effect",
-        "Fixes disable slot rendering in Applied Energistics machines",
-        "Locked slot buttons just use button id 0 now. They're disabled anyway, shouldn't really care if they share an id with another button if you can't even use them.",
-        "When the player picks up an item and it ends up in a locked slot, it will now see if there's an empty slot that it can go into first before dropping it, hopefully stopping people from dropping items off skyblocks when shift-clicking items to one's inventory."
+        "Fix SMP config issues. When client joins server, it now forces the client to use the server configs for slot unlock order and starting slots."
     ]
 }
