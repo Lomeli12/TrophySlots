@@ -44,7 +44,7 @@ public class EventHandlerClient {
                         Slot slot = gui.inventorySlots.getSlot(i);
                         if (slot != null && slot.isSlotInInventory(mc.thePlayer.inventory, slot.getSlotIndex())) {
                             if (!TrophySlots.proxy.slotUnlocked(slot.getSlotIndex()))
-                                event.buttonList.add(new GuiLockedSlot(slot.xDisplayPosition, slot.yDisplayPosition, gui));
+                                event.buttonList.add(new GuiLockedSlot(slot.xDisplayPosition, slot.yDisplayPosition, gui, slot.getSlotIndex()));
                         }
                     }
                 }

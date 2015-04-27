@@ -19,6 +19,7 @@ public class Proxy {
     public EventHandlerClient eventHandlerClient;
     public EventHandlerServer eventHandlerServer;
     protected boolean reverseOrder;
+    protected int startingSlots;
 
     public void preInit() {
         ModItems.registerItems();
@@ -99,6 +100,14 @@ public class Proxy {
 
     public void setReverse(boolean bool) {
         reverseOrder = bool;
+    }
+
+    public int getStartingSlots() {
+        return startingSlots;
+    }
+
+    public void setStartingSlots(int val) {
+        startingSlots = val;
     }
 
     public void resetConfig() {

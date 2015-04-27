@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import net.lomeli.trophyslots.TrophySlots;
+
 /**
  * A slot that cannot be edited in anyway via GUIs. {@link net.lomeli.trophyslots.core.handler.EventHandlerServer} will
  * handle any items placed into locked slots.
@@ -23,22 +25,22 @@ public class SlotLocked extends Slot {
 
     @Override
     public ItemStack decrStackSize(int par1) {
-        return null;
+        return TrophySlots.proxy.slotUnlocked(this.getSlotIndex()) ? super.decrStackSize(par1) : null;
     }
 
     @Override
     public boolean isItemValid(ItemStack p_75214_1_) {
-        return false;
+        return TrophySlots.proxy.slotUnlocked(this.getSlotIndex()) ? super.isItemValid(p_75214_1_) : false;
     }
 
     @Override
     public boolean canTakeStack(EntityPlayer p_82869_1_) {
-        return false;
+        return TrophySlots.proxy.slotUnlocked(this.getSlotIndex()) ? super.canTakeStack(p_82869_1_) : false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public boolean func_111238_b() {
-        return false;
+        return TrophySlots.proxy.slotUnlocked(this.getSlotIndex()) ? super.func_111238_b() : false;
     }
 }

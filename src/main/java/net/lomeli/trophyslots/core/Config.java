@@ -26,7 +26,7 @@ public class Config {
     }
 
     public void loadConfig() {
-        TrophySlots.startingSlots = config.getInt("startingSlots", Configuration.CATEGORY_GENERAL, 9, 0, 36, translate("config.trophyslots.startingSlots"));
+        TrophySlots.proxy.setStartingSlots(config.getInt("startingSlots", Configuration.CATEGORY_GENERAL, 9, 0, 36, translate("config.trophyslots.startingSlots")));
         TrophySlots.unlockViaAchievements = config.getBoolean("unlockViaAchievements", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.unlockAchieve"));
         TrophySlots.canUseTrophy = config.getBoolean("canUseTrophy", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.canUseTrophy"));
         TrophySlots.canBuyTrophy = config.getBoolean("canBuyTrophies", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.canBuyTrophy"));

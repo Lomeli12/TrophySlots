@@ -11,10 +11,7 @@ import net.minecraftforge.common.AchievementPage;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
@@ -46,7 +43,6 @@ public class TrophySlots {
     public static Config modConfig;
     public static VersionHandler versionHandler;
 
-    public static int startingSlots = 9;
     public static int slotRenderType = 0;
     public static boolean unlockViaAchievements = true;
     public static boolean canUseTrophy = true;
@@ -103,5 +99,10 @@ public class TrophySlots {
     @Mod.EventHandler
     public void serverStopping(FMLServerStoppingEvent event) {
         proxy.reset();
+    }
+
+    @Mod.EventHandler
+    public void serverStarting(FMLServerAboutToStartEvent event) {
+        proxy.resetConfig();
     }
 }

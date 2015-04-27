@@ -100,13 +100,12 @@ public class EventHandlerServer {
 
     @SubscribeEvent
     public void playerJoinedServer(EntityJoinWorldEvent event) {
-        TrophySlots.proxy.resetConfig();
         if (!event.world.isRemote && event.entity != null && event.entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.entity;
             if (player != null && SlotUtil.getSlotsUnlocked(player) > 0) {
                 EntityPlayerMP mp = (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
                 if (mp != null)
-                    TrophySlots.packetHandler.sendTo(new MessageSlotsClient(SlotUtil.getSlotsUnlocked(player), TrophySlots.proxy.unlockReverse()), mp);
+                    TrophySlots.packetHandler.sendTo(new MessageSlotsClient(SlotUtil.getSlotsUnlocked(player), TrophySlots.proxy.unlockReverse(), TrophySlots.proxy.getStartingSlots()), mp);
             }
         }
     }

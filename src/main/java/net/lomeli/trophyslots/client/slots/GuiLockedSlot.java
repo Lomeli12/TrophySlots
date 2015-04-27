@@ -14,15 +14,17 @@ import net.lomeli.trophyslots.client.EventHandlerClient;
 public class GuiLockedSlot extends GuiButton {
 
     private GuiContainer gui;
+    private int slot;
 
-    public GuiLockedSlot(int x, int y, GuiContainer parent) {
+    public GuiLockedSlot(int x, int y, GuiContainer parent, int slot) {
         super(0, x, y, 16, 16, "");
         this.enabled = false;
         this.gui = parent;
+        this.slot = slot;
     }
 
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        if (this.visible) {
+        if (this.visible && !TrophySlots.proxy.slotUnlocked(this.slot)) {
             GL11.glPushMatrix();
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
