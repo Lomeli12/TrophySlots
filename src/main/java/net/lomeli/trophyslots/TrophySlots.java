@@ -1,7 +1,5 @@
 package net.lomeli.trophyslots;
 
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.stats.Achievement;
@@ -20,8 +18,11 @@ import net.lomeli.trophyslots.core.Config;
 import net.lomeli.trophyslots.core.Logger;
 import net.lomeli.trophyslots.core.ModItems;
 import net.lomeli.trophyslots.core.Proxy;
-import net.lomeli.trophyslots.core.handler.VersionHandler;
+import net.lomeli.trophyslots.core.command.CommandTrophySlots;
+import net.lomeli.trophyslots.core.network.MessageOpenWhitelist;
 import net.lomeli.trophyslots.core.network.MessageSlotsClient;
+import net.lomeli.trophyslots.core.network.MessageUpdateWhitelist;
+import net.lomeli.trophyslots.core.version.VersionChecker;
 
 @Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, guiFactory = TrophySlots.FACTORY)
 public class TrophySlots {
@@ -30,7 +31,7 @@ public class TrophySlots {
     public static final String MOD_NAME = "Trophy Slots";
     public static final String slotsUnlocked = MOD_ID + "_slotsUnlocked";
 
-    public static final int MAJOR = 1, MINOR = 2, REV = 5;
+    public static final int MAJOR = 1, MINOR = 3, REV = 0;
     public static final String VERSION = MAJOR + "." + MINOR + "." + REV;
 
     public static final String updateUrl = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/master/update.json";
@@ -41,9 +42,10 @@ public class TrophySlots {
     public static Proxy proxy;
 
     public static Config modConfig;
-    public static VersionHandler versionHandler;
+    public static VersionChecker versionHandler;
 
     public static int slotRenderType = 0;
+    public static int loseSlotNum = 1;
     public static boolean unlockViaAchievements = true;
     public static boolean canUseTrophy = true;
     public static boolean canBuyTrophy = false;
@@ -51,9 +53,8 @@ public class TrophySlots {
     public static boolean checkForUpdates = true;
     public static boolean xmas = true;
     public static boolean useWhiteList = false;
-    public static boolean useBlackList;
+    public static boolean loseSlots = false;
 
-    public static List<String> achievementWhiteList, achievementBlackList;
     public static Achievement firstSlot, maxCapcity;
     public static AchievementPage achievementPage;
     public static boolean debug;
@@ -70,12 +71,14 @@ public class TrophySlots {
 
         modConfig = new Config(event.getSuggestedConfigurationFile());
         modConfig.loadConfig();
-        versionHandler = new VersionHandler(updateUrl, MOD_NAME, MAJOR, MINOR, REV);
+        versionHandler = new VersionChecker(updateUrl, MOD_NAME, MAJOR, MINOR, REV);
         if (checkForUpdates)
             versionHandler.checkForUpdates();
 
         packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID.toLowerCase());
         packetHandler.registerMessage(MessageSlotsClient.class, MessageSlotsClient.class, 0, Side.CLIENT);
+        packetHandler.registerMessage(MessageOpenWhitelist.class, MessageOpenWhitelist.class, 1, Side.CLIENT);
+        packetHandler.registerMessage(MessageUpdateWhitelist.class, MessageUpdateWhitelist.class, 2, Side.CLIENT);
 
         proxy.preInit();
     }
@@ -104,5 +107,10 @@ public class TrophySlots {
     @Mod.EventHandler
     public void serverStarting(FMLServerAboutToStartEvent event) {
         proxy.resetConfig();
+    }
+
+    @Mod.EventHandler
+    public void serverStarting(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandTrophySlots());
     }
 }

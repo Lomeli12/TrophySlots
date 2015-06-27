@@ -8,24 +8,57 @@ config.trophyslots.useWhitelist=Use achievement white list.
 config.trophyslots.whitelist=Place the IDs of the Achievements you want to white list here. Separate IDs using ";". Example: achievement.openInventory;achievement.woodenGear;achievement.wrench
 config.trophyslots.renderLockedSlots=Render settings for locked slots. 0 = Crossed out; 1 = Grayed out; 2 = Grayed and crossed out; 3 = no special rendering.
 config.trophyslots.reverse=Unlocks slots in reverse order (bottom right instead of top left).
+config.trophyslots.loseSlots=Allows you to set whether or not you lose slots on death.
+config.trophyslots.loseSlots.num=The number of slots one loses upon death. If set to -1, they'll lose ALL earned slots.
 
 item.trophyslots.trophy.name=Trophy
 
-msg.trophyslots.unlock=§eYou unlocked an inventory slot! §r§f
-msg.trophyslots.unlockAll=§eAll slots unlocked! §r§f
-msg.trophyslots.villager=§4This trophy was bought from a villager! It cannot be used §4until buying from villagers is enabled! §r§f
-msg.trophyslots.trophy=§4Trophy unlocking disabled! Please enable it to use trophy! §r§f
+msg.trophyslots.unlock=§eYou unlocked an inventory slot!
+msg.trophyslots.unlockSlot=§eYou unlocked %s inventory slots!
+msg.trophyslots.unlockAll=§eAll slots unlocked!
+msg.trophyslots.lostSlot=§4You lost %s slot!
+msg.trophyslots.lostAll=§4All slots have been lost!
+msg.trophyslots.villager=§4This trophy was bought from a villager! It cannot be used §4until buying from villagers is enabled!
+msg.trophyslots.trophy=§4Trophy unlocking disabled! Please enable it to use trophy!
+msg.trophyslots.whitelistGui=Opens a gui to add achievements to an unlock whitelist.
 
 subtext.trophyslots.info=Press <§2§oShift§r§7> for more info.
-subtext.trophyslots.trophy=§6§oUnlocks a slot! §r§f
-subtext.trophyslots.trophy.canUse=§5§oTrophy unlock enabled! §r§f
-subtext.trophyslots.trophy.cannotUse=§4§oTrophy unlock disabled! §r§f
-subtext.torphyslots.trophy.villager=§4§oThis was trophy bought from a villager! §r§f
-subtext.torphyslots.trophy.cheat=§6§oMaster Trophy: Unlocks all slots! §r§f
+subtext.trophyslots.trophy=§6§oUnlocks a slot!
+subtext.trophyslots.trophy.canUse=§5§oTrophy unlock enabled!
+subtext.trophyslots.trophy.cannotUse=§4§oTrophy unlock disabled!
+subtext.torphyslots.trophy.villager=§4§oThis was trophy bought from a villager!
+subtext.torphyslots.trophy.cheat=§6§oMaster Trophy: Unlocks all slots!
 
 achievement.firstSlotAchievement=Pockets
-achievement.firstSlotAchievement.desc=Unlock your first slot. §4(Does NOT unlock a slot) §r§f
+achievement.firstSlotAchievement.desc=Unlock your first slot. §4(Does NOT unlock a slot)
 achievement.maximumCapacityAchievement=Maximum Capacity!
-achievement.maximumCapacityAchievement.desc=Unlock all inventory slots! §4(Does NOT unlock a slot) §r§f
+achievement.maximumCapacityAchievement.desc=Unlock all inventory slots! §4(Does NOT unlock a slot)
 
 update.trophyslots=§1[Trophy Slots] Version %1$s is available at:§1 %2$s
+
+command.trophyslots.usage=/tslots [command]
+
+command.trophyslots.set-slots.usage=/tslots set-slots [player] [numOfSlots]
+command.trophyslots.set-slots.success=Set number of slots %s has unlocked to %s.
+command.trophyslots.set-slots.error=§cNumber of slots must be between 0 and %s.
+
+command.trophyslots.get-slots.usage=/tslots get-slots [player]
+command.trophyslots.get-slots.success=%s has unlocked %s slots.
+
+command.trophyslots.unlock-all.usage=/tslots unlock-all [player]
+command.trophyslots.unlock-all.success=Unlocked all slots for %s.
+command.trophyslots.unlock-all.error=§c%s has unlocked all slots already.
+
+command.trophyslots.unlock-slots.usage=/tslots unlock-slots [player] [numOfSlots]
+command.trophyslots.unlock-slots.success=Unlocked %s slot(s) for %s.
+command.trophyslots.unlock-slots.error=§cNumber of slots must be between 1 and %s.
+command.trophyslots.unlock-slots.error.all=§c%s has unlocked all slots already.
+
+command.trophyslots.remove-all.usage=/tslots remove-all [player]
+command.trophyslots.remove-all.success=Removed all slots from %s.
+command.trophyslots.remove-all.error=§c%s has 0 slots unlocked.
+
+command.trophyslots.remove-slots.usage=/tslots remove-slots [player] [numOfSlots]
+command.trophyslots.remove-slots.success=Removed %s slot(s) from %s.
+command.trophyslots.remove-slots.error=§cNumber of slots must be between 1 and %s.
+command.trophyslots.remove-slots.error.none=§c%s has 0 slots unlocked.

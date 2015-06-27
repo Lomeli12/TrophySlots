@@ -1,5 +1,8 @@
 package net.lomeli.trophyslots.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentTranslation;
@@ -20,6 +23,7 @@ public class Proxy {
     public EventHandlerServer eventHandlerServer;
     protected boolean reverseOrder;
     protected int startingSlots;
+    protected List<String> achievementWhiteList;
 
     public void preInit() {
         ModItems.registerItems();
@@ -47,12 +51,12 @@ public class Proxy {
         if (player != null && !SlotUtil.hasUnlockedAllSlots(player)) {
             int i = SlotUtil.getSlotsUnlocked(player) + 1;
             SlotUtil.setSlotsUnlocked(player, i);
-            player.addChatComponentMessage(new ChatComponentTranslation(i >= 36 ? "msg.trophyslots.unlockAll" : "msg.trophyslots.unlock"));
-            EntityPlayerMP mp = (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
+            player.addChatComponentMessage(new ChatComponentTranslation(i >= SlotUtil.getMaxSlots() ? "msg.trophyslots.unlockAll" : "msg.trophyslots.unlock"));
+            EntityPlayerMP mp = (EntityPlayerMP) (player instanceof EntityPlayerMP ? player : FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID()));
             if (mp != null) {
                 if (!mp.func_147099_x().hasAchievementUnlocked(TrophySlots.firstSlot) && mp.func_147099_x().canUnlockAchievement(TrophySlots.firstSlot))
                     mp.addStat(TrophySlots.firstSlot, 1);
-                if (i >= 36 && !mp.func_147099_x().hasAchievementUnlocked(TrophySlots.maxCapcity) && mp.func_147099_x().canUnlockAchievement(TrophySlots.maxCapcity))
+                if (i >= SlotUtil.getMaxSlots() && !mp.func_147099_x().hasAchievementUnlocked(TrophySlots.maxCapcity) && mp.func_147099_x().canUnlockAchievement(TrophySlots.maxCapcity))
                     mp.addStat(TrophySlots.maxCapcity, 1);
                 TrophySlots.packetHandler.sendTo(new MessageSlotsClient(i), (EntityPlayerMP) player);
             }
@@ -63,13 +67,13 @@ public class Proxy {
 
     public boolean unlockAllSlots(EntityPlayer player) {
         if (player != null && !SlotUtil.hasUnlockedAllSlots(player)) {
-            SlotUtil.setSlotsUnlocked(player, 36);
+            SlotUtil.setSlotsUnlocked(player, SlotUtil.getMaxSlots());
             player.addChatComponentMessage(new ChatComponentTranslation("msg.trophyslots.unlockAll"));
-            EntityPlayerMP mp = (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
+            EntityPlayerMP mp = (EntityPlayerMP) (player instanceof EntityPlayerMP ? player : FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID()));
             if (mp != null) {
                 if (!mp.func_147099_x().hasAchievementUnlocked(TrophySlots.maxCapcity) && mp.func_147099_x().canUnlockAchievement(TrophySlots.maxCapcity))
                     mp.addStat(TrophySlots.maxCapcity, 1);
-                TrophySlots.packetHandler.sendTo(new MessageSlotsClient(36), mp);
+                TrophySlots.packetHandler.sendTo(new MessageSlotsClient(SlotUtil.getMaxSlots()), mp);
             }
             return true;
         }
@@ -111,5 +115,18 @@ public class Proxy {
     }
 
     public void resetConfig() {
+    }
+
+    public void openWhitelistGui() {
+    }
+
+    public List<String> getWhiteList() {
+        if (achievementWhiteList == null)
+            achievementWhiteList = new ArrayList<String>();
+        return achievementWhiteList;
+    }
+
+    public void setWhiteList(List<String> list) {
+        this.achievementWhiteList = list;
     }
 }

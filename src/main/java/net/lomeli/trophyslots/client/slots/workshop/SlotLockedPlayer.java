@@ -32,13 +32,13 @@ public class SlotLockedPlayer extends SlotPlayer {
     }
 
     @Override
-    public boolean isItemValid(ItemStack p_75214_1_) {
-        return TrophySlots.proxy.slotUnlocked(this.getSlotIndex()) ? super.isItemValid(p_75214_1_) : false;
+    public boolean isItemValid(ItemStack stack) {
+        return TrophySlots.proxy.slotUnlocked(this.getSlotIndex()) ? super.isItemValid(stack) : false;
     }
 
     @Override
-    public boolean canTakeStack(EntityPlayer p_82869_1_) {
-        return TrophySlots.proxy.slotUnlocked(this.getSlotIndex()) ? super.canTakeStack(p_82869_1_) : false;
+    public boolean canTakeStack(EntityPlayer player) {
+        return TrophySlots.proxy.slotUnlocked(this.getSlotIndex()) ? super.canTakeStack(player) : false;
     }
 
     @Override

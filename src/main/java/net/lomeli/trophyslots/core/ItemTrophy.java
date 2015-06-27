@@ -42,9 +42,9 @@ public class ItemTrophy extends Item {
     }
 
     @Override
-    public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_) {
-        p_150895_3_.add(new ItemStack(p_150895_1_));
-        p_150895_3_.add(new ItemStack(p_150895_1_, 1, 1));
+    public void getSubItems(Item item, CreativeTabs tab, List list) {
+        list.add(new ItemStack(item));
+        list.add(new ItemStack(item, 1, 1));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ItemTrophy extends Item {
     }
 
     @Override
-    public EnumRarity getRarity(ItemStack p_77613_1_) {
-        return EnumRarity.uncommon;
+    public EnumRarity getRarity(ItemStack stack) {
+        return stack.getItemDamage() == 1 ? EnumRarity.rare : EnumRarity.uncommon;
     }
 }

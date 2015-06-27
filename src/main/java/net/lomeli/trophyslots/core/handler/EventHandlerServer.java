@@ -5,8 +5,12 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.AchievementList;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.StatCollector;
 
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.AchievementEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 
@@ -58,7 +62,7 @@ public class EventHandlerServer {
                 if (playerMP.func_147099_x().canUnlockAchievement(event.achievement) && event.achievement != TrophySlots.firstSlot && event.achievement != TrophySlots.maxCapcity) {
                     if (TrophySlots.disable3 ? (event.achievement == AchievementList.openInventory || event.achievement == AchievementList.mineWood || event.achievement == AchievementList.buildWorkBench) : false)
                         return;
-                    if (TrophySlots.useWhiteList ? TrophySlots.achievementWhiteList.contains(event.achievement.statId) : true)
+                    if (TrophySlots.useWhiteList ? TrophySlots.proxy.getWhiteList().contains(event.achievement.statId) : true)
                         TrophySlots.proxy.unlockSlot(playerMP);
                 }
             }
@@ -106,6 +110,29 @@ public class EventHandlerServer {
                 EntityPlayerMP mp = (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
                 if (mp != null)
                     TrophySlots.packetHandler.sendTo(new MessageSlotsClient(SlotUtil.getSlotsUnlocked(player), TrophySlots.proxy.unlockReverse(), TrophySlots.proxy.getStartingSlots()), mp);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void playerDeath(LivingDeathEvent event) {
+        if (!event.entityLiving.worldObj.isRemote && TrophySlots.loseSlots && event.entityLiving != null) {
+            if (event.entityLiving instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) event.entityLiving;
+                int slots = SlotUtil.getSlotsUnlocked(player);
+                if (slots > 0) {
+                    slots -= TrophySlots.loseSlotNum == -1 ? slots : TrophySlots.loseSlotNum;
+                    if (slots < 0)
+                        slots = 0;
+                    SlotUtil.setSlotsUnlocked(player, slots);
+                    EntityPlayerMP mp = (EntityPlayerMP) FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(player.dimension).func_152378_a(player.getUniqueID());
+                    if (mp != null)
+                        TrophySlots.packetHandler.sendTo(new MessageSlotsClient(slots), mp);
+                    if (TrophySlots.loseSlotNum == -1)
+                        player.addChatMessage(new ChatComponentTranslation("msg.trophyslots.lostAll"));
+                    else
+                        player.addChatMessage(new ChatComponentText(String.format(StatCollector.translateToLocal("msg.trophyslots.lostSlot"), TrophySlots.loseSlotNum)));
+                }
             }
         }
     }

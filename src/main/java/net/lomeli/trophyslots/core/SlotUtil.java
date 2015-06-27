@@ -13,7 +13,7 @@ public class SlotUtil {
     }
 
     public static boolean hasUnlockedAllSlots(EntityPlayer player) {
-        return getSlotsUnlocked(player) >= 36;
+        return getSlotsUnlocked(player) >= getMaxSlots();
     }
 
     public static boolean slotUnlocked(EntityPlayer player, int slotNum) {
@@ -30,5 +30,9 @@ public class SlotUtil {
             tag.setInteger(TrophySlots.slotsUnlocked, slots);
             player.getEntityData().setTag(EntityPlayer.PERSISTED_NBT_TAG, tag);
         }
+    }
+
+    public static int getMaxSlots() {
+        return 36 - TrophySlots.proxy.getStartingSlots();
     }
 }

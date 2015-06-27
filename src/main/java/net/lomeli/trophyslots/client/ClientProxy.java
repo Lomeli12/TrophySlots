@@ -1,8 +1,12 @@
 package net.lomeli.trophyslots.client;
 
+import cpw.mods.fml.client.FMLClientHandler;
+
 import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.client.config.GuiWhitelist;
 import net.lomeli.trophyslots.compat.CompatManager;
 import net.lomeli.trophyslots.core.Proxy;
+import net.lomeli.trophyslots.core.SlotUtil;
 
 public class ClientProxy extends Proxy {
     private int slotsUnlocked;
@@ -45,7 +49,7 @@ public class ClientProxy extends Proxy {
 
     @Override
     public boolean hasUnlockedAllSlots() {
-        return slotsUnlocked >= 36;
+        return slotsUnlocked >= SlotUtil.getMaxSlots();
     }
 
     @Override
@@ -66,5 +70,10 @@ public class ClientProxy extends Proxy {
     @Override
     public void resetConfig() {
         TrophySlots.modConfig.loadConfig();
+    }
+
+    @Override
+    public void openWhitelistGui() {
+        FMLClientHandler.instance().getClient().displayGuiScreen(new GuiWhitelist(FMLClientHandler.instance().getClient().currentScreen));
     }
 }
