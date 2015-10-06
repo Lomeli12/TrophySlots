@@ -3,6 +3,7 @@ package net.lomeli.trophyslots.core.command
 import net.lomeli.trophyslots.TrophySlots
 import net.lomeli.trophyslots.core.SlotUtil
 import net.minecraft.command.CommandBase
+import net.minecraft.command.ICommand
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.util.ChatComponentText
@@ -11,9 +12,7 @@ import net.minecraft.util.StatCollector
 
 public class CommandUnlockAll : CommandBase() {
 
-    override fun getRequiredPermissionLevel(): Int {
-        return 2
-    }
+    override fun getRequiredPermissionLevel(): Int = 2
 
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
         if (sender != null) {
@@ -36,11 +35,11 @@ public class CommandUnlockAll : CommandBase() {
         }
     }
 
-    override fun getCommandUsage(sender: ICommandSender?): String? {
-        return "command.trophyslots.unlock-all.usage";
-    }
+    override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.unlock-all.usage"
 
-    override fun getCommandName(): String? {
-        return "unlock-all"
-    }
+    override fun getCommandName(): String? = "unlock-all"
+
+    override fun compareTo(command: ICommand?): Int = this.commandName!!.compareTo(command!!.commandName)
+
+    override fun compareTo(other: Any?): Int = this.compareTo(other as ICommand)
 }

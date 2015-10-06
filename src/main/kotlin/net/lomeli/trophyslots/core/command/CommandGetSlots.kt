@@ -2,6 +2,7 @@ package net.lomeli.trophyslots.core.command
 
 import net.lomeli.trophyslots.core.SlotUtil
 import net.minecraft.command.CommandBase
+import net.minecraft.command.ICommand
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.util.ChatComponentText
@@ -26,15 +27,13 @@ public class CommandGetSlots : CommandBase() {
         }
     }
 
-    override fun getCommandName(): String? {
-        return "get-slots"
-    }
+    override fun getCommandName(): String? = "get-slots"
 
-    override fun getCommandUsage(sender: ICommandSender?): String? {
-        return "command.trophyslots.get-slots.usage"
-    }
+    override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.get-slots.usage"
 
-    override fun getRequiredPermissionLevel(): Int {
-        return 0
-    }
+    override fun getRequiredPermissionLevel(): Int = 0
+
+    override fun compareTo(command: ICommand?): Int = this.commandName!!.compareTo(command!!.commandName)
+
+    override fun compareTo(other: Any?): Int = this.compareTo(other as ICommand)
 }

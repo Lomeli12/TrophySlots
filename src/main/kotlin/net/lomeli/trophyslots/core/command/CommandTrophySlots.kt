@@ -2,6 +2,7 @@ package net.lomeli.trophyslots.core.command
 
 import com.google.common.collect.Lists
 import net.minecraft.command.CommandBase
+import net.minecraft.command.ICommand
 import net.minecraft.command.ICommandSender
 import net.minecraft.util.BlockPos
 import net.minecraft.util.ChatComponentTranslation
@@ -22,17 +23,11 @@ public class CommandTrophySlots : CommandBase {
             commands.add(commandBase.commandName)
     }
 
-    override fun getCommandName(): String? {
-        return "tslots"
-    }
+    override fun getCommandName(): String? = "tslots"
 
-    override fun getRequiredPermissionLevel(): Int {
-        return 0
-    }
+    override fun getRequiredPermissionLevel(): Int = 0
 
-    override fun getCommandUsage(sender: ICommandSender?): String? {
-        return "command.trophyslots.usage";
-    }
+    override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.usage";
 
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
         if (sender != null) {
@@ -59,4 +54,8 @@ public class CommandTrophySlots : CommandBase {
         }
         return null
     }
+
+    override fun compareTo(command: ICommand?): Int = this.commandName!!.compareTo(command!!.commandName)
+
+    override fun compareTo(other: Any?): Int = this.compareTo(other as ICommand)
 }
