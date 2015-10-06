@@ -20,11 +20,12 @@ import net.lomeli.trophyslots.core.Proxy;
 import net.lomeli.trophyslots.core.network.MessageSlotsClient;
 import net.lomeli.trophyslots.core.version.VersionChecker;
 
-@Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, guiFactory = TrophySlots.FACTORY)
+@Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, guiFactory = TrophySlots.FACTORY, modLanguageAdapter = TrophySlots.KOTLIN_ADAPTER)
 public class TrophySlots {
     public static final String FACTORY = "net.lomeli.trophyslots.client.config.TrophySlotsFactory";
     public static final String MOD_ID = "trophyslots";
     public static final String MOD_NAME = "Trophy Slots";
+    public static final String KOTLIN_ADAPTER = "io.drakon.forgelin.KotlinAdapter";//Using Forgelin until srgExtra is added in FG 2.0.2
     public static final String slotsUnlocked = MOD_ID + "_slotsUnlocked";
 
     public static final int MAJOR = 1, MINOR = 3, REV = 0;
