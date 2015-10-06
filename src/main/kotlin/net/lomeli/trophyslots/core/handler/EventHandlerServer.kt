@@ -59,8 +59,8 @@ public class EventHandlerServer {
 
     @SubscribeEvent public fun achievementGetEvent(event: AchievementEvent) {
         if (!event.isCanceled && !event.entityPlayer.worldObj.isRemote) {
-            val player = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(event.entityPlayer.dimension).getPlayerEntityByUUID(event.entityPlayer.uniqueID);
-            if (player != null && player is EntityPlayerMP) {
+            val player = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(event.entityPlayer.dimension).getPlayerEntityByUUID(event.entityPlayer.uniqueID) as EntityPlayerMP
+            if (player != null) {
                 if (!player.statFile.hasAchievementUnlocked(event.achievement) && TrophySlots.unlockViaAchievements && !SlotUtil.hasUnlockedAllSlots(player)) {
                     if (player.statFile.canUnlockAchievement(event.achievement) && event.achievement != TrophySlots.firstSlot && event.achievement != TrophySlots.maxCapcity) {
                         if (TrophySlots.disable3 && (event.achievement == AchievementList.openInventory || event.achievement == AchievementList.mineWood || event.achievement == AchievementList.buildWorkBench))

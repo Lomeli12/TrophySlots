@@ -63,9 +63,8 @@ public open class Proxy {
             if (player is EntityPlayerMP)
                 sendMessageSlotClient(player, i)
             else {
-                var tempPlayer = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(player.dimension).getPlayerEntityByUUID(player.uniqueID)
-                if (tempPlayer is EntityPlayerMP)
-                    sendMessageSlotClient(tempPlayer, i)
+                var tempPlayer = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(player.dimension).getPlayerEntityByUUID(player.uniqueID) as EntityPlayerMP
+                sendMessageSlotClient(tempPlayer, i)
             }
             return true
         }
@@ -89,9 +88,8 @@ public open class Proxy {
             if (player is EntityPlayerMP)
                 sendMessageSlotClient(player, SlotUtil.getMaxSlots())
             else {
-                var tempPlayer = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(player.dimension).getPlayerEntityByUUID(player.uniqueID)
-                if (tempPlayer is EntityPlayerMP)
-                    sendMessageSlotClient(tempPlayer, SlotUtil.getMaxSlots())
+                var tempPlayer = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(player.dimension).getPlayerEntityByUUID(player.uniqueID) as EntityPlayerMP
+                sendMessageSlotClient(tempPlayer, SlotUtil.getMaxSlots())
             }
             return true
         }
