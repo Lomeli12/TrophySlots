@@ -43,9 +43,7 @@ public class Config {
         }
     }
 
-    public fun translate(st: String): String {
-        return StatCollector.translateToLocal(st);
-    }
+    public fun translate(st: String): String = StatCollector.translateToLocal(st)
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent

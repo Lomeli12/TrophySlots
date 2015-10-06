@@ -25,10 +25,10 @@ public class CommandUnlockAll : CommandBase() {
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 if (player != null) {
                     if (SlotUtil.hasUnlockedAllSlots(player))
-                        sender.addChatMessage(ChatComponentText(String().format(StatCollector.translateToLocal("command.trophyslots.unlock-all.error"), player.displayName)));
+                        sender.addChatMessage(ChatComponentText(StatCollector.translateToLocal("command.trophyslots.unlock-all.error").format(player.displayName.unformattedText)));
                     else {
                         TrophySlots.proxy?.unlockAllSlots(player);
-                        sender.addChatMessage(ChatComponentText(String().format(StatCollector.translateToLocal("command.trophyslots.unlock-all.success"), player.displayName)));
+                        sender.addChatMessage(ChatComponentText(StatCollector.translateToLocal("command.trophyslots.unlock-all.success").format(player.displayName.unformattedText)));
                     }
                 }
             } else

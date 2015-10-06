@@ -12,14 +12,14 @@ public class CommandGetSlots : CommandBase() {
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
         if (sender != null) {
             if (args != null && (args.size() == 1 || args.size() == 2)) {
-                val player : EntityPlayerMP
+                val player: EntityPlayerMP
                 if (args.size() == 2)
                     player = CommandBase.getPlayer(sender, args.get(1))
                 else
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 if (player != null) {
                     val slots = SlotUtil.getSlotsUnlocked(player);
-                    sender.addChatMessage(ChatComponentText(String().format(StatCollector.translateToLocal("command.trophyslots.get-slots.success"), player.displayName, slots)));
+                    sender.addChatMessage(ChatComponentText(StatCollector.translateToLocal("command.trophyslots.get-slots.success").format(player.displayName.unformattedText, "$slots")));
                 }
             } else
                 sender.addChatMessage(ChatComponentTranslation(getCommandUsage(sender)));

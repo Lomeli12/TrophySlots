@@ -22,9 +22,7 @@ public class ClientProxy : Proxy() {
         super.postInit()
     }
 
-    override fun getSlotsUnlocked(): Int {
-        return slotsUnlocked
-    }
+    override fun getSlotsUnlocked(): Int = slotsUnlocked
 
     override fun setSlotsUnlocked(i0: Int) {
         slotsUnlocked = i0
@@ -41,9 +39,7 @@ public class ClientProxy : Proxy() {
         return true
     }
 
-    override fun hasUnlockedAllSlots(): Boolean {
-        return slotsUnlocked >= SlotUtil.getMaxSlots()
-    }
+    override fun hasUnlockedAllSlots(): Boolean = slotsUnlocked >= SlotUtil.getMaxSlots()
 
     override fun reset() {
         slotsUnlocked = 0

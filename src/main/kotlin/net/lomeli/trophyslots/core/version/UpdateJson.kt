@@ -24,31 +24,17 @@ public class UpdateJson {
         }
     }
 
-    fun getMajor(): Int {
-        return major
-    }
+    fun getMajor(): Int = major
 
-    fun getMinor(): Int {
-        return minor
-    }
+    fun getMinor(): Int = minor
 
-    fun getRevision(): Int {
-        return revision
-    }
+    fun getRevision(): Int = revision
 
-    fun getDownloadURL(): String {
-        return downloadURL
-    }
+    fun getDownloadURL(): String = downloadURL
 
-    fun isDirect(): Boolean {
-        return direct
-    }
+    fun isDirect(): Boolean = direct
 
-    fun getChangeLog(): List<String> {
-        return changeLog
-    }
+    fun getChangeLog(): List<String> = changeLog
 
-    fun getVersion(): String {
-        return "$major.$minor.$revision"
-    }
+    fun getVersion(): String = "$major.$minor.$revision"
 }

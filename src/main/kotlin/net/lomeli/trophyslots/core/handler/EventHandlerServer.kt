@@ -22,8 +22,7 @@ public class EventHandlerServer {
     public fun searchForPossibleSlot(stack: ItemStack, player: EntityPlayer): Int {
         if (player != null) {
             val inventoryPlayer = player.inventory
-            var i = 0;
-            while (i < inventoryPlayer.sizeInventory - 4) {
+            for (i in inventoryPlayer.mainInventory.indices) {
                 val item = inventoryPlayer.getStackInSlot(i)
                 if (SlotUtil.slotUnlocked(player, i)) {
                     if (item == null || item.item == null)
@@ -31,7 +30,6 @@ public class EventHandlerServer {
                     else if (doStackMatch(stack, item) && (item.stackSize + stack.stackSize) < item.maxStackSize)
                         return i
                 }
-                i++
             }
         }
         return -1
@@ -39,12 +37,10 @@ public class EventHandlerServer {
 
     public fun findNextEmptySlot(player: EntityPlayer): Int {
         if (player != null) {
-            var i = 0
-            while (i < player.inventory.sizeInventory - 4) {
+            for (i in player.inventory.mainInventory.indices) {
                 val item = player.inventory.getStackInSlot(i)
                 if (item == null && SlotUtil.slotUnlocked(player, i))
                     return i
-                i++
             }
         }
         return -1
@@ -79,8 +75,7 @@ public class EventHandlerServer {
     @SubscribeEvent public fun playerTickEvent(event: TickEvent.PlayerTickEvent) {
         val player = event.player
         if (player != null && !player.worldObj.isRemote && !player.capabilities.isCreativeMode && !SlotUtil.hasUnlockedAllSlots(player) && event.phase == TickEvent.Phase.END) {
-            var i = 0
-            while (i < player.inventory.sizeInventory - 4) {
+            for (i in player.inventory.mainInventory.indices) {
                 val stack = player.inventory.getStackInSlot(i)
                 if (stack != null && stack.item != null) {
                     if (!SlotUtil.slotUnlocked(player, i)) {
@@ -107,17 +102,17 @@ public class EventHandlerServer {
     }
 
     @SubscribeEvent public fun playerJoinedServer(event: EntityJoinWorldEvent) {
-        if (!event.world.isRemote && event.entity != null && event.entity is EntityPlayerMP) {
-            val player = event.entity
+        if (!event.world.isRemote && event.entity != null && event.entity is EntityPlayer) {
+            val player = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(event.entity.dimension).getPlayerEntityByUUID(event.entity.uniqueID) as EntityPlayerMP
             if (SlotUtil.getSlotsUnlocked(player) > 0)
                 TrophySlots.packetHandler?.sendTo(MessageSlotsClient(SlotUtil.getSlotsUnlocked(player), TrophySlots.proxy!!.unlockReverse(), TrophySlots.proxy!!.startingSlots), player)
         }
     }
 
     @SubscribeEvent public fun playerDeath(event: LivingDeathEvent) {
-        if (!event.entityLiving.worldObj.isRemote && TrophySlots.loseSlots && event.entityLiving != null) {
-            if (event.entityLiving is EntityPlayerMP) {
-                val player = event.entityLiving
+        if (event.entityLiving != null && !event.entityLiving.worldObj.isRemote && TrophySlots.loseSlots) {
+            if (event.entityLiving is EntityPlayer) {
+                val player = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(event.entityLiving.dimension).getPlayerEntityByUUID(event.entityLiving.uniqueID) as EntityPlayerMP
                 var slots = SlotUtil.getSlotsUnlocked(player)
                 if (slots > 0) {
                     if (TrophySlots.loseSlotNum == -1)
@@ -129,7 +124,7 @@ public class EventHandlerServer {
                     if (TrophySlots.loseSlotNum == -1)
                         player.addChatMessage(ChatComponentTranslation("msg.trophyslots.lostAll"))
                     else
-                        player.addChatMessage(ChatComponentText(String().format(StatCollector.translateToLocal("msg.trophyslots.lostSlot"), TrophySlots.loseSlotNum)))
+                        player.addChatMessage(ChatComponentText(StatCollector.translateToLocal("msg.trophyslots.lostSlot").format(TrophySlots.loseSlotNum)))
                 }
             }
         }

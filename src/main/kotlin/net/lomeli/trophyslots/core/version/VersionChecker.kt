@@ -71,17 +71,15 @@ public class VersionChecker {
                     this.doneTelling = false
                     sendMessage()
                 } else
-                    Logger.logInfo("Using latest version of " + this.modname)
+                    Logger.logInfo("Using latest version of $modname")
             }
         } catch (e: Exception) {
-            Logger.logError("Could not check for updates for " + this.modname + "!")
+            Logger.logError("Could not check for updates for $modname!")
         }
 
     }
 
-    private fun translate(unlocalized: String): String {
-        return StatCollector.translateToLocal(unlocalized)
-    }
+    private fun translate(unlocalized: String): String = StatCollector.translateToLocal(unlocalized)
 
     private fun sendMessage() {
         if (Loader.isModLoaded("VersionChecker")) {
@@ -98,7 +96,7 @@ public class VersionChecker {
             tag.setString("changeLog", changeLog)
             FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag)
         }
-        Logger.logInfo(String().format(translate("update.trophyslots"), this.version, this.downloadURL))
+        Logger.logInfo(translate("update.trophyslots").format(this.version, this.downloadURL))
     }
 
     @SubscribeEvent
@@ -107,7 +105,7 @@ public class VersionChecker {
         if (event.phase == TickEvent.Phase.END && FMLClientHandler.instance().client.thePlayer != null) {
             val player = FMLClientHandler.instance().client.thePlayer
             if (!this.doneTelling) {
-                player.addChatComponentMessage(ChatComponentText(String().format(translate("update.trophyslots"), this.version, this.downloadURL)))
+                player.addChatComponentMessage(ChatComponentText(translate("update.trophyslots").format(this.version, this.downloadURL)))
                 this.doneTelling = true
             }
         }
