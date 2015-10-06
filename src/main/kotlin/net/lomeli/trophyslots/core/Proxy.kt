@@ -2,6 +2,7 @@ package net.lomeli.trophyslots.core
 
 import com.google.common.collect.Lists
 import net.lomeli.trophyslots.TrophySlots
+import net.lomeli.trophyslots.core.handler.EventHandlerServer
 import net.lomeli.trophyslots.core.network.MessageSlotsClient
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
@@ -11,37 +12,35 @@ import net.minecraftforge.fml.common.FMLCommonHandler
 
 public open class Proxy {
     protected var reverseOrder = false
-    public var startingSlots = 9
+    var startingSlots : Int = 9
     protected var achievementWhiteList: List<String> = Lists.newArrayList()
 
     public open fun preInit() {
+        Logger.logInfo("Pre-Init")
         ModItems.registerItems()
         //TODO: Villager stuff once VillagerRegistry is back
     }
 
     public open fun init() {
-
+        Logger.logInfo("Init")
+        val eventHandlerServer = EventHandlerServer()
+        registerFMLEvent(eventHandlerServer)
+        registerForgeEvent(eventHandlerServer)
     }
 
     public open fun postInit() {
-
+        Logger.logInfo("Post-Init")
     }
 
-    public fun unlockReverse(): Boolean {
-        return reverseOrder
-    }
+    public fun unlockReverse(): Boolean = reverseOrder
 
     public fun setReverse(bool: Boolean) {
         reverseOrder = bool
     }
 
-    protected fun registerFMLEvent(obj: Object) {
-        FMLCommonHandler.instance().bus().register(obj)
-    }
+    protected fun registerFMLEvent(obj: Any) = FMLCommonHandler.instance().bus().register(obj)
 
-    protected fun registerForgeEvent(obj: Object) {
-        MinecraftForge.EVENT_BUS.register(obj)
-    }
+    protected fun registerForgeEvent(obj: Any) = MinecraftForge.EVENT_BUS.register(obj)
 
     public fun getWhiteList(): List<String> {
         if (achievementWhiteList == null)
@@ -79,7 +78,7 @@ public open class Proxy {
                 mp.addStat(TrophySlots.firstSlot, 1);
             if (slots >= SlotUtil.getMaxSlots() && !mp.statFile.hasAchievementUnlocked(TrophySlots.maxCapcity) && mp.statFile.canUnlockAchievement(TrophySlots.maxCapcity))
                 mp.addStat(TrophySlots.maxCapcity, 1);
-            TrophySlots.packetHandler.sendTo(MessageSlotsClient(slots), mp)
+            TrophySlots.packetHandler?.sendTo(MessageSlotsClient(slots), mp)
         }
     }
 
@@ -99,20 +98,14 @@ public open class Proxy {
         return false;
     }
 
-    public open fun getSlotsUnlocked(): Int {
-        return 0
-    }
+    public open fun getSlotsUnlocked(): Int = 0
 
     public open fun setSlotsUnlocked(i0: Int) {
     }
 
-    public open fun slotUnlocked(slot: Int): Boolean {
-        return false
-    }
+    public open fun slotUnlocked(slot: Int): Boolean = false
 
-    public open fun hasUnlockedAllSlots(): Boolean {
-        return false
-    }
+    public open fun hasUnlockedAllSlots(): Boolean = false
 
     public open fun reset() {
 

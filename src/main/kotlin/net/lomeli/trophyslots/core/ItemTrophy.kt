@@ -49,12 +49,12 @@ public class ItemTrophy : Item {
                 player.addChatComponentMessage(ChatComponentTranslation("msg.trophyslots.trophy"))
             else {
                 if (stack.itemDamage == 0) {
-                    if (TrophySlots.proxy.unlockSlot(player)) {
+                    if (TrophySlots.proxy!!.unlockSlot(player)) {
                         if (!player.capabilities.isCreativeMode)
                             stack.stackSize--
                     }
                 } else {
-                    if (TrophySlots.proxy.unlockAllSlots(player)) {
+                    if (TrophySlots.proxy!!.unlockAllSlots(player)) {
                         if (!player.capabilities.isCreativeMode)
                             stack.stackSize--
                     }

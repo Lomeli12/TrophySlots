@@ -47,10 +47,10 @@ public class MessageSlotsClient : IMessage, IMessageHandler<MessageSlotsClient, 
 
     override fun onMessage(message: MessageSlotsClient?, ctx: MessageContext?): IMessage? {
         if (message != null) {
-            TrophySlots.proxy.setSlotsUnlocked(message.slots)
+            TrophySlots.proxy?.setSlotsUnlocked(message.slots)
             if (message.setOrder) {
-                TrophySlots.proxy.setReverse(message.reverse)
-                TrophySlots.proxy.startingSlots = message.startingSlots
+                TrophySlots.proxy?.setReverse(message.reverse)
+                TrophySlots.proxy?.startingSlots = message.startingSlots
             }
         }
         return null

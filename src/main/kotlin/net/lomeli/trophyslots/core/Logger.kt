@@ -5,10 +5,14 @@ import org.apache.logging.log4j.Level
 import net.minecraftforge.fml.common.FMLLog
 
 import net.lomeli.trophyslots.TrophySlots
+import org.apache.logging.log4j.LogManager
 
 public object Logger {
+    private val logger = LogManager.getLogger(TrophySlots.MOD_NAME)
+
     public fun log(logLevel:Level, message:Any) {
-        FMLLog.log(TrophySlots.MOD_ID, logLevel, message.toString())
+        val j = message.toString()
+        logger.log(logLevel, "[${TrophySlots.MOD_NAME}] : $j")
     }
 
     public fun logWarning(message:Any) {
