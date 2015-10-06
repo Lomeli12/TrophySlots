@@ -32,14 +32,16 @@ loadProperties 'build.properties'
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'kotlin'
 
+/* Waiting for pull #268 of ForgeGradle to be pulled https://github.com/MinecraftForge/ForgeGradle/pull/268
 configurations {
     shade
     compile.extendsFrom shade
 }
+*/
 
 dependencies {
-    shade "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    shade "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 }
 
 group = "$modGroup"
@@ -73,14 +75,16 @@ processResources {
 
 jar {
     // Shading
+    /* Waiting for pull #268 of ForgeGradle to be pulled https://github.com/MinecraftForge/ForgeGradle/pull/268
     configurations.shade.each { dep ->
         from(project.zipTree(dep)){
             exclude 'META-INF', 'META-INF/**'
         }
     }
+    */
 	appendix = "$mcVersion"
     classifier = "universal"
 }
 
 // Waiting for pull #268 of ForgeGradle to be pulled https://github.com/MinecraftForge/ForgeGradle/pull/268
-reobf.jar.srgExtra 'PK: kotlin net/lomeli/trophyslots/repack/kotlin'
+// reobf.jar.srgExtra 'PK: kotlin net/lomeli/trophyslots/repack/kotlin'

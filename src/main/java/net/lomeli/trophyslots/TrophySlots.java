@@ -20,7 +20,7 @@ import net.lomeli.trophyslots.core.Proxy;
 import net.lomeli.trophyslots.core.network.MessageSlotsClient;
 import net.lomeli.trophyslots.core.version.VersionChecker;
 
-@Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, guiFactory = TrophySlots.FACTORY, modLanguageAdapter = TrophySlots.KOTLIN_ADAPTER)
+@Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, guiFactory = TrophySlots.FACTORY, modLanguageAdapter = TrophySlots.KOTLIN_ADAPTER, dependencies = "required-after:Forgelin;")
 public class TrophySlots {
     public static final String FACTORY = "net.lomeli.trophyslots.client.config.TrophySlotsFactory";
     public static final String MOD_ID = "trophyslots";
