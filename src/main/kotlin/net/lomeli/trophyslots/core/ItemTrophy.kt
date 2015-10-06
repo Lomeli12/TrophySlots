@@ -34,15 +34,15 @@ public class ItemTrophy : Item {
         }
     }
 
-    override fun getSubItems(item: Item, tab: CreativeTabs, subItems: MutableList<Any?>) {
-        if (subItems != null) {
+    override fun getSubItems(item: Item?, tab: CreativeTabs?, subItems: MutableList<Any?>?) {
+        if (subItems != null && item != null) {
             subItems.add(ItemStack(item))
             subItems.add(ItemStack(item, 1, 1))
         }
     }
 
-    override fun onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer): ItemStack {
-        if (!world.isRemote) {
+    override fun onItemRightClick(stack: ItemStack?, world: World?, player: EntityPlayer?): ItemStack? {
+        if (world != null && !world.isRemote && stack != null && player != null) {
             if (!TrophySlots.canBuyTrophy && fromVillager(stack))
                 player.addChatComponentMessage(ChatComponentTranslation("msg.trophyslots.villager"))
             else if (!TrophySlots.canUseTrophy)
@@ -61,12 +61,11 @@ public class ItemTrophy : Item {
                 }
             }
         }
-        return stack
+        return stack;
     }
 
-    @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, player: EntityPlayer?, tooltip: MutableList<Any?>?, advanced: Boolean) {
-        if (tooltip == null)
+    @SideOnly(Side.CLIENT) override fun addInformation(stack: ItemStack?, player: EntityPlayer?, tooltip: MutableList<Any?>?, advanced: Boolean) {
+        if (tooltip == null || stack == null)
             return
         if (stack.itemDamage == 0) {
             if (safeKeyDown(Keyboard.KEY_LSHIFT)) {
@@ -93,7 +92,9 @@ public class ItemTrophy : Item {
         }
     }
 
-    override fun getRarity(stack: ItemStack): EnumRarity? {
+    override fun getRarity(stack: ItemStack?): EnumRarity? {
+        if (stack == null)
+            return EnumRarity.COMMON
         if (stack.itemDamage == 1)
             return EnumRarity.RARE
         return EnumRarity.UNCOMMON

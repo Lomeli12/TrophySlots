@@ -1,6 +1,9 @@
 package net.lomeli.trophyslots.client
 
+import net.lomeli.trophyslots.TrophySlots
+import net.lomeli.trophyslots.core.ModItems
 import net.lomeli.trophyslots.core.Proxy
+import net.minecraft.client.Minecraft
 
 public class ClientProxy : Proxy() {
     override fun preInit() {
@@ -9,6 +12,7 @@ public class ClientProxy : Proxy() {
 
     override fun init() {
         super.init()
+        Minecraft.getMinecraft().renderItem.itemModelMesher.register(ModItems.trophy, BasicItemMesh("${TrophySlots.MOD_ID}:trophy"));
     }
 
     override fun postInit() {
