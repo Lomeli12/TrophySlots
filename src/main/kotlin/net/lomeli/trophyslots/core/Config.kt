@@ -1,33 +1,23 @@
-package net.lomeli.trophyslots.core;
+package net.lomeli.trophyslots.core
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.util.StatCollector;
-
-import net.minecraftforge.common.config.Configuration;
-
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.TrophySlots
+import net.minecraft.util.StatCollector
+import net.minecraftforge.common.config.Configuration
+import net.minecraftforge.fml.client.event.ConfigChangedEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
+import java.io.File
 
 public class Config {
-    private Configuration config;
+    val config: Configuration
 
-    public Config(File file) {
-        config = new Configuration(file);
+    constructor(file: File) {
+        config = Configuration(file)
     }
 
-    public Configuration getConfig() {
-        return config;
-    }
-
-    public void loadConfig() {
-        TrophySlots.proxy.setStartingSlots(config.getInt("startingSlots", Configuration.CATEGORY_GENERAL, 9, 0, 36, translate("config.trophyslots.startingSlots")));
+    public fun loadConfig() {
+        TrophySlots.proxy.startingSlots = config.getInt("startingSlots", Configuration.CATEGORY_GENERAL, 9, 0, 36, translate("config.trophyslots.startingSlots"));
         TrophySlots.unlockViaAchievements = config.getBoolean("unlockViaAchievements", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.unlockAchieve"));
         TrophySlots.canUseTrophy = config.getBoolean("canUseTrophy", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.canUseTrophy"));
         TrophySlots.canBuyTrophy = config.getBoolean("canBuyTrophies", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.canBuyTrophy"));
@@ -38,34 +28,29 @@ public class Config {
         TrophySlots.proxy.setReverse(config.getBoolean("reverseUnlock", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.reverse")));
         TrophySlots.loseSlots = config.getBoolean("loseSlotsOnDeath", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.loseSlots"));
         TrophySlots.loseSlotNum = config.getInt("slotsLost", Configuration.CATEGORY_GENERAL, 1, -1, 36, translate("config.trophyslots.loseSlots.num"));
-        String whiteList = config.getString("WhiteList", Configuration.CATEGORY_GENERAL, "", translate("config.trophyslots.whitelist"));
-
-        TrophySlots.xmas = config.getBoolean("xmas", Configuration.CATEGORY_GENERAL, true, "");
+        var whiteList = config.getString("WhiteList", Configuration.CATEGORY_GENERAL, "", translate("config.trophyslots.whitelist"));
 
         if (TrophySlots.useWhiteList)
-            fillWhitelist(whiteList);
+            fillWhiteList(whiteList)
         if (config.hasChanged())
-            config.save();
+            config.save()
     }
 
-    public void fillWhitelist(String whiteList) {
-        String[] achievementIDs = whiteList.split(";");
-        List<String> list = new ArrayList<String>();
-        if (achievementIDs != null && achievementIDs.length > 0) {
-            for (String id : achievementIDs)
-                list.add(id);
+    public fun fillWhiteList(whiteList: String) {
+        var achievementIDs = whiteList.split(";")
+        if (achievementIDs != null && achievementIDs.size() > 0) {
+            TrophySlots.proxy.setWhiteList(achievementIDs)
         }
-        TrophySlots.proxy.setWhiteList(list);
     }
 
-    public String translate(String st) {
+    public fun translate(st: String): String {
         return StatCollector.translateToLocal(st);
     }
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
-    public void onConfigChange(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        if (eventArgs.modID.equalsIgnoreCase(TrophySlots.MOD_ID))
-            TrophySlots.modConfig.loadConfig();
+    public fun onConfigChange(event: ConfigChangedEvent.OnConfigChangedEvent) {
+        if (event.modID.equals(TrophySlots.MOD_ID))
+            TrophySlots.modConfig.loadConfig()
     }
 }

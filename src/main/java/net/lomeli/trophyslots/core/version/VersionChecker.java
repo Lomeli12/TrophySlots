@@ -10,17 +10,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import net.lomeli.trophyslots.core.Logger;
-
-import static cpw.mods.fml.relauncher.Side.CLIENT;
 
 /**
  * An example of the JSON file you'll need online can be seen <a href="http://paste.ubuntu.com/10992152/">here</a> (now with comments!)
@@ -49,7 +48,7 @@ public class VersionChecker {
 
     public void checkForUpdates() {
         try {
-            Logger.logInfo("Checking for updates...");
+            Logger.INSTANCE$.logInfo("Checking for updates...");
             URL url = new URL(this.jsonURL);
             Gson gson = new Gson();
             UpdateJson update = gson.fromJson(new InputStreamReader(url.openStream()), UpdateJson.class);
@@ -61,7 +60,7 @@ public class VersionChecker {
                             this.needsUpdate = false;
                         else {
                             if (this.mod_minor >= update.getMinor())
-                               this.needsUpdate = this.mod_major < update.getMajor();
+                                this.needsUpdate = this.mod_major < update.getMajor();
                         }
                     } else
                         this.needsUpdate = this.mod_major < update.getMajor();
@@ -74,10 +73,10 @@ public class VersionChecker {
                     this.doneTelling = false;
                     sendMessage();
                 } else
-                    Logger.logInfo("Using latest version of " + this.modname);
+                    Logger.INSTANCE$.logInfo("Using latest version of " + this.modname);
             }
         } catch (Exception e) {
-            Logger.logError("Could not check for updates for " + this.modname + "!");
+            Logger.INSTANCE$.logError("Could not check for updates for " + this.modname + "!");
         }
     }
 
@@ -100,11 +99,11 @@ public class VersionChecker {
             tag.setString("changeLog", changeLog);
             FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag);
         }
-        Logger.logInfo(String.format(translate("update.trophyslots"), this.version, this.downloadURL));
+        Logger.INSTANCE$.logInfo(String.format(translate("update.trophyslots"), this.version, this.downloadURL));
     }
 
     @SubscribeEvent
-    @SideOnly(CLIENT)
+    @SideOnly(Side.CLIENT)
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END && FMLClientHandler.instance().getClient().thePlayer != null) {
             EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;

@@ -6,22 +6,18 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.IChatComponent;
 
 import net.minecraftforge.common.AchievementPage;
-
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 import net.lomeli.trophyslots.core.Config;
 import net.lomeli.trophyslots.core.Logger;
 import net.lomeli.trophyslots.core.ModItems;
 import net.lomeli.trophyslots.core.Proxy;
-import net.lomeli.trophyslots.core.command.CommandTrophySlots;
-import net.lomeli.trophyslots.core.network.MessageOpenWhitelist;
 import net.lomeli.trophyslots.core.network.MessageSlotsClient;
-import net.lomeli.trophyslots.core.network.MessageUpdateWhitelist;
 import net.lomeli.trophyslots.core.version.VersionChecker;
 
 @Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, guiFactory = TrophySlots.FACTORY)
@@ -39,7 +35,7 @@ public class TrophySlots {
     public static SimpleNetworkWrapper packetHandler;
 
     @SidedProxy(clientSide = "net.lomeli.trophyslots.client.ClientProxy", serverSide = "net.lomeli.trophyslots.core.Proxy")
-    public static Proxy proxy;
+    public static Proxy proxy = null;
 
     public static Config modConfig;
     public static VersionChecker versionHandler;
@@ -64,7 +60,7 @@ public class TrophySlots {
         try {
             EntityPlayer.class.getMethod("addChatComponentMessage", IChatComponent.class);
             debug = true;
-            Logger.logInfo("Dev environment, enabled logging!");
+            Logger.INSTANCE$.logInfo("Dev environment, enabled logging!");
         } catch (Exception e) {
             debug = false;
         }
@@ -77,18 +73,19 @@ public class TrophySlots {
 
         packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID.toLowerCase());
         packetHandler.registerMessage(MessageSlotsClient.class, MessageSlotsClient.class, 0, Side.CLIENT);
-        packetHandler.registerMessage(MessageOpenWhitelist.class, MessageOpenWhitelist.class, 1, Side.CLIENT);
-        packetHandler.registerMessage(MessageUpdateWhitelist.class, MessageUpdateWhitelist.class, 2, Side.CLIENT);
+        //packetHandler.registerMessage(MessageOpenWhitelist.class, MessageOpenWhitelist.class, 1, Side.CLIENT);
+        //packetHandler.registerMessage(MessageUpdateWhitelist.class, MessageUpdateWhitelist.class, 2, Side.CLIENT);
 
         proxy.preInit();
+
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init();
 
-        firstSlot = new Achievement("achievement.trophyslots.firstSlot", "firstSlotAchievement", 0, 0, Blocks.chest, null).registerStat();
-        maxCapcity = new Achievement("achievement.trophyslots.maximumCapacity", "maximumCapacityAchievement", 2, 0, ModItems.trophy, firstSlot).registerStat();
+        firstSlot = (Achievement) new Achievement("achievement.trophyslots.firstSlot", "firstSlotAchievement", 0, 0, Blocks.chest, null).registerStat();
+        maxCapcity = (Achievement) new Achievement("achievement.trophyslots.maximumCapacity", "maximumCapacityAchievement", 2, 0, ModItems.trophy, firstSlot).registerStat();
 
         achievementPage = new AchievementPage(MOD_NAME, firstSlot, maxCapcity);
         AchievementPage.registerAchievementPage(achievementPage);
@@ -111,6 +108,6 @@ public class TrophySlots {
 
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new CommandTrophySlots());
+        //event.registerServerCommand(new CommandTrophySlots());
     }
 }
