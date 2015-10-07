@@ -22,16 +22,17 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper
 import net.minecraftforge.fml.relauncher.Side
 
 
-@Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, guiFactory = TrophySlots.FACTORY, modLanguageAdapter = TrophySlots.KOTLIN_ADAPTER, dependencies = "required-after:Forgelin;")
+@Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, dependencies = TrophySlots.DEPENDENCIES, guiFactory = TrophySlots.FACTORY, modLanguageAdapter = TrophySlots.KOTLIN_ADAPTER)
 public object TrophySlots {
     const val FACTORY = "net.lomeli.trophyslots.client.config.TrophySlotsFactory"
-    const val MOD_ID = "trophyslots"
+    const val MOD_ID: String = "trophyslots"
     const val MOD_NAME = "Trophy Slots"
     const val KOTLIN_ADAPTER = "io.drakon.forgelin.KotlinAdapter"//Using Forgelin until srgExtra is added in FG 2.0.2
     const val MAJOR = 2
     const val MINOR = 0
     const val REV = 0
     const val VERSION = "$MAJOR.$MINOR.$REV"
+    const val DEPENDENCIES = "required-after:Forgelin;"
     const val updateUrl = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/master/update.json"
     const val slotsUnlocked = "$MOD_ID" + "_slotsUnlocked"
 
@@ -74,7 +75,7 @@ public object TrophySlots {
         if (checkForUpdates)
             versionHandler?.checkForUpdates()
 
-        packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID.toLowerCase())
+        packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID)
         packetHandler?.registerMessage(MessageSlotsClient::class.java, MessageSlotsClient::class.java, 0, Side.CLIENT)
         packetHandler?.registerMessage(MessageOpenWhitelist::class.java, MessageOpenWhitelist::class.java, 1, Side.CLIENT)
         packetHandler?.registerMessage(MessageUpdateWhitelist::class.java, MessageUpdateWhitelist::class.java, 2, Side.CLIENT)

@@ -84,6 +84,9 @@ jar {
     */
 	appendix = "$mcVersion"
     classifier = "universal"
+    manifest {
+        attributes("FMLAT" : "trophyslots_at.cfg")
+    }
 }
 
 // Waiting for pull #268 of ForgeGradle to be pulled https://github.com/MinecraftForge/ForgeGradle/pull/268
