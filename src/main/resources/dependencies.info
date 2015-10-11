@@ -1,8 +1,8 @@
 {
 	"repo": "http://lomeli12.net/maven/io/drakon/Forgelin/1.8-0.1.0-0.14.449/",
-	"packed": "lib/",
-	"file": "Forgelin-1.8-0.1.0-0.14.449.jar",
-	"dev": "Forgelin-1.8-0.1.0-0.14.449.jar",
-	"class": "io.drakon.forgelin.CorePlugin",
-	"coreLib": true
-}
+ 	"packed": "lib/",
+ 	"file": "Forgelin-1.8-0.1.0-0.14.449.jar",
+ 	"dev": "Forgelin-1.8-0.1.0-0.14.449-dev.jar",
+ 	"class": "io.drakon.forgelin.CorePlugin",
+ 	"coreLib": true
+ }
