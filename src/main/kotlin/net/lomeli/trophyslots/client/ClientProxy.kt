@@ -1,6 +1,7 @@
 package net.lomeli.trophyslots.client
 
 import net.lomeli.trophyslots.TrophySlots
+import net.lomeli.trophyslots.compat.CompatManager
 import net.lomeli.trophyslots.core.ModItems
 import net.lomeli.trophyslots.core.Proxy
 import net.lomeli.trophyslots.core.SlotUtil
@@ -16,10 +17,13 @@ public class ClientProxy : Proxy() {
     override fun init() {
         super.init()
         Minecraft.getMinecraft().renderItem.itemModelMesher.register(ModItems.trophy, BasicItemMesh("${TrophySlots.MOD_ID}:trophy"));
+        registerForgeEvent(EventHandlerClient)
+        registerFMLEvent(TrophySlots.modConfig!!)
     }
 
     override fun postInit() {
         super.postInit()
+        CompatManager.initCompatModules()
     }
 
     override fun getSlotsUnlocked(): Int = slotsUnlocked

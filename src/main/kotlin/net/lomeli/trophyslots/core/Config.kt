@@ -38,9 +38,8 @@ public class Config {
 
     public fun fillWhiteList(whiteList: String) {
         var achievementIDs = whiteList.split(";")
-        if (achievementIDs != null && achievementIDs.size() > 0) {
+        if (achievementIDs != null && achievementIDs.size() > 0)
             TrophySlots.proxy?.setWhiteList(achievementIDs)
-        }
     }
 
     public fun translate(st: String): String = StatCollector.translateToLocal(st)
