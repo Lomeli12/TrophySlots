@@ -21,7 +21,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper
 import net.minecraftforge.fml.relauncher.Side
 
-
 @Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, dependencies = TrophySlots.DEPENDENCIES, guiFactory = TrophySlots.FACTORY, modLanguageAdapter = TrophySlots.KOTLIN_ADAPTER)
 public object TrophySlots {
     const val FACTORY = "net.lomeli.trophyslots.client.config.TrophySlotsFactory"
