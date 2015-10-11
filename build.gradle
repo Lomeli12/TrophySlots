@@ -85,7 +85,7 @@ jar {
 	appendix = "$mcVersion"
     classifier = "universal"
     manifest {
-        attributes("FMLAT" : "trophyslots_at.cfg")
+        attributes("FMLCorePlugin": "net.lomeli.trophyslots.repack.codechicken.core.launch.DepLoader", "FMLCorePluginContainsFMLMod": "true", "FMLAT" : "trophyslots_at.cfg")
     }
 }
 
