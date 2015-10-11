@@ -13,7 +13,7 @@ public object SlotUtil {
 
     public fun hasUnlockedAllSlots(player: EntityPlayer): Boolean = getSlotsUnlocked(player) >= getMaxSlots()
 
-    public fun slotUnlocked(player: EntityPlayer, slotNum: Int) : Boolean{
+    public fun slotUnlocked(player: EntityPlayer, slotNum: Int): Boolean {
         if (TrophySlots.proxy!!.unlockReverse() && slotNum > 8) {
             if (slotNum < 36)
                 return slotNum > 44 - (TrophySlots.proxy!!.startingSlots + getSlotsUnlocked(player))

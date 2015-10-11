@@ -24,7 +24,5 @@ public object PlayerInvMod : ICompatModule {
         gui.inventorySlots = containerPlayer
     }
 
-    override fun isCompatibleGui(gui: GuiContainer): Boolean {
-        return gui is GuiInventory
-    }
+    override fun isCompatibleGui(gui: GuiContainer): Boolean = gui is GuiInventory
 }

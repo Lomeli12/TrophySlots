@@ -16,27 +16,17 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import java.io.InputStreamReader
 import java.net.URL
 
-public class VersionChecker {
-    private val mod_major: Int
-    private val mod_minor:Int
-    private val mod_rev:Int
+public class VersionChecker(val jsonURL: String, val modname: String, val mod_major: Int, val mod_minor: Int, val mod_rev: Int) {
     private var needsUpdate: Boolean = false
-    private var isDirect:Boolean = false
-    private var doneTelling:Boolean = false
+    private var isDirect: Boolean = false
+    private var doneTelling: Boolean = false
     private var version: String? = null
-    private var downloadURL:String? = null
-    private val jsonURL:String
-    private val modname:String
-    private val currentVer:String
+    private var downloadURL: String? = null
+    private val currentVer: String
     private var changeList: List<String>? = null
 
-    constructor(jsonURL: String, modname: String, major: Int, minor: Int, rev: Int) {
-        this.jsonURL = jsonURL
-        this.modname = modname
-        this.mod_major = major
-        this.mod_minor = minor
-        this.mod_rev = rev
-        this.currentVer = "$major.$minor.$rev"
+    init {
+        this.currentVer = "$mod_major.$mod_minor.$mod_rev"
         this.needsUpdate = false
         this.isDirect = false
         this.doneTelling = true
@@ -52,19 +42,19 @@ public class VersionChecker {
             val update = gson.fromJson(InputStreamReader(url.openStream()), UpdateJson::class.java)
             if (update != null) {
                 this.needsUpdate = true
-                if (this.mod_major >= update.getMajor()) {
-                    if (this.mod_minor >= update.getMinor()) {
-                        if (this.mod_rev >= update.getRevision())
+                if (this.mod_major >= update.major) {
+                    if (this.mod_minor >= update.minor) {
+                        if (this.mod_rev >= update.revision)
                             this.needsUpdate = false
                         else {
-                            if (this.mod_minor >= update.getMinor())
-                                this.needsUpdate = this.mod_major < update.getMajor()
+                            if (this.mod_minor >= update.minor)
+                                this.needsUpdate = this.mod_major < update.major
                         }
                     } else
-                        this.needsUpdate = this.mod_major < update.getMajor()
+                        this.needsUpdate = this.mod_major < update.major
                 }
                 if (this.needsUpdate) {
-                    this.downloadURL = update.getDownloadURL()
+                    this.downloadURL = update.downloadURL
                     this.isDirect = update.isDirect()
                     this.changeList = update.getChangeLog()
                     this.version = update.getVersion()

@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler
 
 public open class Proxy {
     protected var reverseOrder = false
-    var startingSlots : Int = 9
+    var startingSlots: Int = 9
     protected var achievementWhiteList: List<String> = Lists.newArrayList()
 
     public open fun preInit() {
@@ -43,8 +43,7 @@ public open class Proxy {
     protected fun registerForgeEvent(obj: Any) = MinecraftForge.EVENT_BUS.register(obj)
 
     public fun getWhiteList(): List<String> {
-        if (achievementWhiteList == null)
-            achievementWhiteList = Lists.newArrayList()
+        achievementWhiteList = Lists.newArrayList()
         return achievementWhiteList
     }
 

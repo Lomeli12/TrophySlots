@@ -45,7 +45,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
         if (event.gui != null && event.gui is GuiContainer) {
             val gui = event.gui
             if (GuiEffectRenderer.validDate())
-             GuiEffectRenderer.clearPrevList()
+                GuiEffectRenderer.clearPrevList()
             if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy!!.hasUnlockedAllSlots() && !CompatManager.useCompatReplace(gui, mc.thePlayer)) {
                 var slotList = gui.inventorySlots.inventorySlots
                 if (slotList != null && slotList.size() > 0) {

@@ -12,7 +12,7 @@ public class MessageSlotsClient : IMessage, IMessageHandler<MessageSlotsClient, 
     private var setOrder = false
     private var reverse = false
 
-    constructor(){
+    constructor() {
     }
 
     constructor(slots: Int) {

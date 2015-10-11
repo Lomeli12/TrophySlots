@@ -10,9 +10,7 @@ import net.minecraft.client.Minecraft
 public class ClientProxy : Proxy() {
     private var slotsUnlocked = 0
 
-    override fun preInit() {
-        super.preInit()
-    }
+    override fun preInit() = super.preInit()
 
     override fun init() {
         super.init()

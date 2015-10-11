@@ -7,11 +7,11 @@ import net.minecraftforge.fml.client.FMLClientHandler
 import java.util.*
 
 public object GuiEffectRenderer {
-    public val rand = Random()
-    public val mc = FMLClientHandler.instance().client;
-    public val snowMax = 750
-    public var renderTick = 0
-    public val snowFlakeList = ArrayList<SnowFlake>()
+    val rand = Random()
+    val mc = FMLClientHandler.instance().client;
+    val snowMax = 750
+    var renderTick = 0
+    private val snowFlakeList = ArrayList<SnowFlake>()
 
     public fun snowFlakeRenderer(gui: GuiScreen) {
         if (snowFlakeList.isEmpty()) {
@@ -23,18 +23,16 @@ public object GuiEffectRenderer {
         }
         for (i in snowFlakeList.indices) {
             val snowFlake = snowFlakeList.get(i)
-            if (snowFlake != null) {
-                if (snowFlake.y < 0) {
-                    if (rand.nextInt(50) < 1)
-                        snowFlake.draw(gui)
-                } else
+            if (snowFlake.y < 0) {
+                if (rand.nextInt(50) < 1)
                     snowFlake.draw(gui)
-            }
+            } else
+                snowFlake.draw(gui)
         }
         renderTick++
     }
 
-    public fun validDate() : Boolean = TrophySlots.xmas && Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
+    public fun validDate(): Boolean = TrophySlots.xmas && Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
 
     public fun clearPrevList() {
         renderTick = 0
