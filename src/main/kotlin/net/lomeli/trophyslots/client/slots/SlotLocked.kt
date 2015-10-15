@@ -11,27 +11,11 @@ import net.minecraftforge.fml.relauncher.SideOnly
 
 public class SlotLocked(inv: IInventory, slot: Int, x: Int, y: Int) : Slot(inv, slot, x, y) {
 
-    override fun decrStackSize(amount: Int): ItemStack? {
-        if (TrophySlots.proxy!!.slotUnlocked(slotIndex))
-            return super.decrStackSize(amount)
-        return null
-    }
+    override fun decrStackSize(amount: Int): ItemStack? = if (TrophySlots.proxy!!.slotUnlocked(slotIndex)) super.decrStackSize(amount) else null
 
-    override fun isItemValid(stack: ItemStack?): Boolean {
-        if (TrophySlots.proxy!!.slotUnlocked(slotIndex))
-            return super.isItemValid(stack)
-        return false
-    }
+    override fun isItemValid(stack: ItemStack?): Boolean = if (TrophySlots.proxy!!.slotUnlocked(slotIndex)) super.isItemValid(stack) else false
 
-    override fun canTakeStack(playerIn: EntityPlayer?): Boolean {
-        if (TrophySlots.proxy!!.slotUnlocked(slotIndex))
-            return super.canTakeStack(playerIn)
-        return false
-    }
+    override fun canTakeStack(playerIn: EntityPlayer?): Boolean = if (TrophySlots.proxy!!.slotUnlocked(slotIndex)) super.canTakeStack(playerIn) else false
 
-    @SideOnly(Side.CLIENT) override fun canBeHovered(): Boolean {
-        if (TrophySlots.proxy!!.slotUnlocked(slotIndex))
-            return super.canBeHovered()
-        return false
-    }
+    @SideOnly(Side.CLIENT) override fun canBeHovered(): Boolean = if (TrophySlots.proxy!!.slotUnlocked(slotIndex)) super.canBeHovered() else false
 }

@@ -20,11 +20,7 @@ public class ItemTrophy : Item {
         setUnlocalizedName("${TrophySlots.MOD_ID}.trophy")
     }
 
-    public fun fromVillager(stack: ItemStack): Boolean {
-        if (stack.hasTagCompound())
-            return stack.tagCompound.getBoolean("fromVillager")
-        return false
-    }
+    public fun fromVillager(stack: ItemStack): Boolean = if (stack.hasTagCompound()) stack.tagCompound.getBoolean("fromVillager") else false
 
     public fun safeKeyDown(keyCode: Int): Boolean {
         try {
@@ -92,11 +88,5 @@ public class ItemTrophy : Item {
         }
     }
 
-    override fun getRarity(stack: ItemStack?): EnumRarity? {
-        if (stack == null)
-            return EnumRarity.COMMON
-        if (stack.itemDamage == 1)
-            return EnumRarity.RARE
-        return EnumRarity.UNCOMMON
-    }
+    override fun getRarity(stack: ItemStack?): EnumRarity? = if (stack == null) EnumRarity.COMMON else if (stack.itemDamage == 1) EnumRarity.RARE else EnumRarity.UNCOMMON
 }

@@ -35,8 +35,10 @@ public object GuiEffectRenderer {
     public fun validDate(): Boolean = TrophySlots.xmas && Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
 
     public fun clearPrevList() {
-        renderTick = 0
-        snowFlakeList.clear()
+        if (snowFlakeList.size() > 0) {
+            renderTick = 0
+            snowFlakeList.clear()
+        }
     }
 
     public class SnowFlake(var x: Int, val speed: Int) {

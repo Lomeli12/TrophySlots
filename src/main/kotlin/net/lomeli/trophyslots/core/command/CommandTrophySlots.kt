@@ -18,6 +18,10 @@ public class CommandTrophySlots : CommandBase {
 
         modCommands.add(CommandUnlockAll())
         modCommands.add(CommandGetSlots())
+        modCommands.add(CommandRemoveAll())
+        modCommands.add(CommandRemoveSlots())
+        modCommands.add(CommandSetSlots())
+        modCommands.add(CommandUnlockSlots())
 
         for (commandBase: CommandBase in modCommands)
             commands.add(commandBase.commandName)
