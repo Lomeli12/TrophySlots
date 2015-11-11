@@ -1,20 +1,21 @@
 buildscript {
+    ext.kotlin_version = '0.14.451'
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        mavenCentral()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.14.449"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'kotlin'
 
 def loadProperties(String sourceFileName) {
     def config = new Properties()
@@ -29,19 +30,10 @@ def loadProperties(String sourceFileName) {
 
 loadProperties 'build.properties'
 
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'kotlin'
-
-/* Waiting for pull #268 of ForgeGradle to be pulled https://github.com/MinecraftForge/ForgeGradle/pull/268
-configurations {
-    shade
-    compile.extendsFrom shade
-}
-*/
-
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 group = "$modGroup"
@@ -77,20 +69,9 @@ processResources {
 }
 
 jar {
-    // Shading
-    /* Waiting for pull #268 of ForgeGradle to be pulled https://github.com/MinecraftForge/ForgeGradle/pull/268
-    configurations.shade.each { dep ->
-        from(project.zipTree(dep)){
-            exclude 'META-INF', 'META-INF/**'
-        }
-    }
-    */
 	appendix = "$mcVersion"
     classifier = "universal"
     manifest {
-        attributes("FMLCorePlugin": "net.lomeli.trophyslots.repack.codechicken.core.launch.DepLoader", "FMLCorePluginContainsFMLMod": "true", "FMLAT" : "trophyslots_at.cfg")
+        attributes("FMLAT" : "trophyslots_at.cfg")
     }
 }
-
-// Waiting for pull #268 of ForgeGradle to be pulled https://github.com/MinecraftForge/ForgeGradle/pull/268
-// reobf.jar.srgExtra 'PK: kotlin net/lomeli/trophyslots/repack/kotlin'

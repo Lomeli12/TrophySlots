@@ -8,7 +8,7 @@ public class UpdateJson(val major: Int, val minor: Int, val revision: Int, val d
 
     init {
         this.changeLog = Lists.newArrayList()
-        if (changes != null && changes.size() > 0) {
+        if (changes.size() > 0) {
             for (st: String in changes)
                 changeLog.add(st)
         }

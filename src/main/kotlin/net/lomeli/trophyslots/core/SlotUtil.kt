@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound
 
 public object SlotUtil {
     public fun getSlotsUnlocked(player: EntityPlayer): Int {
-        if (player != null && player.entityData.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).hasKey(TrophySlots.slotsUnlocked))
+        if (player.entityData.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).hasKey(TrophySlots.slotsUnlocked))
             return player.entityData.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getInteger(TrophySlots.slotsUnlocked)
         return 0;
     }
@@ -26,13 +26,11 @@ public object SlotUtil {
     }
 
     public fun setSlotsUnlocked(player: EntityPlayer, slots: Int) {
-        if (player != null) {
-            var tag = player.entityData.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG)
-            if (tag == null)
-                tag = NBTTagCompound()
-            tag.setInteger(TrophySlots.slotsUnlocked, slots)
-            player.entityData.setTag(EntityPlayer.PERSISTED_NBT_TAG, tag)
-        }
+        var tag = player.entityData.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG)
+        if (tag == null)
+            tag = NBTTagCompound()
+        tag.setInteger(TrophySlots.slotsUnlocked, slots)
+        player.entityData.setTag(EntityPlayer.PERSISTED_NBT_TAG, tag)
     }
 
     public fun getMaxSlots(): Int = 36 - TrophySlots.proxy!!.startingSlots

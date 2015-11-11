@@ -9,7 +9,7 @@ import net.minecraft.inventory.ContainerPlayer
 import net.minecraft.inventory.SlotCrafting
 
 public object PlayerInvMod : ICompatModule {
-    override fun replaceSlots(gui: GuiContainer, player: EntityPlayer) {
+    override fun replaceSlots(container: GuiContainer, player: EntityPlayer) {
         val containerPlayer = ContainerPlayer(player.inventory, !player.worldObj.isRemote, player)
         val slotList = containerPlayer.inventorySlots
         if (slotList != null) {
@@ -21,7 +21,7 @@ public object PlayerInvMod : ICompatModule {
                 }
             }
         }
-        gui.inventorySlots = containerPlayer
+        container.inventorySlots = containerPlayer
     }
 
     override fun isCompatibleGui(gui: GuiContainer): Boolean = gui is GuiInventory

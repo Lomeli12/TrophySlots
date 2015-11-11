@@ -52,7 +52,7 @@ public open class Proxy {
     }
 
     public fun unlockSlot(player: EntityPlayer): Boolean {
-        if (player != null && !SlotUtil.hasUnlockedAllSlots(player)) {
+        if (!SlotUtil.hasUnlockedAllSlots(player)) {
             var i = SlotUtil.getSlotsUnlocked(player) + 1
             SlotUtil.setSlotsUnlocked(player, i)
             if (i >= SlotUtil.getMaxSlots())
@@ -71,17 +71,16 @@ public open class Proxy {
     }
 
     private fun sendMessageSlotClient(mp: EntityPlayerMP, slots: Int) {
-        if (mp != null) {
-            if (slots > 0 && !mp.statFile.hasAchievementUnlocked(TrophySlots.firstSlot) && mp.statFile.canUnlockAchievement(TrophySlots.firstSlot))
-                mp.addStat(TrophySlots.firstSlot, 1);
-            if (slots >= SlotUtil.getMaxSlots() && !mp.statFile.hasAchievementUnlocked(TrophySlots.maxCapcity) && mp.statFile.canUnlockAchievement(TrophySlots.maxCapcity))
-                mp.addStat(TrophySlots.maxCapcity, 1);
-            TrophySlots.packetHandler?.sendTo(MessageSlotsClient(slots), mp)
-        }
+        if (slots > 0 && !mp.statFile.hasAchievementUnlocked(TrophySlots.firstSlot) && mp.statFile.canUnlockAchievement(TrophySlots.firstSlot))
+            mp.addStat(TrophySlots.firstSlot, 1);
+        if (slots >= SlotUtil.getMaxSlots() && !mp.statFile.hasAchievementUnlocked(TrophySlots.maxCapcity) && mp.statFile.canUnlockAchievement(TrophySlots.maxCapcity))
+            mp.addStat(TrophySlots.maxCapcity, 1);
+        TrophySlots.packetHandler?.sendTo(MessageSlotsClient(slots), mp)
+
     }
 
     public fun unlockAllSlots(player: EntityPlayer): Boolean {
-        if (player != null && !SlotUtil.hasUnlockedAllSlots(player)) {
+        if (!SlotUtil.hasUnlockedAllSlots(player)) {
             SlotUtil.setSlotsUnlocked(player, SlotUtil.getMaxSlots())
             player.addChatComponentMessage(ChatComponentTranslation("msg.trophyslots.unlockAll"))
             if (player is EntityPlayerMP)

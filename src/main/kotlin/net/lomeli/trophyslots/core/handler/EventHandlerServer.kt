@@ -20,35 +20,31 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 
 public class EventHandlerServer {
     public fun searchForPossibleSlot(stack: ItemStack, player: EntityPlayer): Int {
-        if (player != null) {
-            val inventoryPlayer = player.inventory
-            for (i in inventoryPlayer.mainInventory.indices) {
-                val item = inventoryPlayer.getStackInSlot(i)
-                if (SlotUtil.slotUnlocked(player, i)) {
-                    if (item == null || item.item == null)
-                        return i
-                    else if (doStackMatch(stack, item) && (item.stackSize + stack.stackSize) < item.maxStackSize)
-                        return i
-                }
-            }
-        }
-        return -1
-    }
-
-    public fun findNextEmptySlot(player: EntityPlayer): Int {
-        if (player != null) {
-            for (i in player.inventory.mainInventory.indices) {
-                val item = player.inventory.getStackInSlot(i)
-                if (item == null && SlotUtil.slotUnlocked(player, i))
+        val inventoryPlayer = player.inventory
+        for (i in inventoryPlayer.mainInventory.indices) {
+            val item = inventoryPlayer.getStackInSlot(i)
+            if (SlotUtil.slotUnlocked(player, i)) {
+                if (item == null || item.item == null)
+                    return i
+                else if (doStackMatch(stack, item) && (item.stackSize + stack.stackSize) < item.maxStackSize)
                     return i
             }
         }
         return -1
     }
 
+    public fun findNextEmptySlot(player: EntityPlayer): Int {
+        for (i in player.inventory.mainInventory.indices) {
+            val item = player.inventory.getStackInSlot(i)
+            if (item == null && SlotUtil.slotUnlocked(player, i))
+                return i
+        }
+        return -1
+    }
+
     public fun doStackMatch(stack1: ItemStack, stack2: ItemStack): Boolean {
         var flag = false;
-        if (stack1 != null && stack1.item != null && stack2 != null && stack2.item != null)
+        if (stack1.item != null && stack2.item != null)
             flag = stack1.isItemEqual(stack2) && ItemStack.areItemStackTagsEqual(stack1, stack2)
         return flag
     }
@@ -56,17 +52,15 @@ public class EventHandlerServer {
     @SubscribeEvent public fun achievementGetEvent(event: AchievementEvent) {
         if (!event.isCanceled && !event.entityPlayer.worldObj.isRemote) {
             val player = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(event.entityPlayer.dimension).getPlayerEntityByUUID(event.entityPlayer.uniqueID) as EntityPlayerMP
-            if (player != null) {
-                if (!player.statFile.hasAchievementUnlocked(event.achievement) && TrophySlots.unlockViaAchievements && !SlotUtil.hasUnlockedAllSlots(player)) {
-                    if (player.statFile.canUnlockAchievement(event.achievement) && event.achievement != TrophySlots.firstSlot && event.achievement != TrophySlots.maxCapcity) {
-                        if (TrophySlots.disable3 && (event.achievement == AchievementList.openInventory || event.achievement == AchievementList.mineWood || event.achievement == AchievementList.buildWorkBench))
-                            return
-                        if (TrophySlots.useWhiteList) {
-                            if (TrophySlots.proxy!!.getWhiteList().contains(event.achievement))
-                                TrophySlots.proxy?.unlockSlot(player)
-                        } else
+            if (!player.statFile.hasAchievementUnlocked(event.achievement) && TrophySlots.unlockViaAchievements && !SlotUtil.hasUnlockedAllSlots(player)) {
+                if (player.statFile.canUnlockAchievement(event.achievement) && event.achievement != TrophySlots.firstSlot && event.achievement != TrophySlots.maxCapcity) {
+                    if (TrophySlots.disable3 && (event.achievement == AchievementList.openInventory || event.achievement == AchievementList.mineWood || event.achievement == AchievementList.buildWorkBench))
+                        return
+                    if (TrophySlots.useWhiteList) {
+                        if (TrophySlots.proxy!!.getWhiteList().contains(event.achievement))
                             TrophySlots.proxy?.unlockSlot(player)
-                    }
+                    } else
+                        TrophySlots.proxy?.unlockSlot(player)
                 }
             }
         }

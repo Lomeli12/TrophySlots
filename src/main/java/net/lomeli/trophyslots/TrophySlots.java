@@ -23,7 +23,7 @@ import net.lomeli.trophyslots.core.network.MessageSlotsClient;
 import net.lomeli.trophyslots.core.network.MessageUpdateWhitelist;
 import net.lomeli.trophyslots.core.version.VersionChecker;
 
-@Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, dependencies = TrophySlots.DEPENDENCIES, guiFactory = TrophySlots.FACTORY, modLanguageAdapter = TrophySlots.KOTLIN_ADAPTER)
+@Mod(modid = TrophySlots.MOD_ID, name = TrophySlots.MOD_NAME, version = TrophySlots.VERSION, dependencies = TrophySlots.DEPENDENCIES, modLanguageAdapter = TrophySlots.KOTLIN_ADAPTER, guiFactory = TrophySlots.FACTORY)
 public class TrophySlots {
     public static final String FACTORY = "net.lomeli.trophyslots.client.config.TrophySlotsFactory";
     public static final String MOD_ID = "trophyslots";
