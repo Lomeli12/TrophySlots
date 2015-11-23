@@ -1,8 +1,0 @@
-{
-	"repo": "http://lomeli12.net/maven/io/drakon/Forgelin/${mcversion}-0.1.0-${kotlinversion}/",
- 	"packed": "lib/",
- 	"file": "Forgelin-${mcversion}-0.1.0-${kotlinversion}.jar",
- 	"dev": "Forgelin-${mcversion}-0.1.0-${kotlinversion}-dev.jar",
- 	"class": "io.drakon.forgelin.CorePlugin",
- 	"coreLib": true
- }

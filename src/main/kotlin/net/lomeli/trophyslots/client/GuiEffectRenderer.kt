@@ -11,7 +11,7 @@ public object GuiEffectRenderer {
     val mc = FMLClientHandler.instance().client;
     val snowMax = 750
     var renderTick = 0
-    private val snowFlakeList = ArrayList<SnowFlake>()
+    val snowFlakeList = ArrayList<SnowFlake>()
 
     public fun snowFlakeRenderer(gui: GuiScreen) {
         if (snowFlakeList.isEmpty()) {

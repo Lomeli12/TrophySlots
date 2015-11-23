@@ -17,13 +17,13 @@ import java.io.InputStreamReader
 import java.net.URL
 
 public class VersionChecker(val jsonURL: String, val modname: String, val mod_major: Int, val mod_minor: Int, val mod_rev: Int) {
-    private var needsUpdate: Boolean = false
-    private var isDirect: Boolean = false
-    private var doneTelling: Boolean = false
-    private var version: String? = null
-    private var downloadURL: String? = null
-    private val currentVer: String
-    private var changeList: List<String>? = null
+    var needsUpdate: Boolean = false
+    var isDirect: Boolean = false
+    var doneTelling: Boolean = false
+    var version: String? = null
+    var downloadURL: String? = null
+    val currentVer: String
+    var changeList: List<String>? = null
 
     init {
         this.currentVer = "$mod_major.$mod_minor.$mod_rev"
@@ -69,9 +69,9 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
 
     }
 
-    private fun translate(unlocalized: String): String = StatCollector.translateToLocal(unlocalized)
+    fun translate(unlocalized: String): String = StatCollector.translateToLocal(unlocalized)
 
-    private fun sendMessage() {
+    fun sendMessage() {
         if (Loader.isModLoaded("VersionChecker")) {
             var changeLog = ""
             for (i in this.changeList!!)
