@@ -40,6 +40,4 @@ public class CommandUnlockAll : CommandBase() {
     override fun getCommandName(): String? = "unlock-all"
 
     override fun compareTo(command: ICommand?): Int = this.commandName!!.compareTo(command!!.commandName)
-
-    override fun compareTo(other: Any?): Int = this.compareTo(other as ICommand)
 }

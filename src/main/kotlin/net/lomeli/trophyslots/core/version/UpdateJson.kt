@@ -9,8 +9,12 @@ public class UpdateJson(val major: Int, val minor: Int, val revision: Int, val d
     init {
         this.changeLog = Lists.newArrayList()
         if (changes.size() > 0) {
-            for (st: String in changes)
+            var i = 0;
+            while (i < changes.size()) {
+                val st = changes[i]
                 changeLog.add(st)
+                ++i;
+            }
         }
     }
 

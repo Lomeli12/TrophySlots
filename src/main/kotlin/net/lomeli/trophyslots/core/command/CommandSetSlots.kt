@@ -47,8 +47,6 @@ public class CommandSetSlots : CommandBase() {
 
     override fun compareTo(command: ICommand?): Int = this.commandName!!.compareTo(command!!.commandName)
 
-    override fun compareTo(other: Any?): Int = this.compareTo(other as ICommand)
-
     private fun parseString(st: String): Int {
         try {
             return Integer.parseInt(st)

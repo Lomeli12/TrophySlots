@@ -30,8 +30,8 @@ public class ItemTrophy : Item {
         }
     }
 
-    override fun getSubItems(item: Item?, tab: CreativeTabs?, subItems: MutableList<Any?>?) {
-        if (subItems != null && item != null) {
+    @SideOnly(Side.CLIENT) override fun getSubItems(item: Item?, tab: CreativeTabs?, subItems: MutableList<ItemStack>?) {
+        if (subItems != null) {
             subItems.add(ItemStack(item))
             subItems.add(ItemStack(item, 1, 1))
         }
@@ -60,7 +60,7 @@ public class ItemTrophy : Item {
         return stack;
     }
 
-    @SideOnly(Side.CLIENT) override fun addInformation(stack: ItemStack?, player: EntityPlayer?, tooltip: MutableList<Any?>?, advanced: Boolean) {
+    @SideOnly(Side.CLIENT) override fun addInformation(stack: ItemStack?, playerIn: EntityPlayer?, tooltip: MutableList<String>?, advanced: Boolean) {
         if (tooltip == null || stack == null)
             return
         if (stack.itemDamage == 0) {

@@ -74,8 +74,11 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
     fun sendMessage() {
         if (Loader.isModLoaded("VersionChecker")) {
             var changeLog = ""
-            for (i in this.changeList!!)
-                changeLog += "- " + i
+            var i = 0;
+            while (i < this.changeList!!.size()) {
+                changeLog += "- " + this.changeList!![i]
+                ++i
+            }
 
             val tag = NBTTagCompound()
             tag.setString("modDisplayName", this.modname)

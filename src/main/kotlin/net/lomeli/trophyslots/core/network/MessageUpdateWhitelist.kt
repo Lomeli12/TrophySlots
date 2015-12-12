@@ -28,15 +28,18 @@ public class MessageUpdateWhitelist : IMessage, IMessageHandler<MessageUpdateWhi
         var i = 0
         while (i < tagList.tagCount()) {
             whiteList.add(tagList.getStringTagAt(i))
-            i++
+            ++i;
         }
     }
 
     override fun toBytes(buf: ByteBuf?) {
         val packetData = NBTTagCompound()
         val list = NBTTagList()
-        for (i: String in whiteList) {
-            list.appendTag(NBTTagString(i))
+        var i = 0;
+        while (i < whiteList.size()) {
+            val s = whiteList.get(i);
+            list.appendTag(NBTTagString(s));
+            ++i;
         }
         packetData.setTag("data", list)
         ByteBufUtils.writeTag(buf, packetData)
