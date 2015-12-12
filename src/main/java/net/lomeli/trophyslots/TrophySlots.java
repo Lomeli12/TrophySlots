@@ -31,7 +31,7 @@ public class TrophySlots {
     public static final String KOTLIN_ADAPTER = "net.lomeli.trophyslots.KotlinAdapter";
     public static final int MAJOR = 3, MINOR = 0, REV = 0;
     public static final String VERSION = MAJOR + "." + MINOR + "." + REV;
-    public static final String updateUrl = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/1.8_test/update.json";
+    public static final String updateUrl = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/master/update.json";
     public static final String slotsUnlocked = MOD_ID + "_slotsUnlocked";
 
     @SidedProxy(clientSide = "net.lomeli.trophyslots.client.ClientProxy", serverSide = "net.lomeli.trophyslots.core.Proxy")
