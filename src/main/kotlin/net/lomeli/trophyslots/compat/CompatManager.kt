@@ -26,15 +26,13 @@ public object CompatManager {
 
     fun useCompatReplace(gui: GuiContainer, player: EntityPlayer): Boolean {
         var flag = false
-        var i = 0;
-        while (i < moduleList!!.size()) {
+        for (i in moduleList!!.indices) {
             val module: ICompatModule = moduleList!![i]
             if (module.isCompatibleGui(gui)) {
                 flag = true
                 module.replaceSlots(gui, player)
                 break
             }
-            ++i
         }
         return flag
     }

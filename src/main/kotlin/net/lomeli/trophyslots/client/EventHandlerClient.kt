@@ -30,12 +30,10 @@ import net.minecraftforge.fml.relauncher.SideOnly
                 val gui = event.gui
                 var slotList = gui.inventorySlots.inventorySlots;
                 if (slotList != null && slotList.size() > 0) {
-                    var i = 0
-                    while (i < slotList.size()) {
+                    for(i in slotList.indices) {
                         var slot = gui.inventorySlots.getSlot(i)
                         if (slot != null && slot.isHere(mc.thePlayer.inventory, slot.slotIndex) && !TrophySlots.proxy!!.slotUnlocked(slot.slotIndex))
                             event.buttonList.add(GuiLockedSlot(slot.xDisplayPosition, slot.yDisplayPosition, gui, slot.slotIndex))
-                        ++i
                     }
                 }
             }
@@ -51,14 +49,12 @@ import net.minecraftforge.fml.relauncher.SideOnly
             if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy!!.hasUnlockedAllSlots() && !CompatManager.useCompatReplace(gui, mc.thePlayer)) {
                 var slotList = gui.inventorySlots.inventorySlots
                 if (slotList != null && slotList.size() > 0) {
-                    var i = 0
-                    while (i < slotList.size()) {
+                    for(i in slotList.indices) {
                         var slot = gui.inventorySlots.getSlot(i)
                         if (slot != null && slot.isHere(mc.thePlayer.inventory, slot.slotIndex) && !TrophySlots.proxy!!.slotUnlocked(slot.slotIndex)) {
                             var replacementSlot = SlotLocked(mc.thePlayer.inventory, slot.slotIndex, slot.xDisplayPosition, slot.yDisplayPosition)
                             gui.inventorySlots.inventorySlots.set(i, replacementSlot)
                         }
-                        ++i
                     }
                 }
             }

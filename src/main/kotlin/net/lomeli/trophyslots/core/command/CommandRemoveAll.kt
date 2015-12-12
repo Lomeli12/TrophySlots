@@ -17,7 +17,7 @@ public class CommandRemoveAll : CommandBase() {
             if (args != null && (args.size() == 1 || args.size() == 2)) {
                 val player: EntityPlayerMP
                 if (args.size() == 2)
-                    player = CommandBase.getPlayer(sender, args.get(1))
+                    player = CommandBase.getPlayer(sender, args[1])
                 else
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 if (player != null) {

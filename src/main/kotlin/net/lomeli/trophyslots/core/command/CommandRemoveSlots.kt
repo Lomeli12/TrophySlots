@@ -18,10 +18,10 @@ public class CommandRemoveSlots : CommandBase() {
                 val player: EntityPlayerMP
                 val rmSlots: Int
                 if (args.size() == 3) {
-                    rmSlots = parseString(args.get(2))
-                    player = CommandBase.getPlayer(sender, args.get(1))
+                    rmSlots = parseString(args[2])
+                    player = CommandBase.getPlayer(sender, args[1])
                 } else {
-                    rmSlots = parseString(args.get(1))
+                    rmSlots = parseString(args[1])
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 }
                 if (player != null && (rmSlots > 0 && rmSlots <= SlotUtil.getMaxSlots())) {

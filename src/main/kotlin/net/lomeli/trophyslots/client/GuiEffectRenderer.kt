@@ -15,14 +15,11 @@ public object GuiEffectRenderer {
 
     public fun snowFlakeRenderer(gui: GuiScreen) {
         if (snowFlakeList.isEmpty()) {
-            var i = 0
-            while (i < snowMax) {
+            for (i in 0..snowMax)
                 snowFlakeList.add(SnowFlake(6 + rand.nextInt(mc.displayHeight), 1))
-                i++
-            }
         }
         for (i in snowFlakeList.indices) {
-            val snowFlake = snowFlakeList.get(i)
+            val snowFlake = snowFlakeList[i]
             if (snowFlake.y < 0) {
                 if (rand.nextInt(50) < 1)
                     snowFlake.draw(gui)

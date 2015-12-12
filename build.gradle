@@ -14,6 +14,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.github.johnrengelman.shadow' version '1.2.2'
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'kotlin'
 
@@ -36,6 +40,7 @@ configurations {
 }
 
 dependencies {
+    // Shading
     shade "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     shade "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 }
@@ -75,16 +80,31 @@ processResources {
 jar {
 	appendix = "$mcVersion"
     classifier = "universal"
-    configurations.shade.each { dep ->
-        from(project.zipTree(dep)){
-            exclude 'META-INF', 'META-INF/**'
-        }
-    }
     manifest {
         attributes("FMLAT" : "trophyslots_at.cfg")
     }
 }
 
-sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
+sourceJar {
+    appendix = "$mcVersion"
+    classifier = "src"
 }
+
+shadowJar {
+    appendix = "$mcVersion"
+    classifier = "universal"
+    relocate 'kotlin', 'net.lomeli.trophyslots.repack.kotlin'
+    relocate 'jet.runtime.typeinfo', 'net.lomeli.trophyslots.repack.jet.runtime.typeinfo'
+    relocate 'org.jetbrains.annotations', 'net.lomeli.trophyslots.repack.org.jetbrains.annotations'
+}
+
+reobf {
+    shadowJar { useSrgSrg() }
+}
+
+tasks.build.dependsOn reobfShadowJar
+
+artifacts {
+    archives shadowJar
+}
+

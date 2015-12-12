@@ -13,14 +13,12 @@ public object PlayerInvMod : ICompatModule {
         val containerPlayer = ContainerPlayer(player.inventory, !player.worldObj.isRemote, player)
         val slotList = containerPlayer.inventorySlots
         if (slotList != null) {
-            var i = 0
-            while (i < slotList.size()) {
+            for (i in slotList.indices) {
                 val slot = containerPlayer.getSlot(i)
                 if (slot != null && slot !is SlotCrafting) {
                     if (slot.inventory !== containerPlayer.craftMatrix && slot.isHere(player.inventory, slot.slotIndex) && !TrophySlots.proxy!!.slotUnlocked(slot.slotIndex))
                         containerPlayer.inventorySlots.set(i, SlotLocked(player.inventory, slot.slotIndex, slot.xDisplayPosition, slot.yDisplayPosition))
                 }
-                ++i
             }
         }
         container.inventorySlots = containerPlayer

@@ -18,10 +18,10 @@ public class CommandSetSlots : CommandBase() {
                 val player: EntityPlayerMP
                 val slots: Int
                 if (args.size() == 3) {
-                    slots = parseString(args.get(2))
-                    player = CommandBase.getPlayer(sender, args.get(1))
+                    slots = parseString(args[2])
+                    player = CommandBase.getPlayer(sender, args[1])
                 } else {
-                    slots = parseString(args.get(1))
+                    slots = parseString(args[1])
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 }
                 if (player != null && (slots > 0 && slots <= SlotUtil.getMaxSlots())) {

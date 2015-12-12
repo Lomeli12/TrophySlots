@@ -18,10 +18,10 @@ public class CommandUnlockSlots : CommandBase() {
                 val player: EntityPlayerMP
                 val newSlots: Int
                 if (args.size() == 3) {
-                    newSlots = parseString(args.get(2))
-                    player = CommandBase.getPlayer(sender, args.get(1))
+                    newSlots = parseString(args[2])
+                    player = CommandBase.getPlayer(sender, args[1])
                 } else {
-                    newSlots = parseString(args.get(1))
+                    newSlots = parseString(args[1])
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 }
                 if (player != null && (newSlots > 0 && newSlots <= SlotUtil.getMaxSlots())) {

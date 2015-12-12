@@ -21,8 +21,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 public class EventHandlerServer {
     public fun searchForPossibleSlot(stack: ItemStack, player: EntityPlayer): Int {
         val inventoryPlayer = player.inventory
-        var i = 0;
-        while (i < inventoryPlayer.mainInventory.size()) {
+        for (i in inventoryPlayer.mainInventory.indices) {
             val item = inventoryPlayer.getStackInSlot(i)
             if (SlotUtil.slotUnlocked(player, i)) {
                 if (item == null || item.item == null)
@@ -30,18 +29,15 @@ public class EventHandlerServer {
                 else if (doStackMatch(stack, item) && (item.stackSize + stack.stackSize) < item.maxStackSize)
                     return i
             }
-            ++i;
         }
         return -1
     }
 
     public fun findNextEmptySlot(player: EntityPlayer): Int {
-        var i = 0;
-        while (i < player.inventory.mainInventory.size()) {
+        for (i in player.inventory.mainInventory.indices) {
             val item = player.inventory.getStackInSlot(i)
             if (item == null && SlotUtil.slotUnlocked(player, i))
                 return i
-            ++i;
         }
         return -1
     }
@@ -73,8 +69,7 @@ public class EventHandlerServer {
     @SubscribeEvent public fun playerTickEvent(event: TickEvent.PlayerTickEvent) {
         val player = event.player
         if (player != null && !player.worldObj.isRemote && !player.capabilities.isCreativeMode && !SlotUtil.hasUnlockedAllSlots(player) && event.phase == TickEvent.Phase.END) {
-            var i = 0;
-            while (i < player.inventory.mainInventory.size()) {
+            for (i in player.inventory.mainInventory.indices) {
                 val stack = player.inventory.getStackInSlot(i)
                 if (stack != null && stack.item != null) {
                     if (!SlotUtil.slotUnlocked(player, i)) {
@@ -86,7 +81,6 @@ public class EventHandlerServer {
                             player.inventory.setInventorySlotContents(slot, player.inventory.removeStackFromSlot(i))
                     }
                 }
-                ++i;
             }
         }
     }
