@@ -1,13 +1,10 @@
 {
-    "major" : 1,
-    "minor" : 3,
+    "major" : 2,
+    "minor" : 1,
     "revision" : 0,
-    "downloadURL" : "http://minecraft.curseforge.com/mc-mods/226077-trophy-slots/files/2244520",
+    "downloadURL" : "http://minecraft.curseforge.com/projects/trophy-slots/files/2270389",
     "direct" : false,
     "changeLog" : [
-        "Updated Version checker to work like LomLib's",
-        "Reworked the whitelist a bit.",
-        "Added config option to lose slots on death, and a config to determine how many slots you'll lose.",
-        "Added server op commands to set, unlock, or remove slots from players. Also added a non-op command to see how many slots a player has unlocked."
+        "Fixed console error spam and crash when opening inventory"
     ]
 }

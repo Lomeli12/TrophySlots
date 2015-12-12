@@ -1,21 +1,21 @@
 buildscript {
+    ext.kotlin_version = '0.14.449'
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
-apply plugin: "forge"
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'kotlin'
 
 def loadProperties(String sourceFileName) {
     def config = new Properties()
@@ -30,32 +30,61 @@ def loadProperties(String sourceFileName) {
 
 loadProperties 'build.properties'
 
+configurations {
+    shade
+    compile.extendsFrom shade
+}
+
+dependencies {
+    shade "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    shade "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+}
+
 group = "$modGroup"
 archivesBaseName = "$modName"
 version = "$releaseVersion"
 
 minecraft {
-    version = "$mcVersion-$forgeVersion" // grab latest forge
-    runDir = "build/vanilla/assets"
+    version = "$mcVersion-$mcfVersion" // grab latest forge
+    runDir = "run"
+    mappings = "$mcpMap"
 }
 
 processResources {
-    exclude '**/xcf/**'
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+    inputs.property "kotlinversion", "$kotlinVersion"
 
+    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        include 'dependencies.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version, 'kotlinversion':"$kotlinVersion"
     }
+        
+    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude  'mcmod.info'
+        exclude 'mcmod.info'
+        exclude 'dependencies.info'
     }
 }
 
 jar {
-    manifest {
-        attributes 'FMLAT' : 'trophyslots_at.cfg'
-    }
 	appendix = "$mcVersion"
     classifier = "universal"
+    configurations.shade.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
+    manifest {
+        attributes("FMLAT" : "trophyslots_at.cfg")
+    }
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
 }
