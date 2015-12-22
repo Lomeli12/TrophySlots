@@ -20,9 +20,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 
 public class EventHandlerServer {
     public fun searchForPossibleSlot(stack: ItemStack, player: EntityPlayer): Int {
-        val inventoryPlayer = player.inventory
-        for (i in inventoryPlayer.mainInventory.indices) {
-            val item = inventoryPlayer.getStackInSlot(i)
+        for (i in player.inventory.mainInventory.indices) {
+            val item = player.inventory.getStackInSlot(i)
             if (SlotUtil.slotUnlocked(player, i)) {
                 if (item == null || item.item == null)
                     return i

@@ -2,7 +2,7 @@
 {
   "modid": "trophyslots",
   "name": "Trophy Slots",
-  "description": "",
+  "description": "Locks slots in your inventory until you earn them back.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://www.lomeli12.net/",

@@ -16,7 +16,7 @@ public class ClientProxy : Proxy() {
         super.init()
         Minecraft.getMinecraft().renderItem.itemModelMesher.register(ModItems.trophy, BasicItemMesh("${TrophySlots.MOD_ID}:trophy"));
         registerForgeEvent(EventHandlerClient)
-        registerFMLEvent(TrophySlots.modConfig!!)
+        registerForgeEvent(TrophySlots.modConfig!!)
     }
 
     override fun postInit() {

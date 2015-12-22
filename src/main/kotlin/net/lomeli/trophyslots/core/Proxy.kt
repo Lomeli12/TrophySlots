@@ -16,20 +16,20 @@ public open class Proxy {
     protected var achievementWhiteList: List<String> = Lists.newArrayList()
 
     public open fun preInit() {
-        Logger.logInfo("Pre-Init")
+        TrophySlots.log.logInfo("Pre-Init")
         ModItems.registerItems()
         //TODO: Villager stuff once VillagerRegistry is back
     }
 
     public open fun init() {
-        Logger.logInfo("Init")
+        TrophySlots.log.logInfo("Init")
         val eventHandlerServer = EventHandlerServer()
-        registerFMLEvent(eventHandlerServer)
+        registerForgeEvent(eventHandlerServer)
         registerForgeEvent(eventHandlerServer)
     }
 
     public open fun postInit() {
-        Logger.logInfo("Post-Init")
+        TrophySlots.log.logInfo("Post-Init")
     }
 
     public fun unlockReverse(): Boolean = reverseOrder
@@ -37,8 +37,6 @@ public open class Proxy {
     public fun setReverse(bool: Boolean) {
         reverseOrder = bool
     }
-
-    protected fun registerFMLEvent(obj: Any) = FMLCommonHandler.instance().bus().register(obj)
 
     protected fun registerForgeEvent(obj: Any) = MinecraftForge.EVENT_BUS.register(obj)
 

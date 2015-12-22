@@ -1,12 +1,12 @@
 package net.lomeli.trophyslots.core.version
 
 import com.google.gson.Gson
-import net.lomeli.trophyslots.core.Logger
+import net.lomeli.trophyslots.TrophySlots
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.StatCollector
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.client.FMLClientHandler
-import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.event.FMLInterModComms
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -31,28 +31,17 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
         this.isDirect = false
         this.doneTelling = true
 
-        FMLCommonHandler.instance().bus().register(this)
+        MinecraftForge.EVENT_BUS.register(this)
     }
 
     fun checkForUpdates() {
         try {
-            Logger.logInfo("Checking for updates...")
+            TrophySlots.log.logInfo(translate("update.trophyslots.checking"))
             val url = URL(this.jsonURL)
             val gson = Gson()
             val update = gson.fromJson(InputStreamReader(url.openStream()), UpdateJson::class.java)
             if (update != null) {
-                this.needsUpdate = true
-                if (this.mod_major >= update.major) {
-                    if (this.mod_minor >= update.minor) {
-                        if (this.mod_rev >= update.revision)
-                            this.needsUpdate = false
-                        else {
-                            if (this.mod_minor >= update.minor)
-                                this.needsUpdate = this.mod_major < update.major
-                        }
-                    } else
-                        this.needsUpdate = this.mod_major < update.major
-                }
+                this.needsUpdate = compareVersion(update)
                 if (this.needsUpdate) {
                     this.downloadURL = update.downloadURL
                     this.isDirect = update.isDirect()
@@ -61,12 +50,22 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
                     this.doneTelling = false
                     sendMessage()
                 } else
-                    Logger.logInfo("Using latest version of $modname")
+                    TrophySlots.log.logInfo(translate("update.trophyslots.none"))
             }
         } catch (e: Exception) {
-            Logger.logError("Could not check for updates for $modname!")
+            TrophySlots.log.logError(translate("update.trophyslots.failed"))
         }
 
+    }
+
+    private fun compareVersion(update: UpdateJson): Boolean {
+        if (mod_major > update.major) return false
+        if (mod_major < update.major) return true
+        if (mod_minor > update.minor) return false
+        if (mod_minor < update.minor) return true
+        if (mod_rev > update.revision) return false
+        if (mod_rev < update.revision) return true
+        return true
     }
 
     fun translate(unlocalized: String): String = StatCollector.translateToLocal(unlocalized)
@@ -86,7 +85,7 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
             tag.setString("changeLog", changeLog)
             FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag)
         }
-        Logger.logInfo(translate("update.trophyslots").format(this.version, this.downloadURL))
+        TrophySlots.log.logInfo(translate("update.trophyslots").format(this.version, this.downloadURL))
     }
 
     @SubscribeEvent

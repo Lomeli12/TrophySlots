@@ -22,7 +22,7 @@ public class ItemTrophy : Item {
 
     public fun fromVillager(stack: ItemStack): Boolean = if (stack.hasTagCompound()) stack.tagCompound.getBoolean("fromVillager") else false
 
-    public fun safeKeyDown(keyCode: Int): Boolean {
+    @SideOnly(Side.CLIENT) public fun safeKeyDown(keyCode: Int): Boolean {
         try {
             return Keyboard.isKeyDown(keyCode)
         } catch (e: Exception) {

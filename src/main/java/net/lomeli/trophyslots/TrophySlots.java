@@ -56,15 +56,18 @@ public class TrophySlots {
     public static Achievement maxCapcity;
     public static AchievementPage achievementPage;
     public static boolean debug;
+    public static Logger log;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        log = new Logger();
         try {
             EntityPlayer.class.getMethod("addChatComponentMessage", IChatComponent.class);
             debug = true;
-            Logger.INSTANCE$.logInfo("Dev environment, enabled logging!");
+            log.logInfo("Dev environment, enabled logging!");
         } catch (Exception e) {
             debug = false;
+            log.logError(e);
         }
 
         modConfig = new Config(event.getSuggestedConfigurationFile());
@@ -85,8 +88,8 @@ public class TrophySlots {
     public void init(FMLInitializationEvent event) {
         proxy.init();
 
-        firstSlot = (Achievement) new Achievement("achievement.trophyslots.firstSlot", "firstSlotAchievement", 0, 0, Blocks.chest, null).registerStat();
-        maxCapcity = (Achievement) new  Achievement("achievement.trophyslots.maximumCapacity", "maximumCapacityAchievement", 2, 0, ModItems.trophy, firstSlot).registerStat();
+        firstSlot = new Achievement("achievement.trophyslots.firstSlot", "firstSlotAchievement", 0, 0, Blocks.chest, null).registerStat();
+        maxCapcity = new  Achievement("achievement.trophyslots.maximumCapacity", "maximumCapacityAchievement", 2, 0, ModItems.trophy, firstSlot).registerStat();
 
         achievementPage = new AchievementPage(MOD_NAME, firstSlot, maxCapcity);
         AchievementPage.registerAchievementPage(achievementPage);

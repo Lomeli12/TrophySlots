@@ -35,6 +35,9 @@ achievement.maximumCapacityAchievement=Maximum Capacity!
 achievement.maximumCapacityAchievement.desc=Unlock all inventory slots! §4(Does NOT unlock a slot)
 
 update.trophyslots=§1[Trophy Slots] Version %1$s is available at:§1 %2$s
+update.trophyslots.checking=Checking for updates...
+update.trophyslots.failed=Could not check for updates for Trophy Slots
+update.trophyslots.none=Using latest version of Trophy Slots
 
 command.trophyslots.usage=/tslots [command]
 
