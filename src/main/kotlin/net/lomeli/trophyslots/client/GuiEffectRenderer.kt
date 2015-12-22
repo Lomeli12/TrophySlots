@@ -9,7 +9,7 @@ import java.util.*
 public object GuiEffectRenderer {
     val rand = Random()
     val mc = FMLClientHandler.instance().client;
-    val snowMax = 750
+    val snowMax = 500
     var renderTick = 0
     val snowFlakeList = ArrayList<SnowFlake>()
 
@@ -69,7 +69,7 @@ public object GuiEffectRenderer {
             }
             if (y > gui.height) {
                 x = startX + (rand.nextInt(11) - 5)
-                y = -20 + rand.nextInt(15)
+                y = -20 - rand.nextInt(15)
             }
         }
     }

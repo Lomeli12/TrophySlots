@@ -26,6 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly
     @SubscribeEvent public fun guiPostInit(event: GuiScreenEvent.InitGuiEvent.Post) {
         val mc = FMLClientHandler.instance().client;
         if (event.gui != null && event.gui is GuiContainer) {
+            if (GuiEffectRenderer.validDate())
+                GuiEffectRenderer.clearPrevList()
             if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy!!.hasUnlockedAllSlots()) {
                 val gui = event.gui
                 var slotList = gui.inventorySlots.inventorySlots;
