@@ -1,10 +1,11 @@
 {
-    "major" : 2,
-    "minor" : 1,
+    "major" : 3,
+    "minor" : 0,
     "revision" : 0,
-    "downloadURL" : "http://minecraft.curseforge.com/projects/trophy-slots/files/2270389",
+    "downloadURL" : "http://minecraft.curseforge.com/projects/trophy-slots/files/2271978",
     "direct" : false,
     "changeLog" : [
-        "Fixed console error spam and crash when opening inventory"
+        "Updated to 1.8.8",
+        "No longer depends on Forgelin. Comes packed with it's own Kotlin v0.14.449 adapter."
     ]
 }

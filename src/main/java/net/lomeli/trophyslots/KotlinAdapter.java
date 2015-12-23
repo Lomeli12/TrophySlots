@@ -32,7 +32,6 @@ public class KotlinAdapter implements ILanguageAdapter {
                 Object obj = objectClass.newInstance();
                 if (obj == null) throw new NullPointerException();
                 log.debug("Constructed an object from a class type ({}), using that. ({})", objectClass, obj);
-                log.warn("Hey, you, modder who owns {} - you should be using 'object' instead of 'class' on your @Mod class.", objectClass.getSimpleName());
                 return obj;
             } catch (Exception e) {
                 throw new KotlinAdapterException(e);
