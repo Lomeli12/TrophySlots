@@ -76,8 +76,10 @@ public class EventHandlerServer {
                         if (slot <= -1) {
                             player.entityDropItem(stack, 0f)
                             player.inventory.setInventorySlotContents(i, null)
-                        } else
-                            player.inventory.setInventorySlotContents(slot, player.inventory.removeStackFromSlot(i))
+                        } else {
+
+                        }
+                        //    player.inventory.setInventorySlotContents(slot, player.inventory.removeStackFromSlot(i))
                     }
                 }
             }

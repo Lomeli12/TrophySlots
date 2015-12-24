@@ -65,7 +65,7 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
         if (mod_minor < update.minor) return true
         if (mod_rev > update.revision) return false
         if (mod_rev < update.revision) return true
-        return true
+        return false
     }
 
     fun translate(unlocalized: String): String = StatCollector.translateToLocal(unlocalized)
