@@ -22,13 +22,13 @@ class GuiLockedSlot(val gui: GuiContainer) : GuiButton(-111, 0, 0, 16, 16, "") {
 
         if (TrophySlots.slotRenderType == 1 || TrophySlots.slotRenderType == 2) {
             GlStateManager.colorMask(true, true, true, false)
-            gui.drawGradientRect(gui.guiLeft + slotX, gui.guiTop + slotY, gui.guiLeft + slotX + 16, gui.guiTop + slotY + 16, 2130706433, 2130706433)
+            this.drawGradientRect(gui.guiLeft + slotX, gui.guiTop + slotY, gui.guiLeft + slotX + 16, gui.guiTop + slotY + 16, 2130706433, 2130706433)
             GlStateManager.colorMask(true, true, true, true)
         }
         if (TrophySlots.slotRenderType == 0 || TrophySlots.slotRenderType == 2) {
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
             mc.renderEngine.bindTexture(EventHandlerClient.resourceFile)
-            gui.drawTexturedModalRect(gui.guiLeft + slotX, gui.guiTop + slotY, 0, 0, 16, 16)
+            this.drawTexturedModalRect(gui.guiLeft + slotX, gui.guiTop + slotY, 0, 0, 16, 16)
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
         }
         GlStateManager.disableBlend()
