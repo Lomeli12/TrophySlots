@@ -1,5 +1,6 @@
 package net.lomeli.trophyslots.core.network
 
+import com.google.common.collect.Lists
 import io.netty.buffer.ByteBuf
 import net.lomeli.trophyslots.TrophySlots
 import net.minecraft.nbt.NBTTagCompound
@@ -15,7 +16,7 @@ public class MessageUpdateWhitelist : IMessage, IMessageHandler<MessageUpdateWhi
     private val whiteList: ArrayList<String>
 
     constructor() {
-        whiteList = ArrayList<String>()
+        whiteList = Lists.newArrayList();
     }
 
     constructor(whiteList: ArrayList<String>) {

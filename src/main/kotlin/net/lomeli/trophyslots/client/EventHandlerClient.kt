@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
     @SubscribeEvent public fun guiPostInit(event: GuiScreenEvent.InitGuiEvent.Post) {
         val mc = FMLClientHandler.instance().client;
         if (event.gui != null && event.gui is GuiContainer) {
-            val gui = event.gui
+            val gui = event.gui as GuiContainer
             if (GuiEffectRenderer.validDate())
                 GuiEffectRenderer.clearPrevList()
             if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy!!.hasUnlockedAllSlots())
@@ -37,12 +37,12 @@ import net.minecraftforge.fml.relauncher.SideOnly
     @SubscribeEvent public fun openGuiEvent(event: GuiOpenEvent) {
         val mc = FMLClientHandler.instance().client;
         if (event.gui != null && event.gui is GuiContainer) {
-            val gui = event.gui
+            val gui = event.gui as GuiContainer
             if (!GuiEffectRenderer.validDate())
                 GuiEffectRenderer.clearPrevList()
             if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy!!.hasUnlockedAllSlots() && !CompatManager.useCompatReplace(gui, mc.thePlayer)) {
                 var slotList = gui.inventorySlots.inventorySlots
-                if (slotList != null && slotList.size() > 0) {
+                if (slotList != null && slotList.size > 0) {
                     for(i in slotList.indices) {
                         var slot = gui.inventorySlots.getSlot(i)
                         if (slot != null && slot.isHere(mc.thePlayer.inventory, slot.slotIndex) && !TrophySlots.proxy!!.slotUnlocked(slot.slotIndex)) {

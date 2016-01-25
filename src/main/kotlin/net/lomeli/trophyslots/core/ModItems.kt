@@ -4,6 +4,7 @@ import net.minecraft.item.Item
 import net.minecraftforge.fml.common.registry.GameRegistry
 
 public object ModItems {
+    @JvmField
     public var trophy: Item? = null
 
     public fun registerItems() {

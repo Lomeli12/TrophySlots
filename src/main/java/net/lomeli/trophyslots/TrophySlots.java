@@ -13,10 +13,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-import net.lomeli.trophyslots.core.Config;
-import net.lomeli.trophyslots.core.Logger;
-import net.lomeli.trophyslots.core.ModItems;
-import net.lomeli.trophyslots.core.Proxy;
+import net.lomeli.trophyslots.core.*;
 import net.lomeli.trophyslots.core.command.CommandTrophySlots;
 import net.lomeli.trophyslots.core.network.MessageOpenWhitelist;
 import net.lomeli.trophyslots.core.network.MessageSlotsClient;

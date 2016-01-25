@@ -14,10 +14,10 @@ import net.minecraft.util.StatCollector
 public class CommandUnlockSlots : CommandBase() {
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
         if (sender != null) {
-            if (args != null && (args.size() == 2 || args.size() == 3)) {
+            if (args != null && (args.size == 2 || args.size == 3)) {
                 val player: EntityPlayerMP
                 val newSlots: Int
-                if (args.size() == 3) {
+                if (args.size == 3) {
                     newSlots = parseString(args[2])
                     player = CommandBase.getPlayer(sender, args[1])
                 } else {
@@ -50,8 +50,6 @@ public class CommandUnlockSlots : CommandBase() {
     override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.unlock-slots.usage"
 
     override fun getRequiredPermissionLevel(): Int = 2
-
-    override fun compareTo(command: ICommand?): Int = this.commandName!!.compareTo(command!!.commandName)
 
     private fun parseString(st: String): Int {
         try {

@@ -56,7 +56,7 @@ public class EventHandlerServer {
                     if (TrophySlots.disable3 && (event.achievement == AchievementList.openInventory || event.achievement == AchievementList.mineWood || event.achievement == AchievementList.buildWorkBench))
                         return
                     if (TrophySlots.useWhiteList) {
-                        if (TrophySlots.proxy!!.getWhiteList().contains(event.achievement))
+                        if (TrophySlots.proxy!!.getWhiteList().contains(event.achievement.toString()))
                             TrophySlots.proxy?.unlockSlot(player)
                     } else
                         TrophySlots.proxy?.unlockSlot(player)
@@ -76,10 +76,8 @@ public class EventHandlerServer {
                         if (slot <= -1) {
                             player.entityDropItem(stack, 0f)
                             player.inventory.setInventorySlotContents(i, null)
-                        } else {
-
-                        }
-                        //    player.inventory.setInventorySlotContents(slot, player.inventory.removeStackFromSlot(i))
+                        } else
+                            player.inventory.setInventorySlotContents(slot, player.inventory.removeStackFromSlot(i))
                     }
                 }
             }

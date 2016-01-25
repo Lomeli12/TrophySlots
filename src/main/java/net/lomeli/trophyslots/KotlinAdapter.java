@@ -20,10 +20,12 @@ public class KotlinAdapter implements ILanguageAdapter {
         log.debug("FML has asked for {} to be constructed...", objectClass.getSimpleName());
         try {
             // Try looking for an object type
-            Field f = objectClass.getField("INSTANCE$");
+            Field f = objectClass.getField("INSTANCE");
+            if (f == null)
+                objectClass.getField("INSTANCES"); //Backwards compatible
             Object obj = f.get(null);
             if (obj == null) throw new NullPointerException();
-            log.debug("Found an object INSTANCE$ reference in {}, using that. ({})", objectClass.getSimpleName(), obj);
+            log.debug("Found an object INSTANCE reference in {}, using that. ({})", objectClass.getSimpleName(), obj);
             return obj;
         } catch (Exception ex) {
             // Try looking for a class type
@@ -48,7 +50,15 @@ public class KotlinAdapter implements ILanguageAdapter {
     public void setProxy(Field target, Class<?> proxyTarget, Object proxy) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
         log.debug("Setting proxy: {}.{} -> {}", target.getDeclaringClass().getSimpleName(), target.getName(), proxy);
         for (Field x : proxyTarget.getFields()) {
-            if (x.getName().equals("INSTANCE$")) {
+            if (x.getName().equals("INSTANCE")) {
+                try {
+                    log.debug("Setting proxy on INSTANCE; singleton target.");
+                    Object obj = proxyTarget.getField("INSTANCE").get(null);
+                    target.set(obj, proxy);
+                } catch (Exception ex) {
+                    throw new KotlinAdapterException(ex);
+                }
+            } else if (x.getName().equals("INSTANCE$")) { //backwards compatible
                 try {
                     log.debug("Setting proxy on INSTANCE$; singleton target.");
                     Object obj = proxyTarget.getField("INSTANCE$").get(null);

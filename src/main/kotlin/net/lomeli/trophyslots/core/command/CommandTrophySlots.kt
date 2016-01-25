@@ -24,7 +24,7 @@ public class CommandTrophySlots : CommandBase {
         modCommands.add(CommandUnlockSlots())
 
         var i = 0;
-        while (i < modCommands.size()) {
+        while (i < modCommands.size) {
             commands.add(modCommands[i].commandName)
             ++i
         }
@@ -38,7 +38,7 @@ public class CommandTrophySlots : CommandBase {
 
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
         if (sender != null) {
-            if (args != null && args.size() >= 1) {
+            if (args != null && args.size >= 1) {
                 for (i in modCommands.indices) {
                     val commandBase : CommandBase = modCommands[i];
                     if (commandBase.commandName.equals(args[0], true) && commandBase.canCommandSenderUseCommand(sender))
@@ -51,9 +51,9 @@ public class CommandTrophySlots : CommandBase {
 
     override fun addTabCompletionOptions(sender: ICommandSender?, args: Array<out String>?, pos: BlockPos?): MutableList<String>? {
         if (sender != null && args != null) {
-            if (args.size() == 1)
+            if (args.size == 1)
                 return CommandBase.getListOfStringsMatchingLastWord(args, commands);
-            else if (args.size() >= 2) {
+            else if (args.size >= 2) {
                 for (i in modCommands.indices) {
                     val command : CommandBase = modCommands[i];
                     if (command.commandName.equals(args[0], true))
@@ -63,6 +63,4 @@ public class CommandTrophySlots : CommandBase {
         }
         return null;
     }
-
-    override fun compareTo(command: ICommand?): Int = this.commandName!!.compareTo(command!!.commandName)
 }

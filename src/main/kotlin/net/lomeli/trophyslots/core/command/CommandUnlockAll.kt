@@ -16,9 +16,9 @@ public class CommandUnlockAll : CommandBase() {
 
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
         if (sender != null) {
-            if (args != null && (args.size() == 1 || args.size() == 2)) {
+            if (args != null && (args.size == 1 || args.size == 2)) {
                 val player: EntityPlayerMP
-                if (args.size() == 2)
+                if (args.size == 2)
                     player = CommandBase.getPlayer(sender, args[1])
                 else
                     player = CommandBase.getCommandSenderAsPlayer(sender)
@@ -38,6 +38,4 @@ public class CommandUnlockAll : CommandBase() {
     override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.unlock-all.usage"
 
     override fun getCommandName(): String? = "unlock-all"
-
-    override fun compareTo(command: ICommand?): Int = this.commandName!!.compareTo(command!!.commandName)
 }

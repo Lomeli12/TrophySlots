@@ -38,7 +38,7 @@ class GuiLockedSlot(val gui: GuiContainer) : GuiButton(-111, 0, 0, 16, 16, "") {
     override fun drawButton(mc: Minecraft, mouseX: Int, mouseY: Int) {
         if (this.visible) {
             var slotList = gui.inventorySlots.inventorySlots;
-            if (slotList != null && slotList.size() > 0) {
+            if (slotList != null && slotList.size > 0) {
                 for (i in slotList.indices) {
                     var slot = gui.inventorySlots.getSlot(i)
                     if (slot != null && slot.isHere(mc.thePlayer.inventory, slot.slotIndex) && !TrophySlots.proxy!!.slotUnlocked(slot.slotIndex))
