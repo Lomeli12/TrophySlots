@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 
-public class MessageSlotsClient : IMessage, IMessageHandler<MessageSlotsClient, IMessage> {
+class MessageSlotsClient : IMessage, IMessageHandler<MessageSlotsClient, IMessage> {
     private var slots = 0
     private var startingSlots = 0
     private var setOrder = false

@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.ContainerPlayer
 import net.minecraft.inventory.SlotCrafting
 
-public object PlayerInvMod : ICompatModule {
+object PlayerInvMod : ICompatModule {
     override fun replaceSlots(container: GuiContainer, player: EntityPlayer) {
         val containerPlayer = ContainerPlayer(player.inventory, !player.worldObj.isRemote, player)
         val slotList = containerPlayer.inventorySlots

@@ -1,20 +1,21 @@
 package net.lomeli.trophyslots.client
 
 import net.lomeli.trophyslots.TrophySlots
+import net.lomeli.trophyslots.client.models.ModelHandler
 import net.lomeli.trophyslots.compat.CompatManager
-import net.lomeli.trophyslots.core.ModItems
 import net.lomeli.trophyslots.core.Proxy
 import net.lomeli.trophyslots.core.SlotUtil
-import net.minecraft.client.Minecraft
 
-public class ClientProxy : Proxy() {
+class ClientProxy : Proxy() {
     private var slotsUnlocked = 0
 
-    override fun preInit() = super.preInit()
+    override fun preInit() {
+        super.preInit()
+        ModelHandler.registerModels()
+    }
 
     override fun init() {
         super.init()
-        Minecraft.getMinecraft().renderItem.itemModelMesher.register(ModItems.trophy, BasicItemMesh("${TrophySlots.MOD_ID}:trophy"));
         registerForgeEvent(EventHandlerClient)
         registerForgeEvent(TrophySlots.modConfig!!)
     }

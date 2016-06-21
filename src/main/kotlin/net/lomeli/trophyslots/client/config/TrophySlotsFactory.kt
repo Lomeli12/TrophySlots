@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.fml.client.IModGuiFactory
 
-public class TrophySlotsFactory : IModGuiFactory {
+class TrophySlotsFactory : IModGuiFactory {
     override fun runtimeGuiCategories(): MutableSet<IModGuiFactory.RuntimeOptionCategoryElement>? = null
 
     override fun mainConfigGuiClass(): Class<out GuiScreen>? = GuiTrophySlotsConfig::class.java

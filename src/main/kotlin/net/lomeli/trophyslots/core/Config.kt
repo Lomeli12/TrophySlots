@@ -1,7 +1,7 @@
 package net.lomeli.trophyslots.core
 
 import net.lomeli.trophyslots.TrophySlots
-import net.minecraft.util.StatCollector
+import net.minecraft.util.text.translation.I18n
 import net.minecraftforge.common.config.Configuration
 import net.minecraftforge.fml.client.event.ConfigChangedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -9,14 +9,14 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import java.io.File
 
-public class Config {
+class Config {
     val config: Configuration
 
     constructor(file: File) {
         config = Configuration(file)
     }
 
-    public fun loadConfig() {
+    fun loadConfig() {
         TrophySlots.proxy?.startingSlots = config.getInt("startingSlots", Configuration.CATEGORY_GENERAL, 9, 0, 36, translate("config.trophyslots.startingSlots"));
         TrophySlots.unlockViaAchievements = config.getBoolean("unlockViaAchievements", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.unlockAchieve"));
         TrophySlots.canUseTrophy = config.getBoolean("canUseTrophy", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.canUseTrophy"));
@@ -36,17 +36,17 @@ public class Config {
             config.save()
     }
 
-    public fun fillWhiteList(whiteList: String) {
+    fun fillWhiteList(whiteList: String) {
         var achievementIDs = whiteList.split(";")
         if (achievementIDs.size > 0)
             TrophySlots.proxy?.setWhiteList(achievementIDs)
     }
 
-    public fun translate(st: String): String = StatCollector.translateToLocal(st)
+    fun translate(st: String): String = I18n.translateToLocal(st)
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
-    public fun onConfigChange(event: ConfigChangedEvent.OnConfigChangedEvent) {
+    fun onConfigChange(event: ConfigChangedEvent.OnConfigChangedEvent) {
         if (event.modID.equals(TrophySlots.MOD_ID))
             TrophySlots.modConfig?.loadConfig()
     }

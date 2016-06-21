@@ -6,23 +6,26 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.EnumRarity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ChatComponentTranslation
-import net.minecraft.util.StatCollector
+import net.minecraft.util.ActionResult
+import net.minecraft.util.EnumActionResult
+import net.minecraft.util.EnumHand
+import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.translation.I18n
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import org.lwjgl.input.Keyboard
 
-public class ItemTrophy : Item {
+class ItemTrophy : Item {
     constructor() : super() {
-        setCreativeTab(CreativeTabs.tabMisc)
+        this.creativeTab = CreativeTabs.MISC
+        this.unlocalizedName = "${TrophySlots.MOD_ID}.trophy"
         setMaxStackSize(1)
-        setUnlocalizedName("${TrophySlots.MOD_ID}.trophy")
     }
 
-    public fun fromVillager(stack: ItemStack): Boolean = if (stack.hasTagCompound()) stack.tagCompound.getBoolean("fromVillager") else false
+    fun fromVillager(stack: ItemStack): Boolean = if (stack.hasTagCompound()) stack.tagCompound!!.getBoolean("fromVillager") else false
 
-    @SideOnly(Side.CLIENT) public fun safeKeyDown(keyCode: Int): Boolean {
+    @SideOnly(Side.CLIENT) fun safeKeyDown(keyCode: Int): Boolean {
         try {
             return Keyboard.isKeyDown(keyCode)
         } catch (e: Exception) {
@@ -37,13 +40,14 @@ public class ItemTrophy : Item {
         }
     }
 
-    override fun onItemRightClick(stack: ItemStack?, world: World?, player: EntityPlayer?): ItemStack? {
+    override fun onItemRightClick(stack: ItemStack?, world: World?, player: EntityPlayer?, hand: EnumHand?): ActionResult<ItemStack>? {
+        var result = EnumActionResult.FAIL;
         if (world != null && !world.isRemote && stack != null && player != null) {
             if (!TrophySlots.canBuyTrophy && fromVillager(stack))
-                player.addChatComponentMessage(ChatComponentTranslation("msg.trophyslots.villager"))
+                player.addChatComponentMessage(TextComponentTranslation("msg.trophyslots.villager"))
             else if (!TrophySlots.canUseTrophy)
-                player.addChatComponentMessage(ChatComponentTranslation("msg.trophyslots.trophy"))
-            else {
+                player.addChatComponentMessage(TextComponentTranslation("msg.trophyslots.trophy"))
+            else if (hand == EnumHand.MAIN_HAND) {
                 if (stack.itemDamage == 0) {
                     if (TrophySlots.proxy!!.unlockSlot(player)) {
                         if (!player.capabilities.isCreativeMode)
@@ -55,9 +59,10 @@ public class ItemTrophy : Item {
                             stack.stackSize--
                     }
                 }
+                result = EnumActionResult.PASS;
             }
         }
-        return stack;
+        return ActionResult<ItemStack>(result, stack);
     }
 
     @SideOnly(Side.CLIENT) override fun addInformation(stack: ItemStack?, playerIn: EntityPlayer?, tooltip: MutableList<String>?, advanced: Boolean) {
@@ -66,25 +71,25 @@ public class ItemTrophy : Item {
         if (stack.itemDamage == 0) {
             if (safeKeyDown(Keyboard.KEY_LSHIFT)) {
                 if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
-                    tooltip.add(StatCollector.translateToLocal("subtext.torphyslots.trophy.villager"))
-                tooltip.add(StatCollector.translateToLocal("subtext.trophyslots.trophy"))
+                    tooltip.add(I18n.translateToLocal("subtext.torphyslots.trophy.villager"))
+                tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy"))
                 if (TrophySlots.canUseTrophy)
-                    tooltip.add(StatCollector.translateToLocal("subtext.trophyslots.trophy.canUse"))
+                    tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy.canUse"))
                 else
-                    tooltip.add(StatCollector.translateToLocal("subtext.trophyslots.trophy.cannotUse"))
+                    tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy.cannotUse"))
             } else {
-                tooltip.add(StatCollector.translateToLocal("subtext.trophyslots.info"))
+                tooltip.add(I18n.translateToLocal("subtext.trophyslots.info"))
                 if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
-                    tooltip.add(StatCollector.translateToLocal("subtext.torphyslots.trophy.villager"))
+                    tooltip.add(I18n.translateToLocal("subtext.torphyslots.trophy.villager"))
             }
         } else {
             if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
-                tooltip.add(StatCollector.translateToLocal("subtext.torphyslots.trophy.villager"))
-            tooltip.add(StatCollector.translateToLocal("subtext.torphyslots.trophy.cheat"))
+                tooltip.add(I18n.translateToLocal("subtext.torphyslots.trophy.villager"))
+            tooltip.add(I18n.translateToLocal("subtext.torphyslots.trophy.cheat"))
             if (TrophySlots.canUseTrophy)
-                tooltip.add(StatCollector.translateToLocal("subtext.trophyslots.trophy.canUse"))
+                tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy.canUse"))
             else
-                tooltip.add(StatCollector.translateToLocal("subtext.trophyslots.trophy.cannotUse"))
+                tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy.cannotUse"))
         }
     }
 

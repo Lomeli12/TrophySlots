@@ -3,7 +3,7 @@ package net.lomeli.trophyslots;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.stats.Achievement;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
 
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.fml.common.Mod;
@@ -26,8 +26,7 @@ public class TrophySlots {
     public static final String MOD_ID = "trophyslots";
     public static final String MOD_NAME = "Trophy Slots";
     public static final String KOTLIN_ADAPTER = "net.lomeli.trophyslots.KotlinAdapter";
-    public static final int MAJOR = 3, MINOR = 0, REV = 0;
-    public static final String VERSION = MAJOR + "." + MINOR + "." + REV;
+    public static final String VERSION = "@VERSION@";
     public static final String updateUrl = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/master/update.json";
     public static final String slotsUnlocked = MOD_ID + "_slotsUnlocked";
 
@@ -59,7 +58,7 @@ public class TrophySlots {
     public void preInit(FMLPreInitializationEvent event) {
         log = new Logger();
         try {
-            EntityPlayer.class.getMethod("addChatComponentMessage", IChatComponent.class);
+            EntityPlayer.class.getMethod("addChatComponentMessage", ITextComponent.class);
             debug = true;
             log.logInfo("Dev environment, enabled logging!");
         } catch (Exception e) {
@@ -69,7 +68,7 @@ public class TrophySlots {
 
         modConfig = new Config(event.getSuggestedConfigurationFile());
         modConfig.loadConfig();
-        versionHandler = new VersionChecker(updateUrl, MOD_NAME, MAJOR, MINOR, REV);
+        versionHandler = new VersionChecker(updateUrl, MOD_NAME, VERSION);
         if (checkForUpdates)
             versionHandler.checkForUpdates();
 
@@ -85,7 +84,7 @@ public class TrophySlots {
     public void init(FMLInitializationEvent event) {
         proxy.init();
 
-        firstSlot = new Achievement("achievement.trophyslots.firstSlot", "firstSlotAchievement", 0, 0, Blocks.chest, null).registerStat();
+        firstSlot = new Achievement("achievement.trophyslots.firstSlot", "firstSlotAchievement", 0, 0, Blocks.CHEST, null).registerStat();
         maxCapcity = new  Achievement("achievement.trophyslots.maximumCapacity", "maximumCapacityAchievement", 2, 0, ModItems.trophy, firstSlot).registerStat();
 
         achievementPage = new AchievementPage(MOD_NAME, firstSlot, maxCapcity);

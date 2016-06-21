@@ -4,29 +4,29 @@ import net.lomeli.trophyslots.TrophySlots
 import net.lomeli.trophyslots.core.SlotUtil
 import net.lomeli.trophyslots.core.network.MessageSlotsClient
 import net.minecraft.command.CommandBase
-import net.minecraft.command.ICommand
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayerMP
-import net.minecraft.util.ChatComponentText
-import net.minecraft.util.ChatComponentTranslation
-import net.minecraft.util.StatCollector
+import net.minecraft.server.MinecraftServer
+import net.minecraft.util.text.TextComponentString
+import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.translation.I18n
 
-public class CommandUnlockSlots : CommandBase() {
-    override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
+class CommandUnlockSlots : CommandBase() {
+    override fun execute(server: MinecraftServer?, sender: ICommandSender?, args: Array<out String>?) {
         if (sender != null) {
             if (args != null && (args.size == 2 || args.size == 3)) {
                 val player: EntityPlayerMP
                 val newSlots: Int
                 if (args.size == 3) {
-                    newSlots = parseString(args[2])
-                    player = CommandBase.getPlayer(sender, args[1])
+                    newSlots = parseInt(args[2])
+                    player = CommandBase.getPlayer(server, sender, args[1])
                 } else {
-                    newSlots = parseString(args[1])
+                    newSlots = parseInt(args[1])
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 }
                 if (player != null && (newSlots > 0 && newSlots <= SlotUtil.getMaxSlots())) {
                     if (SlotUtil.hasUnlockedAllSlots(player))
-                        sender.addChatMessage(ChatComponentText(StatCollector.translateToLocal("command.trophyslots.unlock-slots.error.all").format(player.displayName.unformattedText)))
+                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock-slots.error.all").format(player.displayName.unformattedText)))
                     else {
                         val slots = SlotUtil.getSlotsUnlocked(player) + newSlots
                         if (slots >= SlotUtil.getMaxSlots())
@@ -34,14 +34,14 @@ public class CommandUnlockSlots : CommandBase() {
                         else {
                             SlotUtil.setSlotsUnlocked(player, slots)
                             TrophySlots.packetHandler.sendTo(MessageSlotsClient(slots), player)
-                            player.addChatMessage(ChatComponentText(StatCollector.translateToLocal("msg.trophyslots.unlockSlot").format(newSlots)))
+                            player.addChatMessage(TextComponentString(I18n.translateToLocal("msg.trophyslots.unlockSlot").format(newSlots)))
                         }
-                        sender.addChatMessage(ChatComponentText(StatCollector.translateToLocal("command.trophyslots.unlock-slots.success").format(newSlots, player.displayName.unformattedText)))
+                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock-slots.success").format(newSlots, player.displayName.unformattedText)))
                     }
                 } else
-                    sender.addChatMessage(ChatComponentText(StatCollector.translateToLocal("command.trophyslots.unlock-slots.error").format(SlotUtil.getMaxSlots())))
+                    sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock-slots.error").format(SlotUtil.getMaxSlots())))
             } else
-                sender.addChatMessage(ChatComponentTranslation(getCommandUsage(sender)))
+                sender.addChatMessage(TextComponentTranslation(getCommandUsage(sender)))
         }
     }
 
@@ -50,13 +50,4 @@ public class CommandUnlockSlots : CommandBase() {
     override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.unlock-slots.usage"
 
     override fun getRequiredPermissionLevel(): Int = 2
-
-    private fun parseString(st: String): Int {
-        try {
-            return Integer.parseInt(st)
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            return -1
-        }
-    }
 }

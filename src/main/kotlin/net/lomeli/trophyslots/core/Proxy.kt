@@ -6,57 +6,57 @@ import net.lomeli.trophyslots.core.handler.EventHandlerServer
 import net.lomeli.trophyslots.core.network.MessageSlotsClient
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
-import net.minecraft.util.ChatComponentTranslation
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.FMLCommonHandler
 
-public open class Proxy {
+open class Proxy {
     protected var reverseOrder = false
     var startingSlots: Int = 9
     protected var achievementWhiteList: List<String> = Lists.newArrayList()
 
-    public open fun preInit() {
+    open fun preInit() {
         TrophySlots.log.logInfo("Pre-Init")
         ModItems.registerItems()
         //TODO: Villager stuff once VillagerRegistry is back
     }
 
-    public open fun init() {
+    open fun init() {
         TrophySlots.log.logInfo("Init")
         val eventHandlerServer = EventHandlerServer()
         registerForgeEvent(eventHandlerServer)
         registerForgeEvent(eventHandlerServer)
     }
 
-    public open fun postInit() {
+    open fun postInit() {
         TrophySlots.log.logInfo("Post-Init")
     }
 
-    public fun unlockReverse(): Boolean = reverseOrder
+    fun unlockReverse(): Boolean = reverseOrder
 
-    public fun setReverse(bool: Boolean) {
+    fun setReverse(bool: Boolean) {
         reverseOrder = bool
     }
 
     protected fun registerForgeEvent(obj: Any) = MinecraftForge.EVENT_BUS.register(obj)
 
-    public fun getWhiteList(): List<String> {
+    fun getWhiteList(): List<String> {
         achievementWhiteList = Lists.newArrayList()
         return achievementWhiteList
     }
 
-    public fun setWhiteList(list: List<String>) {
+    fun setWhiteList(list: List<String>) {
         achievementWhiteList = list;
     }
 
-    public fun unlockSlot(player: EntityPlayer): Boolean {
+    fun unlockSlot(player: EntityPlayer): Boolean {
         if (!SlotUtil.hasUnlockedAllSlots(player)) {
             var i = SlotUtil.getSlotsUnlocked(player) + 1
             SlotUtil.setSlotsUnlocked(player, i)
             if (i >= SlotUtil.getMaxSlots())
-                player.addChatComponentMessage(ChatComponentTranslation("msg.trophyslots.unlockAll"))
+                player.addChatComponentMessage(TextComponentTranslation("msg.trophyslots.unlockAll"))
             else
-                player.addChatComponentMessage(ChatComponentTranslation("msg.trophyslots.unlock"))
+                player.addChatComponentMessage(TextComponentTranslation("msg.trophyslots.unlock"))
             if (player is EntityPlayerMP)
                 sendMessageSlotClient(player, i)
             else {
@@ -77,10 +77,10 @@ public open class Proxy {
 
     }
 
-    public fun unlockAllSlots(player: EntityPlayer): Boolean {
+    fun unlockAllSlots(player: EntityPlayer): Boolean {
         if (!SlotUtil.hasUnlockedAllSlots(player)) {
             SlotUtil.setSlotsUnlocked(player, SlotUtil.getMaxSlots())
-            player.addChatComponentMessage(ChatComponentTranslation("msg.trophyslots.unlockAll"))
+            player.addChatComponentMessage(TextComponentTranslation("msg.trophyslots.unlockAll"))
             if (player is EntityPlayerMP)
                 sendMessageSlotClient(player, SlotUtil.getMaxSlots())
             else {
@@ -92,23 +92,23 @@ public open class Proxy {
         return false;
     }
 
-    public open fun getSlotsUnlocked(): Int = 0
+    open fun getSlotsUnlocked(): Int = 0
 
-    public open fun setSlotsUnlocked(i0: Int) {
+    open fun setSlotsUnlocked(i0: Int) {
     }
 
-    public open fun slotUnlocked(slot: Int): Boolean = false
+    open fun slotUnlocked(slot: Int): Boolean = false
 
-    public open fun hasUnlockedAllSlots(): Boolean = false
+    open fun hasUnlockedAllSlots(): Boolean = false
 
-    public open fun reset() {
-
-    }
-
-    public open fun resetConfig() {
+    open fun reset() {
 
     }
 
-    public open fun openWhitelistGui() {
+    open fun resetConfig() {
+
+    }
+
+    open fun openWhitelistGui() {
     }
 }

@@ -1,11 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.0.0-beta-4589'
+    ext.kotlin_version = '1.0.2'
     repositories {
         jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+        mavenCentral()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
@@ -14,7 +15,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.github.johnrengelman.shadow' version '1.2.2'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
 }
 
 apply plugin: 'kotlin'
@@ -40,8 +41,8 @@ configurations {
 
 dependencies {
     // Shading
-    shade "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    shade "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 }
 
 group = "$modGroup"
@@ -51,6 +52,7 @@ version = "$releaseVersion"
 minecraft {
     version = "$mcVersion-$mcfVersion" // grab latest forge
     runDir = "run"
+    replace '@VERSION@', project.version
     mappings = "$mcpMap"
 }
 
@@ -63,16 +65,14 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        include 'dependencies.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version, 'kotlinversion':"$kotlinVersion"
     }
-        
+
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
-        exclude 'dependencies.info'
     }
 }
 

@@ -6,14 +6,14 @@ import net.minecraft.client.renderer.GlStateManager
 import net.minecraftforge.fml.client.FMLClientHandler
 import java.util.*
 
-public object GuiEffectRenderer {
+object GuiEffectRenderer {
     val rand = Random()
     val mc = FMLClientHandler.instance().client;
     val snowMax = 500
     var renderTick = 0
     val snowFlakeList = ArrayList<SnowFlake>()
 
-    public fun snowFlakeRenderer(gui: GuiScreen) {
+    fun snowFlakeRenderer(gui: GuiScreen) {
         if (snowFlakeList.isEmpty()) {
             for (i in 0..snowMax)
                 snowFlakeList.add(SnowFlake(6 + rand.nextInt(mc.displayHeight), 1))
@@ -29,17 +29,17 @@ public object GuiEffectRenderer {
         renderTick++
     }
 
-    public fun validDate(): Boolean = TrophySlots.xmas && Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
+    fun validDate(): Boolean = TrophySlots.xmas && Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
 
-    public fun clearPrevList() {
+    fun clearPrevList() {
         if (snowFlakeList.size > 0) {
             renderTick = 0
             snowFlakeList.clear()
         }
     }
 
-    public class SnowFlake(var x: Int, val speed: Int) {
-        public var y = 0
+    class SnowFlake(var x: Int, val speed: Int) {
+        var y = 0
         private var startX = 0
         private var alpha = 0f
 
@@ -49,7 +49,7 @@ public object GuiEffectRenderer {
             this.alpha = 0.0001f + rand.nextFloat()
         }
 
-        public fun draw(gui: GuiScreen) {
+        fun draw(gui: GuiScreen) {
             GlStateManager.pushMatrix()
             GlStateManager.enableBlend()
             GlStateManager.color(1f, 1f, 1f, alpha)

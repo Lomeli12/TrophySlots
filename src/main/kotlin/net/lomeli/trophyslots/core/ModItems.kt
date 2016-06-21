@@ -3,12 +3,17 @@ package net.lomeli.trophyslots.core
 import net.minecraft.item.Item
 import net.minecraftforge.fml.common.registry.GameRegistry
 
-public object ModItems {
+object ModItems {
     @JvmField
-    public var trophy: Item? = null
+    var trophy: Item? = null
 
-    public fun registerItems() {
+    fun registerItems() {
         trophy = ItemTrophy()
-        GameRegistry.registerItem(trophy, "trophy")
+        registerItem(trophy!!, "trophy")
+    }
+
+    fun registerItem(item: Item, name: String) {
+        item.setRegistryName(name)
+        GameRegistry.register(item)
     }
 }

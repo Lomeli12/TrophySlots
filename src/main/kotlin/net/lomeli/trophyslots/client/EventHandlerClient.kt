@@ -13,17 +13,17 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
-@SideOnly(Side.CLIENT) public object EventHandlerClient {
-    public val resourceFile = ResourceLocation(TrophySlots.MOD_ID + ":textures/cross.png")
+@SideOnly(Side.CLIENT) object EventHandlerClient {
+    val resourceFile = ResourceLocation(TrophySlots.MOD_ID + ":textures/cross.png")
 
-    @SubscribeEvent public fun postDrawGuiEvent(event: GuiScreenEvent.DrawScreenEvent.Post) {
+    @SubscribeEvent fun postDrawGuiEvent(event: GuiScreenEvent.DrawScreenEvent.Post) {
         if (event.gui != null && event.gui is GuiContainer) {
             if (GuiEffectRenderer.validDate())
                 GuiEffectRenderer.snowFlakeRenderer(event.gui)
         }
     }
 
-    @SubscribeEvent public fun guiPostInit(event: GuiScreenEvent.InitGuiEvent.Post) {
+    @SubscribeEvent fun guiPostInit(event: GuiScreenEvent.InitGuiEvent.Post) {
         val mc = FMLClientHandler.instance().client;
         if (event.gui != null && event.gui is GuiContainer) {
             val gui = event.gui as GuiContainer
@@ -34,7 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
         }
     }
 
-    @SubscribeEvent public fun openGuiEvent(event: GuiOpenEvent) {
+    @SubscribeEvent fun openGuiEvent(event: GuiOpenEvent) {
         val mc = FMLClientHandler.instance().client;
         if (event.gui != null && event.gui is GuiContainer) {
             val gui = event.gui as GuiContainer

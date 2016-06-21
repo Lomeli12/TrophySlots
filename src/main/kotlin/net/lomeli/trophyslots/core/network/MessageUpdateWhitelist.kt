@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 import java.util.*
 
-public class MessageUpdateWhitelist : IMessage, IMessageHandler<MessageUpdateWhitelist, IMessage> {
+class MessageUpdateWhitelist : IMessage, IMessageHandler<MessageUpdateWhitelist, IMessage> {
     private val whiteList: ArrayList<String>
 
     constructor() {

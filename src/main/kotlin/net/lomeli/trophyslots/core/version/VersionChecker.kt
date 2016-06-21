@@ -3,8 +3,8 @@ package net.lomeli.trophyslots.core.version
 import com.google.gson.Gson
 import net.lomeli.trophyslots.TrophySlots
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.ChatComponentText
-import net.minecraft.util.StatCollector
+import net.minecraft.util.text.TextComponentString
+import net.minecraft.util.text.translation.I18n
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.client.FMLClientHandler
 import net.minecraftforge.fml.common.Loader
@@ -16,22 +16,47 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import java.io.InputStreamReader
 import java.net.URL
 
-public class VersionChecker(val jsonURL: String, val modname: String, val mod_major: Int, val mod_minor: Int, val mod_rev: Int) {
+class VersionChecker(val jsonURL: String, val modname: String, val modversion: String) {
     var needsUpdate: Boolean = false
     var isDirect: Boolean = false
     var doneTelling: Boolean = false
     var version: String? = null
     var downloadURL: String? = null
-    val currentVer: String
     var changeList: List<String>? = null
+    var mod_major: Int = 0
+    var mod_minor: Int = 0
+    var mod_rev: Int = 0
 
     init {
-        this.currentVer = "$mod_major.$mod_minor.$mod_rev"
+        getVersionFromID(modversion)
         this.needsUpdate = false
         this.isDirect = false
         this.doneTelling = true
 
         MinecraftForge.EVENT_BUS.register(this)
+    }
+
+    private fun getVersionFromID(str: String) {
+        val arr = str.split('.').dropLastWhile { it.isEmpty() }.toTypedArray()
+        for (i in 0..2) {
+            if (i < arr.size) {
+                val value = parseInt(arr[i])
+                when (i) {
+                    0 -> this.mod_major = value
+                    1 -> this.mod_minor = value
+                    2 -> this.mod_rev = value
+                }
+            }
+        }
+    }
+
+    private fun parseInt(str: String): Int {
+        try {
+            return Integer.parseInt(str)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return 0
     }
 
     fun checkForUpdates() {
@@ -68,7 +93,7 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
         return false
     }
 
-    fun translate(unlocalized: String): String = StatCollector.translateToLocal(unlocalized)
+    fun translate(unlocalized: String): String = I18n.translateToLocal(unlocalized)
 
     fun sendMessage() {
         if (Loader.isModLoaded("VersionChecker")) {
@@ -78,7 +103,7 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
 
             val tag = NBTTagCompound()
             tag.setString("modDisplayName", this.modname)
-            tag.setString("oldVersion", this.currentVer)
+            tag.setString("oldVersion", this.modversion)
             tag.setString("newVersion", this.version)
             tag.setString("updateUrl", this.downloadURL)
             tag.setBoolean("isDirectLink", this.isDirect)
@@ -86,6 +111,7 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
             FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag)
         }
         TrophySlots.log.logInfo(translate("update.trophyslots").format(this.version, this.downloadURL))
+        TrophySlots.log.logInfo(translate("update.trophyslots.old").format(this.modversion))
     }
 
     @SubscribeEvent
@@ -94,7 +120,7 @@ public class VersionChecker(val jsonURL: String, val modname: String, val mod_ma
         if (event.phase == TickEvent.Phase.END && FMLClientHandler.instance().client.thePlayer != null) {
             val player = FMLClientHandler.instance().client.thePlayer
             if (!this.doneTelling) {
-                player.addChatComponentMessage(ChatComponentText(translate("update.trophyslots").format(this.version, this.downloadURL)))
+                player.addChatComponentMessage(TextComponentString(translate("update.trophyslots").format(this.version, this.downloadURL)))
                 this.doneTelling = true
             }
         }

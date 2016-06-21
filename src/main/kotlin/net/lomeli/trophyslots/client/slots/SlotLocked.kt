@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
-public class SlotLocked(inv: IInventory, slot: Int, x: Int, y: Int) : Slot(inv, slot, x, y) {
+class SlotLocked(inv: IInventory, slot: Int, x: Int, y: Int) : Slot(inv, slot, x, y) {
 
     override fun decrStackSize(amount: Int): ItemStack? = if (TrophySlots.proxy!!.slotUnlocked(slotIndex)) super.decrStackSize(amount) else null
 

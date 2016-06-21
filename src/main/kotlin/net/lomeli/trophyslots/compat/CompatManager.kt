@@ -4,7 +4,7 @@ import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.entity.player.EntityPlayer
 import java.util.*
 
-public object CompatManager {
+object CompatManager {
     private var moduleList: MutableList<ICompatModule>? = null
 
     fun initCompatModules() {
