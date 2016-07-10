@@ -38,13 +38,15 @@ class VersionChecker(val jsonURL: String, val modname: String, val modversion: S
 
     private fun getVersionFromID(str: String) {
         val arr = str.split('.').dropLastWhile { it.isEmpty() }.toTypedArray()
-        for (i in 0..2) {
-            if (i < arr.size) {
-                val value = parseInt(arr[i])
-                when (i) {
-                    0 -> this.mod_major = value
-                    1 -> this.mod_minor = value
-                    2 -> this.mod_rev = value
+        if (!str.equals("@VERSION@")) {
+            for (i in 0..2) {
+                if (i < arr.size) {
+                    val value = parseInt(arr[i])
+                    when (i) {
+                        0 -> this.mod_major = value
+                        1 -> this.mod_minor = value
+                        2 -> this.mod_rev = value
+                    }
                 }
             }
         }
