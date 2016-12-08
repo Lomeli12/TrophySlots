@@ -16,20 +16,20 @@ open class Proxy {
     protected var achievementWhiteList: List<String> = Lists.newArrayList()
 
     open fun preInit() {
-        TrophySlots.log.logInfo("Pre-Init")
+        TrophySlots.log?.logInfo("Pre-Init")
         ModItems.registerItems()
         //TODO: Villager stuff once VillagerRegistry is back
     }
 
     open fun init() {
-        TrophySlots.log.logInfo("Init")
+        TrophySlots.log?.logInfo("Init")
         val eventHandlerServer = EventHandlerServer()
         registerForgeEvent(eventHandlerServer)
         registerForgeEvent(eventHandlerServer)
     }
 
     open fun postInit() {
-        TrophySlots.log.logInfo("Post-Init")
+        TrophySlots.log?.logInfo("Post-Init")
     }
 
     fun unlockReverse(): Boolean = reverseOrder

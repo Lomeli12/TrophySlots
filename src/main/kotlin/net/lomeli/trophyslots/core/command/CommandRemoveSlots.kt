@@ -33,7 +33,7 @@ class CommandRemoveSlots : CommandBase() {
                         if (slots < 0)
                             slots = 0
                         SlotUtil.setSlotsUnlocked(player, slots)
-                        TrophySlots.packetHandler.sendTo(MessageSlotsClient(slots), player)
+                        TrophySlots.packetHandler?.sendTo(MessageSlotsClient(slots), player)
                         if (slots == 0)
                             player.addChatMessage(TextComponentTranslation("msg.trophyslots.lostAll"))
                         else

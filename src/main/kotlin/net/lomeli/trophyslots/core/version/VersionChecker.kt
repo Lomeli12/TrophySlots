@@ -63,7 +63,7 @@ class VersionChecker(val jsonURL: String, val modname: String, val modversion: S
 
     fun checkForUpdates() {
         try {
-            TrophySlots.log.logInfo(translate("update.trophyslots.checking"))
+            TrophySlots.log?.logInfo(translate("update.trophyslots.checking"))
             val url = URL(this.jsonURL)
             val gson = Gson()
             val update = gson.fromJson(InputStreamReader(url.openStream()), UpdateJson::class.java)
@@ -77,10 +77,10 @@ class VersionChecker(val jsonURL: String, val modname: String, val modversion: S
                     this.doneTelling = false
                     sendMessage()
                 } else
-                    TrophySlots.log.logInfo(translate("update.trophyslots.none"))
+                    TrophySlots.log?.logInfo(translate("update.trophyslots.none"))
             }
         } catch (e: Exception) {
-            TrophySlots.log.logError(translate("update.trophyslots.failed"))
+            TrophySlots.log?.logError(translate("update.trophyslots.failed"))
         }
 
     }
@@ -112,8 +112,8 @@ class VersionChecker(val jsonURL: String, val modname: String, val modversion: S
             tag.setString("changeLog", changeLog)
             FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag)
         }
-        TrophySlots.log.logInfo(translate("update.trophyslots").format(this.version, this.downloadURL))
-        TrophySlots.log.logInfo(translate("update.trophyslots.old").format(this.modversion))
+        TrophySlots.log?.logInfo(translate("update.trophyslots").format(this.version, this.downloadURL))
+        TrophySlots.log?.logInfo(translate("update.trophyslots.old").format(this.modversion))
     }
 
     @SubscribeEvent

@@ -49,7 +49,7 @@ class EventHandlerServer {
     }
 
     @SubscribeEvent fun achievementGetEvent(event: AchievementEvent) {
-        if (!event.isCanceled && !event.entityPlayer.worldObj.isRemote) {
+        if (!event.isCanceled && !event.entityPlayer.worldObj.isRemote && FMLCommonHandler.instance().minecraftServerInstance != null) {
             val player = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(event.entityPlayer.dimension).getPlayerEntityByUUID(event.entityPlayer.uniqueID) as EntityPlayerMP
             if (!player.statFile.hasAchievementUnlocked(event.achievement) && TrophySlots.unlockViaAchievements && !SlotUtil.hasUnlockedAllSlots(player)) {
                 if (player.statFile.canUnlockAchievement(event.achievement) && event.achievement != TrophySlots.firstSlot && event.achievement != TrophySlots.maxCapcity) {

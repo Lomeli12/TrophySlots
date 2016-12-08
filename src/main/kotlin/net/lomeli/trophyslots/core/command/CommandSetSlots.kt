@@ -26,7 +26,7 @@ class CommandSetSlots : CommandBase() {
                 }
                 if (player != null && (slots > 0 && slots <= SlotUtil.getMaxSlots())) {
                     SlotUtil.setSlotsUnlocked(player, slots);
-                    TrophySlots.packetHandler.sendTo(MessageSlotsClient(slots), player);
+                    TrophySlots.packetHandler?.sendTo(MessageSlotsClient(slots), player);
                     sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.set-slots.success").format(player.displayName.unformattedText, slots)));
                     if (!player.statFile.hasAchievementUnlocked(TrophySlots.firstSlot) && player.statFile.canUnlockAchievement(TrophySlots.firstSlot))
                         player.addStat(TrophySlots.firstSlot, 1);

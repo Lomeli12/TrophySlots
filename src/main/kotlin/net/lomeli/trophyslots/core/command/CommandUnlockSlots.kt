@@ -30,10 +30,10 @@ class CommandUnlockSlots : CommandBase() {
                     else {
                         val slots = SlotUtil.getSlotsUnlocked(player) + newSlots
                         if (slots >= SlotUtil.getMaxSlots())
-                            TrophySlots.proxy.unlockAllSlots(player)
+                            TrophySlots.proxy?.unlockAllSlots(player)
                         else {
                             SlotUtil.setSlotsUnlocked(player, slots)
-                            TrophySlots.packetHandler.sendTo(MessageSlotsClient(slots), player)
+                            TrophySlots.packetHandler?.sendTo(MessageSlotsClient(slots), player)
                             player.addChatMessage(TextComponentString(I18n.translateToLocal("msg.trophyslots.unlockSlot").format(newSlots)))
                         }
                         sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock-slots.success").format(newSlots, player.displayName.unformattedText)))

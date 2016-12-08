@@ -25,7 +25,7 @@ class CommandRemoveAll : CommandBase() {
                         sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove-all.error").format(player.displayName.unformattedText)))
                     else {
                         SlotUtil.setSlotsUnlocked(player, 0)
-                        TrophySlots.packetHandler.sendTo(MessageSlotsClient(0), player)
+                        TrophySlots.packetHandler?.sendTo(MessageSlotsClient(0), player)
                         player.addChatMessage(TextComponentTranslation("msg.trophyslots.lostAll"))
                         sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove-all.success").format(player.displayName.unformattedText)));
                     }
