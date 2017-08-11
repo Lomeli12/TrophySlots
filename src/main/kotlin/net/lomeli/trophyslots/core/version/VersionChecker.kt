@@ -120,13 +120,11 @@ class VersionChecker(val jsonURL: String, val modname: String, val modversion: S
         TrophySlots.log?.logInfo(translate("update.trophyslots.old").format(this.modversion))
     }
 
-    @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    fun onClientTick(event: TickEvent.ClientTickEvent) {
-        if (event.phase == TickEvent.Phase.END && FMLClientHandler.instance().client.thePlayer != null) {
-            val player = FMLClientHandler.instance().client.thePlayer
+    @SubscribeEvent @SideOnly(Side.CLIENT) fun onClientTick(event: TickEvent.ClientTickEvent) {
+        if (event.phase == TickEvent.Phase.END && FMLClientHandler.instance().client.player != null) {
+            val player = FMLClientHandler.instance().client.player
             if (!this.doneTelling) {
-                player.addChatComponentMessage(TextComponentString(translate("update.trophyslots").format(this.version, this.downloadURL)))
+                player.sendStatusMessage(TextComponentString(translate("update.trophyslots").format(this.version, this.downloadURL)), true)
                 this.doneTelling = true
             }
         }
