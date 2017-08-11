@@ -1,8 +1,6 @@
 package net.lomeli.trophyslots.core.command
 
-import net.lomeli.trophyslots.TrophySlots
-import net.lomeli.trophyslots.core.SlotUtil
-import net.lomeli.trophyslots.core.network.MessageSlotsClient
+import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayerMP
@@ -24,30 +22,33 @@ class CommandUnlockSlots : CommandBase() {
                     newSlots = parseInt(args[1])
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 }
-                if (player != null && (newSlots > 0 && newSlots <= SlotUtil.getMaxSlots())) {
-                    if (SlotUtil.hasUnlockedAllSlots(player))
-                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock-slots.error.all").format(player.displayName.unformattedText)))
+                val slotInfo = SlotManager.getPlayerSlotInfo(player)!!
+                if (player != null && (newSlots > 0 && newSlots <= slotInfo.getMaxSlots())) {
+                    if (slotInfo.isAtMaxSlots())
+                        sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock_slots.error.all").format(player.displayName.unformattedText)))
                     else {
-                        val slots = SlotUtil.getSlotsUnlocked(player) + newSlots
-                        if (slots >= SlotUtil.getMaxSlots())
-                            TrophySlots.proxy?.unlockAllSlots(player)
-                        else {
-                            SlotUtil.setSlotsUnlocked(player, slots)
-                            TrophySlots.packetHandler?.sendTo(MessageSlotsClient(slots), player)
-                            player.addChatMessage(TextComponentString(I18n.translateToLocal("msg.trophyslots.unlockSlot").format(newSlots)))
+                        val slots = slotInfo.getSlotsUnlocked() + newSlots
+                        if (slots >= slotInfo.getMaxSlots()) {
+                            slotInfo.setSlots(slotInfo.getMaxSlots())
+                            SlotManager.updateClient(player, slotInfo)
+                            player.sendMessage(TextComponentString(I18n.translateToLocal("msg.trophyslots.unlock_all")))
+                        } else {
+                            slotInfo.setSlots(slots)
+                            SlotManager.updateClient(player, slotInfo)
+                            player.sendMessage(TextComponentString(I18n.translateToLocal("msg.trophyslots.unlock_slot").format(newSlots)))
                         }
-                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock-slots.success").format(newSlots, player.displayName.unformattedText)))
+                        sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock_slots.success").format(newSlots, player.displayName.unformattedText)))
                     }
                 } else
-                    sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock-slots.error").format(SlotUtil.getMaxSlots())))
+                    sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock_slots.error").format(slotInfo.getMaxSlots())))
             } else
-                sender.addChatMessage(TextComponentTranslation(getCommandUsage(sender)))
+                sender.sendMessage(TextComponentTranslation(getUsage(sender)))
         }
     }
 
-    override fun getCommandName(): String? = "unlock-slots"
+    override fun getName(): String? = "unlock-slots"
 
-    override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.unlock-slots.usage"
+    override fun getUsage(sender: ICommandSender?): String? = "command.trophyslots.unlock_slots.usage"
 
     override fun getRequiredPermissionLevel(): Int = 2
 }

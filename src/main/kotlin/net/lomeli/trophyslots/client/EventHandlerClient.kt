@@ -1,6 +1,7 @@
 package net.lomeli.trophyslots.client
 
 import net.lomeli.trophyslots.TrophySlots
+import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.lomeli.trophyslots.client.slots.GuiLockedSlot
 import net.lomeli.trophyslots.client.slots.SlotLocked
 import net.lomeli.trophyslots.compat.CompatManager
@@ -24,29 +25,33 @@ import net.minecraftforge.fml.relauncher.SideOnly
     }
 
     @SubscribeEvent fun guiPostInit(event: GuiScreenEvent.InitGuiEvent.Post) {
-        val mc = FMLClientHandler.instance().client;
-        if (event.gui != null && event.gui is GuiContainer) {
+        val mc = FMLClientHandler.instance().client
+        if (event.gui is GuiContainer) {
             val gui = event.gui as GuiContainer
             if (GuiEffectRenderer.validDate())
                 GuiEffectRenderer.clearPrevList()
-            if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy!!.hasUnlockedAllSlots())
-                event.buttonList.add(GuiLockedSlot(gui))
+            if (mc.player != null) {
+                val slotInfo = SlotManager.getPlayerSlotInfo(mc.player)!!
+                if (!mc.player.capabilities.isCreativeMode && !slotInfo.isAtMaxSlots())
+                    event.buttonList.add(GuiLockedSlot(gui))
+            }
         }
     }
 
     @SubscribeEvent fun openGuiEvent(event: GuiOpenEvent) {
-        val mc = FMLClientHandler.instance().client;
-        if (event.gui != null && event.gui is GuiContainer) {
+        val mc = FMLClientHandler.instance().client
+        if (mc.player != null && event.gui is GuiContainer) {
             val gui = event.gui as GuiContainer
+            val slotInfo = SlotManager.getPlayerSlotInfo(mc.player)!!
             if (!GuiEffectRenderer.validDate())
                 GuiEffectRenderer.clearPrevList()
-            if (!mc.thePlayer.capabilities.isCreativeMode && !TrophySlots.proxy!!.hasUnlockedAllSlots() && !CompatManager.useCompatReplace(gui, mc.thePlayer)) {
+            if (!mc.player.capabilities.isCreativeMode && !slotInfo.isAtMaxSlots() && !CompatManager.useCompatReplace(gui, mc.player)) {
                 var slotList = gui.inventorySlots.inventorySlots
                 if (slotList != null && slotList.size > 0) {
-                    for(i in slotList.indices) {
+                    for (i in slotList.indices) {
                         var slot = gui.inventorySlots.getSlot(i)
-                        if (slot != null && slot.isHere(mc.thePlayer.inventory, slot.slotIndex) && !TrophySlots.proxy!!.slotUnlocked(slot.slotIndex)) {
-                            var replacementSlot = SlotLocked(mc.thePlayer.inventory, slot.slotIndex, slot.xDisplayPosition, slot.yDisplayPosition)
+                        if (slot != null && slot.isHere(mc.player.inventory, slot.slotIndex) && !slotInfo.slotUnlocked(slot.slotIndex)) {
+                            var replacementSlot = SlotLocked(mc.player.inventory, slot.slotIndex, slot.xPos, slot.yPos)
                             gui.inventorySlots.inventorySlots.set(i, replacementSlot)
                         }
                     }

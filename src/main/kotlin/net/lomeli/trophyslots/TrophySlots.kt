@@ -36,7 +36,6 @@ object TrophySlots {
     const val LANGUAGE = "Kotlin"
     const val VERSION = "@VERSION@"
     const val updateUrl = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/master/update.json"
-    const val slotsUnlocked = MOD_ID + "_slotsUnlocked"
 
     @Mod.Instance(MOD_ID)
     var instance: TrophySlots? = null
@@ -44,26 +43,24 @@ object TrophySlots {
     @SidedProxy(clientSide = "net.lomeli.trophyslots.client.ClientProxy", serverSide = "net.lomeli.trophyslots.core.Proxy")
     var proxy: Proxy? = null
 
+    @JvmField val TROPHY: Item? = ItemTrophy()
+
     var slotRenderType = 0
     var loseSlotNum = 1
-    var unlockViaAchievements = true
+    //var unlockViaAdvancements = true
     var canUseTrophy = true
     var canBuyTrophy = false
-    var disable3 = false
+    var useProgressionUnlocks = true
     var checkForUpdates = true
     var xmas = true
-    var useWhiteList = false
     var loseSlots = false
 
-    var packetHandler : SimpleNetworkWrapper? = null
-    var modConfig : Config? = null
-    var versionHandler : VersionChecker? = null
+    var packetHandler: SimpleNetworkWrapper? = null
+    var modConfig: Config? = null
+    var versionHandler: VersionChecker? = null
 
-    var firstSlot : Achievement? = null
-    var maxCapcity : Achievement? = null
-    var achievementPage : AchievementPage? = null
-    var debug : Boolean = false
-    var log : Logger? = null
+    var debug: Boolean = false
+    var log: Logger? = null
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
@@ -84,9 +81,9 @@ object TrophySlots {
             versionHandler?.checkForUpdates()
 
         packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID)
-        packetHandler?.registerMessage<MessageSlotsClient, IMessage>(MessageSlotsClient::class.java, MessageSlotsClient::class.java, 0, Side.CLIENT)
-        packetHandler?.registerMessage<MessageOpenWhitelist, IMessage>(MessageOpenWhitelist::class.java, MessageOpenWhitelist::class.java, 1, Side.CLIENT)
-        packetHandler?.registerMessage<MessageUpdateWhitelist, IMessage>(MessageUpdateWhitelist::class.java, MessageUpdateWhitelist::class.java, 2, Side.CLIENT)
+        packetHandler?.registerMessage<MessageSlotsClient, IMessage>(MessageSlotsClient::class.java,
+                MessageSlotsClient::class.java, 0, Side.CLIENT)
+        CapabilityManager.INSTANCE.register(ISlotInfo::class.java, SlotCapability(), SlotInfo::class.java)
 
         proxy?.preInit()
     }

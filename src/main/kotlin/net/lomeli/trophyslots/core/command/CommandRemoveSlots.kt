@@ -1,7 +1,7 @@
 package net.lomeli.trophyslots.core.command
 
 import net.lomeli.trophyslots.TrophySlots
-import net.lomeli.trophyslots.core.SlotUtil
+import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.lomeli.trophyslots.core.network.MessageSlotsClient
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
@@ -24,32 +24,33 @@ class CommandRemoveSlots : CommandBase() {
                     rmSlots = parseInt(args[1])
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 }
-                if (player != null && (rmSlots > 0 && rmSlots <= SlotUtil.getMaxSlots())) {
-                    var slots = SlotUtil.getSlotsUnlocked(player)
+                val slotInfo = SlotManager.getPlayerSlotInfo(player)!!
+                if (player != null && (rmSlots > 0 && rmSlots <= slotInfo.getMaxSlots())) {
+                    var slots = slotInfo.getSlotsUnlocked()
                     if (slots <= 0)
-                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove-slots.error.none").format(player.displayName.unformattedText)))
+                        sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove_slots.error.none").format(player.displayName.unformattedText)))
                     else {
                         slots -= rmSlots
                         if (slots < 0)
                             slots = 0
-                        SlotUtil.setSlotsUnlocked(player, slots)
+                        slotInfo.setSlots(slots)
                         TrophySlots.packetHandler?.sendTo(MessageSlotsClient(slots), player)
                         if (slots == 0)
-                            player.addChatMessage(TextComponentTranslation("msg.trophyslots.lostAll"))
+                            player.sendMessage(TextComponentTranslation("msg.trophyslots.lost_all"))
                         else
-                            player.addChatMessage(TextComponentString(I18n.translateToLocal("msg.trophyslots.lostSlot").format(rmSlots)))
-                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove-slots.success").format(rmSlots, player.displayName.unformattedText)))
+                            player.sendMessage(TextComponentString(I18n.translateToLocal("msg.trophyslots.lost_slot").format(rmSlots)))
+                        sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove_slots.success").format(rmSlots, player.displayName.unformattedText)))
                     }
                 } else
-                    sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove-slots.error").format(SlotUtil.getMaxSlots())))
+                    sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove_slots.error").format(slotInfo.getMaxSlots())))
             } else
-                sender.addChatMessage(TextComponentTranslation(getCommandUsage(sender)));
+                sender.sendMessage(TextComponentTranslation(getUsage(sender)))
         }
     }
 
-    override fun getCommandName(): String? = "remove-slots"
+    override fun getName(): String? = "remove-slots"
 
-    override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.remove-slots.usage"
+    override fun getUsage(sender: ICommandSender?): String? = "command.trophyslots.remove_slots.usage"
 
     override fun getRequiredPermissionLevel(): Int = 2
 }

@@ -1,8 +1,6 @@
 package net.lomeli.trophyslots.core.command
 
-import net.lomeli.trophyslots.TrophySlots
-import net.lomeli.trophyslots.core.SlotUtil
-import net.lomeli.trophyslots.core.network.MessageSlotsClient
+import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayerMP
@@ -21,23 +19,24 @@ class CommandRemoveAll : CommandBase() {
                 else
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 if (player != null) {
-                    if (SlotUtil.getSlotsUnlocked(player) <= 0)
-                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove-all.error").format(player.displayName.unformattedText)))
+                    val slotInfo = SlotManager.getPlayerSlotInfo(player)!!
+                    if (slotInfo.getSlotsUnlocked() <= 0)
+                        sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove_all.error").format(player.displayName.unformattedText)))
                     else {
-                        SlotUtil.setSlotsUnlocked(player, 0)
-                        TrophySlots.packetHandler?.sendTo(MessageSlotsClient(0), player)
-                        player.addChatMessage(TextComponentTranslation("msg.trophyslots.lostAll"))
-                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove-all.success").format(player.displayName.unformattedText)));
+                        slotInfo.setSlots(0)
+                        SlotManager.updateClient(player, slotInfo)
+                        player.sendMessage(TextComponentTranslation("msg.trophyslots.lost_all"))
+                        sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.remove_all.success").format(player.displayName.unformattedText)))
                     }
                 }
             } else
-                sender.addChatMessage(TextComponentTranslation(getCommandUsage(sender)));
+                sender.sendMessage(TextComponentTranslation(getUsage(sender)))
         }
     }
 
-    override fun getCommandName(): String? = "remove-all"
+    override fun getName(): String? = "remove-all"
 
-    override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.remove-all.usage"
+    override fun getUsage(sender: ICommandSender?): String? = "command.trophyslots.remove_all.usage"
 
     override fun getRequiredPermissionLevel(): Int = 2
 }

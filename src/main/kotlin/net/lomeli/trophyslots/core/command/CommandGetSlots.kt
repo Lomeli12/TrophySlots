@@ -1,6 +1,6 @@
 package net.lomeli.trophyslots.core.command
 
-import net.lomeli.trophyslots.core.SlotUtil
+import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayerMP
@@ -19,17 +19,18 @@ class CommandGetSlots : CommandBase() {
                 else
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 if (player != null) {
-                    val slots = SlotUtil.getSlotsUnlocked(player);
-                    sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.get-slots.success").format(player.displayName.unformattedText, "$slots")));
+                    val slotInfo = SlotManager.getPlayerSlotInfo(player)!!
+                    val slots = slotInfo.getSlotsUnlocked()
+                    sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.get_slots.success").format(player.displayName.unformattedText, "$slots")))
                 }
             } else
-                sender.addChatMessage(TextComponentTranslation(getCommandUsage(sender)));
+                sender.sendMessage(TextComponentTranslation(getUsage(sender)))
         }
     }
 
-    override fun getCommandName(): String? = "get-slots"
+    override fun getName(): String? = "get-slots"
 
-    override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.get-slots.usage"
+    override fun getUsage(sender: ICommandSender?): String? = "command.trophyslots.get_slots.usage"
 
     override fun getRequiredPermissionLevel(): Int = 0
 }

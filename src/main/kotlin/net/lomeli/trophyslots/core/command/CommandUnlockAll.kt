@@ -1,7 +1,6 @@
 package net.lomeli.trophyslots.core.command
 
-import net.lomeli.trophyslots.TrophySlots
-import net.lomeli.trophyslots.core.SlotUtil
+import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.entity.player.EntityPlayerMP
@@ -23,19 +22,21 @@ class CommandUnlockAll : CommandBase() {
                 else
                     player = CommandBase.getCommandSenderAsPlayer(sender)
                 if (player != null) {
-                    if (SlotUtil.hasUnlockedAllSlots(player))
-                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock-all.error").format(player.displayName.unformattedText)));
+                    val slotInfo = SlotManager.getPlayerSlotInfo(player)!!
+                    if (slotInfo.isAtMaxSlots())
+                        sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock_all.error").format(player.displayName.unformattedText)))
                     else {
-                        TrophySlots.proxy?.unlockAllSlots(player);
-                        sender.addChatMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock-all.success").format(player.displayName.unformattedText)));
+                        slotInfo.setSlots(slotInfo.getMaxSlots())
+                        SlotManager.updateClient(player, slotInfo)
+                        sender.sendMessage(TextComponentString(I18n.translateToLocal("command.trophyslots.unlock_all.success").format(player.displayName.unformattedText)))
                     }
                 }
             } else
-                sender.addChatMessage(TextComponentTranslation(getCommandUsage(sender)));
+                sender.sendMessage(TextComponentTranslation(getUsage(sender)))
         }
     }
 
-    override fun getCommandUsage(sender: ICommandSender?): String? = "command.trophyslots.unlock-all.usage"
+    override fun getUsage(sender: ICommandSender?): String? = "command.trophyslots.unlock_all.usage"
 
-    override fun getCommandName(): String? = "unlock-all"
+    override fun getName(): String? = "unlock-all"
 }

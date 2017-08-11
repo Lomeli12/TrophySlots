@@ -1,6 +1,7 @@
 package net.lomeli.trophyslots.core
 
 import net.lomeli.trophyslots.TrophySlots
+import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.EnumRarity
@@ -23,7 +24,7 @@ class ItemTrophy : Item {
         setMaxStackSize(1)
     }
 
-    fun fromVillager(stack: ItemStack): Boolean = if (stack.hasTagCompound()) stack.tagCompound!!.getBoolean("fromVillager") else false
+    fun fromVillager(stack: ItemStack?): Boolean = if (!stack!!.isEmpty && stack.hasTagCompound()) stack.tagCompound!!.getBoolean("fromVillager") else false
 
     @SideOnly(Side.CLIENT) fun safeKeyDown(keyCode: Int): Boolean {
         try {
@@ -33,65 +34,71 @@ class ItemTrophy : Item {
         }
     }
 
-    @SideOnly(Side.CLIENT) override fun getSubItems(item: Item?, tab: CreativeTabs?, subItems: MutableList<ItemStack>?) {
-        if (subItems != null) {
-            subItems.add(ItemStack(item))
-            subItems.add(ItemStack(item, 1, 1))
+    override fun getSubItems(tab: CreativeTabs?, subItems: NonNullList<ItemStack>?) {
+        if (isInCreativeTab(tab) && subItems != null) {
+            subItems.add(ItemStack(this))
+            subItems.add(ItemStack(this, 1, 1))
         }
     }
 
-    override fun onItemRightClick(stack: ItemStack?, world: World?, player: EntityPlayer?, hand: EnumHand?): ActionResult<ItemStack>? {
-        var result = EnumActionResult.FAIL;
-        if (world != null && !world.isRemote && stack != null && player != null) {
+    override fun onItemRightClick(world: World?, player: EntityPlayer?, hand: EnumHand?): ActionResult<ItemStack> {
+        var result = EnumActionResult.FAIL
+        var stack = player?.getHeldItem(hand)
+        if (world != null && !world.isRemote && player != null && !stack!!.isEmpty) {
+            val slotInfo = SlotManager.getPlayerSlotInfo(player)!!
             if (!TrophySlots.canBuyTrophy && fromVillager(stack))
-                player.addChatComponentMessage(TextComponentTranslation("msg.trophyslots.villager"))
+                player.sendStatusMessage(TextComponentTranslation("msg.trophyslots.villager"), true)
             else if (!TrophySlots.canUseTrophy)
-                player.addChatComponentMessage(TextComponentTranslation("msg.trophyslots.trophy"))
+                player.sendStatusMessage(TextComponentTranslation("msg.trophyslots.trophy"), true)
             else if (hand == EnumHand.MAIN_HAND) {
                 if (stack.itemDamage == 0) {
-                    if (TrophySlots.proxy!!.unlockSlot(player)) {
+                    if (slotInfo.unlockSlot(1)) {
+                        player.sendStatusMessage(TextComponentTranslation("msg.trophyslots.unlock"), true)
+                        SlotManager.updateClient(player, slotInfo)
                         if (!player.capabilities.isCreativeMode)
-                            stack.stackSize--
+                            stack.shrink(1)
                     }
                 } else {
-                    if (TrophySlots.proxy!!.unlockAllSlots(player)) {
+                    if (slotInfo.unlockSlot(slotInfo.getMaxSlots())) {
+                        player.sendStatusMessage(TextComponentTranslation("msg.trophyslots.unlock_all"), true)
+                        SlotManager.updateClient(player, slotInfo)
                         if (!player.capabilities.isCreativeMode)
-                            stack.stackSize--
+                            stack.shrink(1)
                     }
                 }
-                result = EnumActionResult.PASS;
+                result = EnumActionResult.PASS
             }
         }
-        return ActionResult<ItemStack>(result, stack);
+        return ActionResult(result, stack!!)
     }
 
-    @SideOnly(Side.CLIENT) override fun addInformation(stack: ItemStack?, playerIn: EntityPlayer?, tooltip: MutableList<String>?, advanced: Boolean) {
-        if (tooltip == null || stack == null)
+    override fun addInformation(stack: ItemStack?, worldIn: World?, tooltip: MutableList<String>?, flagIn: ITooltipFlag?) {
+        if (tooltip == null && stack!!.isEmpty)
             return
-        if (stack.itemDamage == 0) {
+        if (stack!!.itemDamage == 0) {
             if (safeKeyDown(Keyboard.KEY_LSHIFT)) {
                 if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
-                    tooltip.add(I18n.translateToLocal("subtext.torphyslots.trophy.villager"))
-                tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy"))
+                    tooltip?.add(I18n.translateToLocal("subtext.torphyslots.trophy.villager"))
+                tooltip?.add(I18n.translateToLocal("subtext.trophyslots.trophy"))
                 if (TrophySlots.canUseTrophy)
-                    tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy.canUse"))
+                    tooltip?.add(I18n.translateToLocal("subtext.trophyslots.trophy.can_use"))
                 else
-                    tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy.cannotUse"))
+                    tooltip?.add(I18n.translateToLocal("subtext.trophyslots.trophy.cannot_use"))
             } else {
-                tooltip.add(I18n.translateToLocal("subtext.trophyslots.info"))
+                tooltip?.add(I18n.translateToLocal("subtext.trophyslots.info"))
                 if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
-                    tooltip.add(I18n.translateToLocal("subtext.torphyslots.trophy.villager"))
+                    tooltip?.add(I18n.translateToLocal("subtext.torphyslots.trophy.villager"))
             }
         } else {
             if (fromVillager(stack) && !TrophySlots.canBuyTrophy)
-                tooltip.add(I18n.translateToLocal("subtext.torphyslots.trophy.villager"))
-            tooltip.add(I18n.translateToLocal("subtext.torphyslots.trophy.cheat"))
+                tooltip?.add(I18n.translateToLocal("subtext.torphyslots.trophy.villager"))
+            tooltip?.add(I18n.translateToLocal("subtext.torphyslots.trophy.cheat"))
             if (TrophySlots.canUseTrophy)
-                tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy.canUse"))
+                tooltip?.add(I18n.translateToLocal("subtext.trophyslots.trophy.can_use"))
             else
-                tooltip.add(I18n.translateToLocal("subtext.trophyslots.trophy.cannotUse"))
+                tooltip?.add(I18n.translateToLocal("subtext.trophyslots.trophy.cannot_use"))
         }
     }
 
-    override fun getRarity(stack: ItemStack?): EnumRarity? = if (stack == null) EnumRarity.COMMON else if (stack.itemDamage == 1) EnumRarity.RARE else EnumRarity.UNCOMMON
+    override fun getRarity(stack: ItemStack?): EnumRarity? = if (stack!!.isEmpty) EnumRarity.COMMON else if (stack.itemDamage == 1) EnumRarity.RARE else EnumRarity.UNCOMMON
 }

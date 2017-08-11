@@ -1,6 +1,7 @@
 package net.lomeli.trophyslots.client.slots
 
 import net.lomeli.trophyslots.TrophySlots
+import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.lomeli.trophyslots.client.EventHandlerClient
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiButton
@@ -35,14 +36,15 @@ class GuiLockedSlot(val gui: GuiContainer) : GuiButton(-111, 0, 0, 16, 16, "") {
         GlStateManager.popMatrix()
     }
 
-    override fun drawButton(mc: Minecraft, mouseX: Int, mouseY: Int) {
-        if (this.visible) {
-            var slotList = gui.inventorySlots.inventorySlots;
+    override fun drawButton(mc: Minecraft?, mouseX: Int, mouseY: Int, partialTicks: Float) {
+        if (this.visible && mc != null) {
+            val slotInfo = SlotManager.getPlayerSlotInfo(mc.player)!!
+            var slotList = gui.inventorySlots.inventorySlots
             if (slotList != null && slotList.size > 0) {
                 for (i in slotList.indices) {
                     var slot = gui.inventorySlots.getSlot(i)
-                    if (slot != null && slot.isHere(mc.thePlayer.inventory, slot.slotIndex) && !TrophySlots.proxy!!.slotUnlocked(slot.slotIndex))
-                        drawLockedSlot(mc, slot.xDisplayPosition, slot.yDisplayPosition)
+                    if (slot != null && slot.isHere(mc.player.inventory, slot.slotIndex) && !slotInfo.slotUnlocked(slot.slotIndex))
+                        drawLockedSlot(mc, slot.xPos, slot.yPos)
                 }
             }
         }
