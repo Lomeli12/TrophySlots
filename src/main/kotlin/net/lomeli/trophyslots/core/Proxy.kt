@@ -2,6 +2,7 @@ package net.lomeli.trophyslots.core
 
 import net.lomeli.trophyslots.TrophySlots
 import net.lomeli.trophyslots.capabilities.slots.SlotManager
+import net.lomeli.trophyslots.core.triggers.AllTriggers
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.registry.ForgeRegistries
@@ -13,6 +14,7 @@ open class Proxy {
 
     open fun preInit() {
         TrophySlots.log?.logInfo("Pre-Init")
+        AllTriggers.registerTriggers()
         addTrades()
         MinecraftForge.EVENT_BUS.register(SlotManager)
     }
