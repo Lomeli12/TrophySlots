@@ -8,7 +8,7 @@ import java.util.*
 
 object GuiEffectRenderer {
     val rand = Random()
-    val mc = FMLClientHandler.instance().client;
+    val mc = FMLClientHandler.instance().client
     val snowMax = 500
     var renderTick = 0
     val snowFlakeList = ArrayList<SnowFlake>()

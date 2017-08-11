@@ -1,19 +1,23 @@
 package net.lomeli.trophyslots
 
+import net.lomeli.trophyslots.capabilities.progression.IPlayerProgression
+import net.lomeli.trophyslots.capabilities.progression.PlayerProgression
+import net.lomeli.trophyslots.capabilities.progression.ProgressionCapability
+import net.lomeli.trophyslots.capabilities.slots.ISlotInfo
+import net.lomeli.trophyslots.capabilities.slots.SlotCapability
+import net.lomeli.trophyslots.capabilities.slots.SlotInfo
 import net.lomeli.trophyslots.core.Config
+import net.lomeli.trophyslots.core.ItemTrophy
 import net.lomeli.trophyslots.core.Logger
-import net.lomeli.trophyslots.core.ModItems
 import net.lomeli.trophyslots.core.Proxy
 import net.lomeli.trophyslots.core.command.CommandTrophySlots
-import net.lomeli.trophyslots.core.network.MessageOpenWhitelist
 import net.lomeli.trophyslots.core.network.MessageSlotsClient
-import net.lomeli.trophyslots.core.network.MessageUpdateWhitelist
+import net.lomeli.trophyslots.core.network.MessageUnlockProgress
+import net.lomeli.trophyslots.core.network.MessageUpdateClientProgress
 import net.lomeli.trophyslots.core.version.VersionChecker
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.init.Blocks
-import net.minecraft.stats.Achievement
-import net.minecraft.util.text.ITextComponent
-import net.minecraftforge.common.AchievementPage
+import net.minecraft.item.Item
+import net.minecraftforge.common.capabilities.CapabilityManager
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
 import net.minecraftforge.fml.common.event.*
@@ -62,13 +66,13 @@ object TrophySlots {
     var log : Logger? = null
 
     @Mod.EventHandler
-    fun preInit(event : FMLPreInitializationEvent) {
+    fun preInit(event: FMLPreInitializationEvent) {
         log = Logger()
         try {
-            EntityPlayer::class.java.getMethod("addChatComponentMessage", ITextComponent::class.java)
+            EntityPlayer::class.java.getMethod("getBedLocation")
             debug = true
             log?.logInfo("Dev environment, enabled logging!")
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             debug = false
             log?.logError(e)
         }
@@ -88,33 +92,22 @@ object TrophySlots {
     }
 
     @Mod.EventHandler
-    fun init(event : FMLInitializationEvent) {
+    fun init(event: FMLInitializationEvent) {
         proxy?.init()
-
-        firstSlot = Achievement("achievement.trophyslots.firstSlot", "firstSlotAchievement", 0, 0, Blocks.CHEST, null).registerStat()
-        maxCapcity = Achievement("achievement.trophyslots.maximumCapacity", "maximumCapacityAchievement", 2, 0, ModItems.trophy!!, firstSlot).registerStat()
-
-        achievementPage = AchievementPage(MOD_NAME, firstSlot, maxCapcity)
-        AchievementPage.registerAchievementPage(achievementPage)
     }
 
     @Mod.EventHandler
-    fun postInit(event : FMLPostInitializationEvent) {
+    fun postInit(event: FMLPostInitializationEvent) {
         proxy?.postInit()
     }
 
     @Mod.EventHandler
-    fun serverStopping(event : FMLServerStoppingEvent) {
-        proxy?.reset()
-    }
-
-    @Mod.EventHandler
-    fun serverAboutToStart(event : FMLServerAboutToStartEvent) {
+    fun serverAboutToStart(event: FMLServerAboutToStartEvent) {
         proxy?.resetConfig()
     }
 
     @Mod.EventHandler
-    fun serverStarting(event : FMLServerStartingEvent) {
+    fun serverStarting(event: FMLServerStartingEvent) {
         event.registerServerCommand(CommandTrophySlots())
     }
 }

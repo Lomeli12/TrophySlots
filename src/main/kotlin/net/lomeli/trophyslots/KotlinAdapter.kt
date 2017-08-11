@@ -1,11 +1,10 @@
 package net.lomeli.trophyslots
 
-import net.minecraftforge.fml.common.ILanguageAdapter
 import net.minecraftforge.fml.common.FMLModContainer
+import net.minecraftforge.fml.common.ILanguageAdapter
 import net.minecraftforge.fml.common.ModContainer
 import net.minecraftforge.fml.relauncher.Side
 import org.apache.logging.log4j.LogManager
-
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 
@@ -74,5 +73,5 @@ class KotlinAdapter : ILanguageAdapter {
     private fun unexpectedInitializerSignatureException(exception: Exception) = KotlinAdapterException("Kotlin @Mod object has an unexpected initializer signature, somehow?", exception)
     private fun wrongVisibilityOnInitializerException(exception: Exception) = KotlinAdapterException("Initializer on Kotlin @Mod object isn't `public`", exception)
 
-    private class KotlinAdapterException(message: String, exception: Exception): RuntimeException("Kotlin adapter error - do not report to Forge! " + message, exception)
+    private class KotlinAdapterException(message: String, exception: Exception) : RuntimeException("Kotlin adapter error - do not report to Forge! " + message, exception)
 }

@@ -4,10 +4,9 @@ import com.google.common.collect.Lists
 import java.util.*
 
 class UpdateJson(val major: Int, val minor: Int, val revision: Int, val downloadURL: String, val direct: Boolean, vararg changes: String) {
-    private val changeLog: ArrayList<String>
+    val changeLog: ArrayList<String> = Lists.newArrayList()
 
     init {
-        this.changeLog = Lists.newArrayList()
         if (changes.size > 0) {
             for (i in changes.indices)
                 changeLog.add(changes[i])

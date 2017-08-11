@@ -1,38 +1,123 @@
-config.trophyslots.startingSlots=The number of slots a player starts with.
-config.trophyslots.unlockAchieve=Allows you to unlock slots by completing achievements.
-config.trophyslots.canUseTrophy=Allows you to unlock slots using trophies.
-config.trophyslots.canBuyTrophy=Allows you to buy trophies from villagers. Disabling this will disable any trophies bought from villagers!
-config.trophyslots.disable3=Disables slot unlocking for the first 3 vanilla achievements.
+config.trophyslots.starting_slots=The number of slots a player starts with.
+config.trophyslots.unlock_via_advancements=Allows you to unlock slots by completing advancements.
+config.trophyslots.can_use_trophy=Allows you to unlock slots using trophies.
+config.trophyslots.can_buy_trophy=Allows you to buy trophies from villagers. Disabling this will disable any trophies bought from villagers!
 config.trophyslots.update=Enable checking for updates
-config.trophyslots.useWhitelist=Use achievement white list.
-config.trophyslots.whitelist=Place the IDs of the Achievements you want to white list here. Separate IDs using ";". Example: achievement.openInventory;achievement.woodenGear;achievement.wrench
-config.trophyslots.renderLockedSlots=Render settings for locked slots. 0 = Crossed out; 1 = Grayed out; 2 = Grayed and crossed out; 3 = no special rendering.
+config.trophyslots.render_locked_slots=Render settings for locked slots. 0 = Crossed out; 1 = Grayed out; 2 = Grayed and crossed out; 3 = no special rendering.
 config.trophyslots.reverse=Unlocks slots in reverse order (bottom right instead of top left).
-config.trophyslots.loseSlots=Allows you to set whether or not you lose slots on death.
-config.trophyslots.loseSlots.num=The number of slots one loses upon death. If set to -1, they'll lose ALL earned slots.
+config.trophyslots.lose_slots=Allows you to set whether or not you lose slots on death.
+config.trophyslots.lose_slots.num=The number of slots one loses upon death. If set to -1, they'll lose ALL earned slots.
+config.trophyslots.progression=Unlock slots as you progress via general gameplay. Works like old achievements!
 
 item.trophyslots.trophy.name=Trophy
 
 msg.trophyslots.unlock=§eYou unlocked an inventory slot!
-msg.trophyslots.unlockSlot=§eYou unlocked %s inventory slots!
-msg.trophyslots.unlockAll=§eAll slots unlocked!
-msg.trophyslots.lostSlot=§4You lost %s slot!
-msg.trophyslots.lostAll=§4All slots have been lost!
+msg.trophyslots.unlock_slot=§eYou unlocked %s inventory slots!
+msg.trophyslots.unlock_all=§eAll slots unlocked!
+msg.trophyslots.lost_slot=§4You lost %s slot!
+msg.trophyslots.lost_all=§4All slots have been lost!
 msg.trophyslots.villager=§4This trophy was bought from a villager! It cannot be used §4until buying from villagers is enabled!
 msg.trophyslots.trophy=§4Trophy unlocking disabled! Please enable it to use trophy!
-msg.trophyslots.whitelistGui=Opens a gui to add achievements to an unlock whitelist.
 
 subtext.trophyslots.info=Press <§2§oShift§r§7> for more info.
 subtext.trophyslots.trophy=§6§oUnlocks a slot!
-subtext.trophyslots.trophy.canUse=§5§oTrophy unlock enabled!
-subtext.trophyslots.trophy.cannotUse=§4§oTrophy unlock disabled!
+subtext.trophyslots.trophy.can_use=§5§oTrophy unlock enabled!
+subtext.trophyslots.trophy.cannot_use=§4§oTrophy unlock disabled!
 subtext.torphyslots.trophy.villager=§4§oThis was trophy bought from a villager!
 subtext.torphyslots.trophy.cheat=§6§oMaster Trophy: Unlocks all slots!
 
-achievement.firstSlotAchievement=Pockets
-achievement.firstSlotAchievement.desc=Unlock your first slot. §4(Does NOT unlock a slot)
-achievement.maximumCapacityAchievement=Maximum Capacity!
-achievement.maximumCapacityAchievement.desc=Unlock all inventory slots! §4(Does NOT unlock a slot)
+advancement.torphyslots.first_slot_achievement=Trophy Slots
+advancement.torphyslots.first_slot_achievement.desc=Unlock your first slot. §4(Does NOT unlock a slot)
+advancement.torphyslots.maximum_capacity_achievement=Maximum Capacity!
+advancement.torphyslots.maximum_capacity_achievement.desc=Unlock all inventory slots! §4(Does NOT unlock a slot)
+
+progress.trophyslots.unlock_message=["%user% made some progress! Obtained ",{"text":"[%progress%]","color":"green","hoverEvent":{"action":"show_text","value":{"text":"%progress_description%","color": "green"}}},"!"]
+progress.trophyslots.open_inventory=What's on me?
+progress.trophyslots.open_inventory.desc=Open your inventory for the very first time.
+progress.trophyslots.obtain_wood=Punch Trees, get wood
+progress.trophyslots.obtain_wood.desc=Punch out and pick up a log.
+progress.trophyslots.craft_crafting_table=Stuff Maker
+progress.trophyslots.craft_crafting_table.desc=Crafted a crafting table, make some things.
+progress.trophyslots.craft_axe=And my axe!
+progress.trophyslots.craft_axe.desc=Made an axe to chop wood faster.
+progress.trophyslots.craft_sword=I HAVE THE POWER!
+progress.trophyslots.craft_sword.desc=Crafted a sword to defend yourself.
+progress.trophyslots.craft_pick_axe=Diggy Diggy Hole
+progress.trophyslots.craft_pick_axe.desc=Created a pickaxe to start mining.
+progress.trophyslots.craft_torch=The First Flame
+progress.trophyslots.craft_torch.desc=Made a torch to light the way.
+progress.trophyslots.place_chest=Some breathing room
+progress.trophyslots.place_chest.desc=Placed a chest to increase your inventory.
+progress.trophyslots.obtain_wheat=Green Thumb
+progress.trophyslots.obtain_wheat.desc=Collected some full grown wheat.
+progress.trophyslots.obtain_potato=Stick 'em in a stew
+progress.trophyslots.obtain_potato.desc=Picked up a potato in your farm.
+progress.trophyslots.obtain_carrot=Good for your eyes
+progress.trophyslots.obtain_carrot.desc=Grow and harvest a carrot.
+progress.trophyslots.obtain_pork_chop=Not Quite Bacon
+progress.trophyslots.obtain_pork_chop.desc=Sliced up some pork chops.
+progress.trophyslots.obtain_steak=FSteak
+progress.trophyslots.obtain_steak.desc=Killed a cow for their meat.
+progress.trophyslots.obtain_chicken=KFC
+progress.trophyslots.obtain_chicken.desc=Harvested some raw chicken.
+progress.trophyslots.obtain_rabbit=Elmer Fudd
+progress.trophyslots.obtain_rabbit.desc=Caught some tasty rabbit.
+progress.trophyslots.craft_bread=Yummy gluten
+progress.trophyslots.craft_bread.desc=Baked some basic bread.
+progress.trophyslots.obtain_fish=I like Sushi
+progress.trophyslots.obtain_fish.desc=Went fishing and caught a fish.
+progress.trophyslots.craft_cake=Cake is better than Pie
+progress.trophyslots.craft_cake.desc=Baked a cake. #TeamCake
+progress.trophyslots.craft_pie=Pie is better than Cake
+progress.trophyslots.craft_pie.desc=Baked some pie. #TeamPie
+progress.trophyslots.craft_bow=Scatter Shot
+progress.trophyslots.craft_bow.desc=Built a bow, aimed at feet.
+
+progress.trophyslots.obtain_iron_ore=Better Than Stone
+progress.trophyslots.obtain_iron_ore.desc=Mined some iron ore.
+progress.trophyslots.craft_redstone_torch=Engineering
+progress.trophyslots.craft_redstone_torch.desc=Put a redstone torch together.
+progress.trophyslots.craft_anvil=Don't squander my work!
+progress.trophyslots.craft_anvil.desc=Built an anvil.
+progress.trophyslots.kill_enderman=Hello everyone!
+progress.trophyslots.kill_enderman.desc=Kill an Enderman on their home turf.
+progress.trophyslots.craft_gold_helmet=Hail to the King!
+progress.trophyslots.craft_gold_helmet.desc=Make a gold helmet to adorn yourself.
+progress.trophyslots.obtain_diamonds=Pretty Pretty, Shiny Shiny
+progress.trophyslots.obtain_diamonds.desc=Find an elusive diamond.
+progress.trophyslots.obtain_emerald=Economics!
+progress.trophyslots.obtain_emerald.desc=Find some emeralds to cash in.
+progress.trophyslots.craft_blue_block=Hooloovoo
+progress.trophyslots.craft_blue_block.desc=Make something blue...that's also a cube.
+
+progress.trophyslots.obtain_obsidian=About Time
+progress.trophyslots.obtain_obsidian.desc=FINALLY mine out and pickup some obsidian.
+progress.trophyslots.enter_nether=Move Like Littlewood
+progress.trophyslots.enter_nether.desc=Move to the nether. Weather's great there.
+progress.trophyslots.obtain_blaze_rod=Amazon Firestick
+progress.trophyslots.obtain_blaze_rod.desc=Relieve a Blaze of their golden rods.
+progress.trophyslots.obtain_nether_skull=Spooky Scary Skeletons
+progress.trophyslots.obtain_nether_skull.desc=Kill a Wither Skeleton, hope they don't drop coal.
+progress.trophyslots.obtain_soul_sand=Mostly harmless
+progress.trophyslots.obtain_soul_sand.desc=Dig up some soul sand to make a T.
+progress.trophyslots.obtain_nether_star=Magic MacGuffin
+progress.trophyslots.obtain_nether_star.desc=You killed a Wither, pat yourself on the back.
+
+progress.trophyslots.craft_ender_eye=Friday The 13th Part 3
+progress.trophyslots.craft_ender_eye.desc=Shove a spider eye into an ender pearl.
+progress.trophyslots.enter_end=End in Sight
+progress.trophyslots.enter_end.desc=Travel to the realm of Endermen.
+progress.trophyslots.kill_ender_dragon=Praise The Sun
+progress.trophyslots.kill_ender_dragon.desc=Destroy the ruler of the End.
+progress.trophyslots.obtain_elytra=You can call me Superman
+progress.trophyslots.obtain_elytra.desc=Learn to fly with an elytra.
+
+progress.trophyslots.one_heart=It's just a flesh wound!
+progress.trophyslots.one_heart.desc=Win a deadly battle with half a heart!
+progress.trophyslots.kill_player=Dark Spirit
+progress.trophyslots.kill_player.desc=Slay a fellow player, have blood on your hands.
+progress.trophyslots.obtain_totem_death=Once More
+progress.trophyslots.obtain_totem_death.desc=Get a "Get out of death free" totem.
 
 update.trophyslots=§1[Trophy Slots] Version %1$s is available at:§1 %2$s
 update.trophyslots.old=Installed Version: %s
@@ -42,27 +127,27 @@ update.trophyslots.none=Using latest version of Trophy Slots
 
 command.trophyslots.usage=/tslots [command]
 
-command.trophyslots.set-slots.usage=/tslots set-slots [player] [numOfSlots]
-command.trophyslots.set-slots.success=Set number of slots %s has unlocked to %s.
-command.trophyslots.set-slots.error=§cNumber of slots must be between 0 and %s.
+command.trophyslots.set_slots.usage=/tslots set-slots [player] [numOfSlots]
+command.trophyslots.set_slots.success=Set number of slots %s has unlocked to %s.
+command.trophyslots.set_slots.error=§cNumber of slots must be between 0 and %s.
 
-command.trophyslots.get-slots.usage=/tslots get-slots [player]
-command.trophyslots.get-slots.success=%s has unlocked %s slots.
+command.trophyslots.get_slots.usage=/tslots get-slots [player]
+command.trophyslots.get_slots.success=%s has unlocked %s slots.
 
-command.trophyslots.unlock-all.usage=/tslots unlock-all [player]
-command.trophyslots.unlock-all.success=Unlocked all slots for %s.
-command.trophyslots.unlock-all.error=§c%s has unlocked all slots already.
+command.trophyslots.unlock_all.usage=/tslots unlock-all [player]
+command.trophyslots.unlock_all.success=Unlocked all slots for %s.
+command.trophyslots.unlock_all.error=§c%s has unlocked all slots already.
 
-command.trophyslots.unlock-slots.usage=/tslots unlock-slots [player] [numOfSlots]
-command.trophyslots.unlock-slots.success=Unlocked %s slot(s) for %s.
-command.trophyslots.unlock-slots.error=§cNumber of slots must be between 1 and %s.
-command.trophyslots.unlock-slots.error.all=§c%s has unlocked all slots already.
+command.trophyslots.unlock_slots.usage=/tslots unlock-slots [player] [numOfSlots]
+command.trophyslots.unlock_slots.success=Unlocked %s slot(s) for %s.
+command.trophyslots.unlock_slots.error=§cNumber of slots must be between 1 and %s.
+command.trophyslots.unlock_slots.error.all=§c%s has unlocked all slots already.
 
-command.trophyslots.remove-all.usage=/tslots remove-all [player]
-command.trophyslots.remove-all.success=Removed all slots from %s.
-command.trophyslots.remove-all.error=§c%s has 0 slots unlocked.
+command.trophyslots.remove_all.usage=/tslots remove-all [player]
+command.trophyslots.remove_all.success=Removed all slots from %s.
+command.trophyslots.remove_all.error=§c%s has 0 slots unlocked.
 
-command.trophyslots.remove-slots.usage=/tslots remove-slots [player] [numOfSlots]
-command.trophyslots.remove-slots.success=Removed %s slot(s) from %s.
-command.trophyslots.remove-slots.error=§cNumber of slots must be between 1 and %s.
-command.trophyslots.remove-slots.error.none=§c%s has 0 slots unlocked.
+command.trophyslots.remove_slots.usage=/tslots remove-slots [player] [numOfSlots]
+command.trophyslots.remove_slots.success=Removed %s slot(s) from %s.
+command.trophyslots.remove_slots.error=§cNumber of slots must be between 1 and %s.
+command.trophyslots.remove_slots.error.none=§c%s has 0 slots unlocked.

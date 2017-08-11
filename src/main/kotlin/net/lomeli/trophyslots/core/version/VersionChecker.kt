@@ -49,6 +49,10 @@ class VersionChecker(val jsonURL: String, val modname: String, val modversion: S
                     }
                 }
             }
+        } else {
+            this.mod_major = Int.MAX_VALUE
+            this.mod_minor = Int.MAX_VALUE
+            this.mod_rev = Int.MAX_VALUE
         }
     }
 

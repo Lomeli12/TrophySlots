@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager
 class Logger {
     private val logger = LogManager.getLogger(TrophySlots.MOD_NAME)
 
-    fun log(logLevel: Level, message: Any) = logger.log(logLevel, message.toString())
+    fun log(logLevel: Level, message: Any) = logger.log(logLevel, "[${TrophySlots.MOD_NAME}]: $message")
 
     fun logWarning(message: Any) = log(Level.WARN, message)
 

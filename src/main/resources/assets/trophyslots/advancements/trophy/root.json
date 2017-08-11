@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "trophyslots:trophy"
+    },
+    "title": {
+      "translate": "advancement.torphyslots.first_slot_achievement"
+    },
+    "description": {
+      "translate": "advancement.torphyslots.first_slot_achievement.desc"
+    },
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "first_slot": {
+      "trigger": "trophyslots:unlock_slot",
+      "conditions": {
+        "slots_unlocked": 1
+      }
+    }
+  }
+}

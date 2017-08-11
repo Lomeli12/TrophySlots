@@ -28,7 +28,6 @@ class Config {
         TrophySlots.proxy?.setReverse(config.getBoolean("reverseUnlock", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.reverse")));
         TrophySlots.loseSlots = config.getBoolean("loseSlotsOnDeath", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.loseSlots"));
         TrophySlots.loseSlotNum = config.getInt("slotsLost", Configuration.CATEGORY_GENERAL, 1, -1, 36, translate("config.trophyslots.loseSlots.num"));
-        var whiteList = config.getString("WhiteList", Configuration.CATEGORY_GENERAL, "", translate("config.trophyslots.whitelist"));
 
         if (TrophySlots.useWhiteList)
             fillWhiteList(whiteList)

@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:chest"
+    },
+    "title": {
+      "translate": "advancement.torphyslots.maximum_capacity_achievement"
+    },
+    "description": {
+      "translate": "advancement.torphyslots.maximum_capacity_achievement.desc"
+    },
+    "announce_to_chat": true
+  },
+  "parent": "trophyslots:trophy/root",
+  "criteria": {
+    "max_slots": {
+      "trigger": "trophyslots:unlock_slot",
+      "conditions": {
+        "slots_unlocked": -1
+      }
+    }
+  }
+}
