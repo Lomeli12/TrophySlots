@@ -2,14 +2,17 @@ package net.lomeli.trophyslots.core
 
 import net.lomeli.trophyslots.TrophySlots
 import net.lomeli.trophyslots.capabilities.slots.SlotManager
+import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.item.EnumRarity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
+import net.minecraft.util.NonNullList
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.util.text.translation.I18n
 import net.minecraft.world.World
@@ -19,6 +22,7 @@ import org.lwjgl.input.Keyboard
 
 class ItemTrophy : Item {
     constructor() : super() {
+        this.setRegistryName(TrophySlots.MOD_ID, "trophy")
         this.creativeTab = CreativeTabs.MISC
         this.unlocalizedName = "${TrophySlots.MOD_ID}.trophy"
         setMaxStackSize(1)

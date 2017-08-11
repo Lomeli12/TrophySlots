@@ -4,6 +4,8 @@ import net.lomeli.trophyslots.TrophySlots
 import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.fml.common.registry.ForgeRegistries
+import net.minecraftforge.fml.common.registry.VillagerRegistry
 
 open class Proxy {
     protected var reverseOrder = false
@@ -11,8 +13,15 @@ open class Proxy {
 
     open fun preInit() {
         TrophySlots.log?.logInfo("Pre-Init")
-        //TODO: Villager stuff once VillagerRegistry is back
+        addTrades()
         MinecraftForge.EVENT_BUS.register(SlotManager)
+    }
+
+    fun addTrades() {
+        val registry = ForgeRegistries.VILLAGER_PROFESSIONS
+        val librarianPro: VillagerRegistry.VillagerProfession? = registry.getValue(ResourceLocation("minecraft", "librarian"))
+        val librarian: VillagerRegistry.VillagerCareer? = librarianPro!!.getCareer(0)
+        librarian!!.addTrade(4, TrophyTrade())
     }
 
     open fun init() {
