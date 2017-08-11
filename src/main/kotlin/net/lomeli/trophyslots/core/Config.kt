@@ -26,6 +26,7 @@ class Config {
         TrophySlots.proxy?.setReverse(config.getBoolean("reverseUnlock", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.reverse")))
         TrophySlots.loseSlots = config.getBoolean("loseSlotsOnDeath", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.lose_slots"))
         TrophySlots.loseSlotNum = config.getInt("slotsLost", Configuration.CATEGORY_GENERAL, 1, -1, 36, translate("config.trophyslots.lose_slots.num"))
+        TrophySlots.useProgressionUnlocks = config.getBoolean("useProgressionUnlocks", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.progression"))
 
         if (config.hasChanged())
             config.save()

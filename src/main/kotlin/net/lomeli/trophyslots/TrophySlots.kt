@@ -83,6 +83,12 @@ object TrophySlots {
         packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID)
         packetHandler?.registerMessage<MessageSlotsClient, IMessage>(MessageSlotsClient::class.java,
                 MessageSlotsClient::class.java, 0, Side.CLIENT)
+        packetHandler?.registerMessage<MessageUnlockProgress, IMessage>(MessageUnlockProgress::class.java,
+                MessageUnlockProgress::class.java, 1, Side.SERVER)
+        packetHandler?.registerMessage<MessageUpdateClientProgress, IMessage>(MessageUpdateClientProgress::class.java,
+                MessageUpdateClientProgress::class.java, 2, Side.CLIENT)
+
+        CapabilityManager.INSTANCE.register(IPlayerProgression::class.java, ProgressionCapability(), PlayerProgression::class.java)
         CapabilityManager.INSTANCE.register(ISlotInfo::class.java, SlotCapability(), SlotInfo::class.java)
 
         proxy?.preInit()

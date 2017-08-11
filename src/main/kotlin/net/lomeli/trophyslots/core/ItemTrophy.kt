@@ -2,6 +2,7 @@ package net.lomeli.trophyslots.core
 
 import net.lomeli.trophyslots.TrophySlots
 import net.lomeli.trophyslots.capabilities.slots.SlotManager
+import net.lomeli.trophyslots.core.triggers.AllTriggers
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
@@ -61,6 +62,7 @@ class ItemTrophy : Item {
                         SlotManager.updateClient(player, slotInfo)
                         if (!player.capabilities.isCreativeMode)
                             stack.shrink(1)
+                        if (player is EntityPlayerMP) AllTriggers.UNLOCK_SLOT.trigger(player)
                     }
                 } else {
                     if (slotInfo.unlockSlot(slotInfo.getMaxSlots())) {
@@ -68,6 +70,7 @@ class ItemTrophy : Item {
                         SlotManager.updateClient(player, slotInfo)
                         if (!player.capabilities.isCreativeMode)
                             stack.shrink(1)
+                        if (player is EntityPlayerMP) AllTriggers.UNLOCK_SLOT.trigger(player)
                     }
                 }
                 result = EnumActionResult.PASS
