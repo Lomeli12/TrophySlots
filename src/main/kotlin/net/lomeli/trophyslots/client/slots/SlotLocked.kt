@@ -27,4 +27,10 @@ class SlotLocked(inv: IInventory, slot: Int, x: Int, y: Int) : Slot(inv, slot, x
         val slotInfo = SlotManager.getPlayerSlotInfo(playerIn)!!
         return if (slotInfo.slotUnlocked(slotIndex)) super.canTakeStack(playerIn) else false
     }
+
+    override fun isEnabled(): Boolean {
+        val player = FMLClientHandler.instance().clientPlayerEntity
+        val slotInfo = SlotManager.getPlayerSlotInfo(player)!!
+        return if (slotInfo.slotUnlocked(slotIndex)) super.isEnabled() else false
+    }
 }
