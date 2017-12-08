@@ -22,9 +22,9 @@ subtext.trophyslots.trophy.cannotUse=§4§oРазблокировка с пом�
 subtext.torphyslots.trophy.villager=§4§oЭтот трофей был куплен у жителя! §r§f
 subtext.torphyslots.trophy.cheat=§6§oТрофей мастера: Разблокирует все ячейки! §r§f
 
-achievement.firstSlotAchievement=Карманы
-achievement.firstSlotAchievement.desc=Разблокировать первую ячейку инвентаря. §4(Не позволяет разблокировать ячейку) §r§f
-achievement.maximumCapacityAchievement=Максимальная вместимость!
-achievement.maximumCapacityAchievement.desc=Разблокировать все ячейки инвенторя! §4(Не позволяет разблокировать ячейку) §r§f
+advancement.torphyslots.first_slot_achievement=Карманы
+advancement.torphyslots.first_slot_achievement.desc=Разблокировать первую ячейку инвентаря. §4(Не позволяет разблокировать ячейку) §r§f
+advancement.torphyslots.maximum_capacity_achievement=Максимальная вместимость!
+advancement.torphyslots.maximum_capacity_achievement.desc=Разблокировать все ячейки инвенторя! §4(Не позволяет разблокировать ячейку) §r§f
 
 update.trophyslots=§1[Trophy Slots] Версия %1$s доступна для загрузки:§1 %2$s
