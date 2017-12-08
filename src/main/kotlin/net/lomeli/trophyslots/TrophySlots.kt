@@ -1,8 +1,5 @@
 package net.lomeli.trophyslots
 
-import net.lomeli.trophyslots.capabilities.progression.IPlayerProgression
-import net.lomeli.trophyslots.capabilities.progression.PlayerProgression
-import net.lomeli.trophyslots.capabilities.progression.ProgressionCapability
 import net.lomeli.trophyslots.capabilities.slots.ISlotInfo
 import net.lomeli.trophyslots.capabilities.slots.SlotCapability
 import net.lomeli.trophyslots.capabilities.slots.SlotInfo
@@ -12,8 +9,6 @@ import net.lomeli.trophyslots.core.Logger
 import net.lomeli.trophyslots.core.Proxy
 import net.lomeli.trophyslots.core.command.CommandTrophySlots
 import net.lomeli.trophyslots.core.network.MessageSlotsClient
-import net.lomeli.trophyslots.core.network.MessageUnlockProgress
-import net.lomeli.trophyslots.core.network.MessageUpdateClientProgress
 import net.lomeli.trophyslots.core.version.VersionChecker
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
@@ -50,7 +45,6 @@ object TrophySlots {
     //var unlockViaAdvancements = true
     var canUseTrophy = true
     var canBuyTrophy = false
-    var useProgressionUnlocks = true
     var checkForUpdates = true
     var xmas = true
     var loseSlots = false
@@ -83,12 +77,7 @@ object TrophySlots {
         packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID)
         packetHandler?.registerMessage<MessageSlotsClient, IMessage>(MessageSlotsClient::class.java,
                 MessageSlotsClient::class.java, 0, Side.CLIENT)
-        packetHandler?.registerMessage<MessageUnlockProgress, IMessage>(MessageUnlockProgress::class.java,
-                MessageUnlockProgress::class.java, 1, Side.SERVER)
-        packetHandler?.registerMessage<MessageUpdateClientProgress, IMessage>(MessageUpdateClientProgress::class.java,
-                MessageUpdateClientProgress::class.java, 2, Side.CLIENT)
 
-        CapabilityManager.INSTANCE.register(IPlayerProgression::class.java, ProgressionCapability(), PlayerProgression::class.java)
         CapabilityManager.INSTANCE.register(ISlotInfo::class.java, SlotCapability(), SlotInfo::class.java)
 
         proxy?.preInit()

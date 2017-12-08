@@ -5,9 +5,7 @@ import net.lomeli.trophyslots.capabilities.slots.SlotManager
 import net.lomeli.trophyslots.client.slots.GuiLockedSlot
 import net.lomeli.trophyslots.client.slots.SlotLocked
 import net.lomeli.trophyslots.compat.CompatManager
-import net.lomeli.trophyslots.core.network.MessageUnlockProgress
 import net.minecraft.client.gui.inventory.GuiContainer
-import net.minecraft.client.gui.inventory.GuiInventory
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.client.event.GuiScreenEvent
@@ -41,8 +39,6 @@ import net.minecraftforge.fml.relauncher.SideOnly
     }
 
     @SubscribeEvent fun openGuiEvent(event: GuiOpenEvent) {
-        if (event.gui is GuiInventory)
-            TrophySlots.packetHandler?.sendToServer(MessageUnlockProgress("open_inventory"))
         val mc = FMLClientHandler.instance().client
         if (mc.player != null && event.gui is GuiContainer) {
             val gui = event.gui as GuiContainer
