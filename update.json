@@ -1,11 +1,12 @@
 {
-    "major" : 3,
+    "major" : 5,
     "minor" : 0,
     "revision" : 0,
-    "downloadURL" : "http://minecraft.curseforge.com/projects/trophy-slots/files/2271978",
+    "downloadURL" : "https://minecraft.curseforge.com/projects/trophy-slots/files/2507560",
     "direct" : false,
     "changeLog" : [
-        "Updated to 1.8.8",
-        "No longer depends on Forgelin. Comes packed with it's own Kotlin v0.14.449 adapter."
+        "Updated to Minecraft 1.12.2. Requires Minecraft Forge 14.23.1.2560 or newer",
+        "Readded trophies to Villager trading",
+        "Moved from old Achievement system to Advancement system"
     ]
 }
