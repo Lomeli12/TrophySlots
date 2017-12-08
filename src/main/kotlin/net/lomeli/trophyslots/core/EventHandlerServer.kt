@@ -52,17 +52,17 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
     }
 
     @SubscribeEvent @JvmStatic fun advancementEvent(event: AdvancementEvent) {
-        val player = event.entityPlayer;
+        if (!TrophySlots.unlockViaAdvancements) return
+        val player = event.entityPlayer
         if (player.capabilities.isCreativeMode) return
-        val slotInfo = SlotManager.getPlayerSlotInfo(player)
-        if (slotInfo != null) {
-            if (slotInfo.isAtMaxSlots()) return
-            if (slotInfo.unlockSlot(1)) {
-                player.sendStatusMessage(TextComponentTranslation("msg.trophyslots.unlock"), true)
-                SlotManager.updateClient(player, slotInfo)
-                if (player is EntityPlayerMP) AllTriggers.UNLOCK_SLOT.trigger(player)
-            }
+        val slotInfo = SlotManager.getPlayerSlotInfo(player) ?: return
+        if (slotInfo.isAtMaxSlots()) return
+        if (slotInfo.unlockSlot(1)) {
+            player.sendStatusMessage(TextComponentTranslation("msg.trophyslots.unlock"), true)
+            SlotManager.updateClient(player, slotInfo)
+            if (player is EntityPlayerMP) AllTriggers.UNLOCK_SLOT.trigger(player)
         }
+
     }
 
 

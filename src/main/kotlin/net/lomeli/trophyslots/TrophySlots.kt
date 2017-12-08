@@ -42,7 +42,7 @@ object TrophySlots {
 
     var slotRenderType = 0
     var loseSlotNum = 1
-    //var unlockViaAdvancements = true
+    var unlockViaAdvancements = true
     var canUseTrophy = true
     var canBuyTrophy = false
     var checkForUpdates = true

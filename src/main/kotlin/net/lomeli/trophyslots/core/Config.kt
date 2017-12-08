@@ -18,7 +18,7 @@ class Config {
 
     fun loadConfig() {
         TrophySlots.proxy?.startingSlots = config.getInt("startingSlots", Configuration.CATEGORY_GENERAL, 9, 0, 36, translate("config.trophyslots.starting_slots"))
-        //TrophySlots.unlockViaAdvancements = config.getBoolean("unlockViaAdvancements", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.unlock_via_advancements"))
+        TrophySlots.unlockViaAdvancements = config.getBoolean("unlockViaAdvancements", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.unlock_via_advancements"))
         TrophySlots.canUseTrophy = config.getBoolean("canUseTrophy", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.can_use_trophy"))
         TrophySlots.canBuyTrophy = config.getBoolean("canBuyTrophies", Configuration.CATEGORY_GENERAL, false, translate("config.trophyslots.can_buy_trophy"))
         TrophySlots.checkForUpdates = config.getBoolean("checkForUpdates", Configuration.CATEGORY_GENERAL, true, translate("config.trophyslots.update"))
