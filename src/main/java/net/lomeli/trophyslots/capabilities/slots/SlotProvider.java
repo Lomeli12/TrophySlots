@@ -25,7 +25,7 @@ public class SlotProvider implements ICapabilitySerializable<NBTBase> {
     @Nullable
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == capability ? SLOT_INFO.cast(instance) : null;
+        return capability == SLOT_INFO ? SLOT_INFO.cast(instance) : null;
     }
 
     @Override
