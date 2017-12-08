@@ -2,6 +2,7 @@ package net.lomeli.trophyslots.core
 
 import net.lomeli.trophyslots.TrophySlots
 import net.lomeli.trophyslots.capabilities.slots.SlotManager
+import net.lomeli.trophyslots.core.triggers.AllTriggers
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.item.Item
@@ -11,6 +12,7 @@ import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.util.text.translation.I18n
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.event.entity.living.LivingDeathEvent
+import net.minecraftforge.event.entity.player.AdvancementEvent
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent
 import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.common.Mod
@@ -49,24 +51,19 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
         return flag
     }
 
-    //TODO: Advancement Event?
-    /*
-    @SubscribeEvent @JvmStatic fun achievementGetEvent(event: AchievementEvent) {
-        if (!event.isCanceled && !event.entityPlayer.world.isRemote && FMLCommonHandler.instance().minecraftServerInstance != null) {
-            val player = FMLCommonHandler.instance().minecraftServerInstance.worldServerForDimension(event.entityPlayer.dimension).getPlayerEntityByUUID(event.entityPlayer.uniqueID) as EntityPlayerMP
-            if (!player.statFile.hasAchievementUnlocked(event.achievement) && TrophySlots.unlockViaAchievements && !SlotUtil.hasUnlockedAllSlots(player)) {
-                if (player.statFile.canUnlockAchievement(event.achievement) && event.achievement != TrophySlots.firstSlot && event.achievement != TrophySlots.maxCapcity) {
-                    if (TrophySlots.disable3 && (event.achievement == AchievementList.OPEN_INVENTORY || event.achievement == AchievementList.MINE_WOOD || event.achievement == AchievementList.BUILD_WORK_BENCH))
-                        return
-                    if (TrophySlots.useWhiteList) {
-                        if (TrophySlots.proxy!!.getWhiteList().contains(event.achievement.toString()))
-                            TrophySlots.proxy?.unlockSlot(player)
-                    } else
-                        TrophySlots.proxy?.unlockSlot(player)
-                }
+    @SubscribeEvent @JvmStatic fun advancementEvent(event: AdvancementEvent) {
+        val player = event.entityPlayer;
+        if (player.capabilities.isCreativeMode) return
+        val slotInfo = SlotManager.getPlayerSlotInfo(player)
+        if (slotInfo != null) {
+            if (slotInfo.isAtMaxSlots()) return
+            if (slotInfo.unlockSlot(1)) {
+                player.sendStatusMessage(TextComponentTranslation("msg.trophyslots.unlock"), true)
+                SlotManager.updateClient(player, slotInfo)
+                if (player is EntityPlayerMP) AllTriggers.UNLOCK_SLOT.trigger(player)
             }
         }
-    }*/
+    }
 
 
     @SubscribeEvent @JvmStatic fun playerTickEvent(event: TickEvent.PlayerTickEvent) {
