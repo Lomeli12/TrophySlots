@@ -12,6 +12,7 @@ import net.lomeli.trophyslots.core.network.MessageSlotsClient
 import net.lomeli.trophyslots.core.version.VersionChecker
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
+import net.minecraft.launchwrapper.Launch
 import net.minecraftforge.common.capabilities.CapabilityManager
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
@@ -53,20 +54,13 @@ object TrophySlots {
     var modConfig: Config? = null
     var versionHandler: VersionChecker? = null
 
-    var debug: Boolean = false
+    var debug = Launch.blackboard.get(key = "fml.deobfuscatedEnvironment") as Boolean
     var log: Logger? = null
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         log = Logger()
-        try {
-            EntityPlayer::class.java.getMethod("getBedLocation")
-            debug = true
-            log?.logInfo("Dev environment, enabled logging!")
-        } catch (e: Exception) {
-            debug = false
-            log?.logError(e)
-        }
+        if (debug) log?.logInfo("Dev environment, enabled logging!")
 
         modConfig = Config(event.suggestedConfigurationFile)
         modConfig?.loadConfig()
