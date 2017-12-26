@@ -66,30 +66,11 @@ class VersionChecker(val jsonURL: String, val modname: String, val modversion: S
     }
 
     fun checkForUpdates() {
-        try {
-            TrophySlots.log?.logInfo(translate("update.trophyslots.checking"))
-            val url = URL(this.jsonURL)
-            val gson = Gson()
-            val update = gson.fromJson(InputStreamReader(url.openStream()), UpdateJson::class.java)
-            if (update != null) {
-                this.needsUpdate = compareVersion(update)
-                if (this.needsUpdate) {
-                    this.downloadURL = update.downloadURL
-                    this.isDirect = update.isDirect()
-                    this.changeList = update.getChangeLog()
-                    this.version = update.getVersion()
-                    this.doneTelling = false
-                    sendMessage()
-                } else
-                    TrophySlots.log?.logInfo(translate("update.trophyslots.none"))
-            }
-        } catch (e: Exception) {
-            TrophySlots.log?.logError(translate("update.trophyslots.failed"))
-        }
-
+        var thread = Thread(ThreadVersionCheck(this))
+        thread.start()
     }
 
-    private fun compareVersion(update: UpdateJson): Boolean {
+    fun compareVersion(update: UpdateJson): Boolean {
         if (mod_major > update.major) return false
         if (mod_major < update.major) return true
         if (mod_minor > update.minor) return false
