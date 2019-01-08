@@ -3,11 +3,10 @@ config.trophyslots.unlock_via_advancements=Allows you to unlock slots by complet
 config.trophyslots.can_use_trophy=Allows you to unlock slots using trophies.
 config.trophyslots.can_buy_trophy=Allows you to buy trophies from villagers. Disabling this will disable any trophies bought from villagers!
 config.trophyslots.update=Enable checking for updates
-config.trophyslots.render_locked_slots=Render settings for locked slots. 0 = Crossed out; 1 = Grayed out; 2 = Grayed and crossed out; 3 = no special rendering.
+config.trophyslots.render_locked_slots=[Client-side only] Render settings for locked slots. 0 = Crossed out; 1 = Grayed out; 2 = Grayed and crossed out; 3 = no special rendering.
 config.trophyslots.reverse=Unlocks slots in reverse order (bottom right instead of top left).
 config.trophyslots.lose_slots=Allows you to set whether or not you lose slots on death.
 config.trophyslots.lose_slots.num=The number of slots one loses upon death. If set to -1, they'll lose ALL earned slots.
-config.trophyslots.progression=Unlock slots as you progress via general gameplay. Works like old achievements!
 
 item.trophyslots.trophy.name=Trophy
 

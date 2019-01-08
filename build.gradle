@@ -1,94 +1,29 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-    }
-}
-
 plugins {
-    id 'com.github.johnrengelman.shadow' version '2.0.1'
-    id 'org.jetbrains.kotlin.jvm' version '1.2.10'
+	id 'fabric-loom' version '0.2.0-SNAPSHOT'
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
-configurations {
-    shade
-    compile.extendsFrom shade
+archivesBaseName = "Trophy Slots"
+version = "1.0.0"
+
+minecraft {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
+	minecraft "com.mojang:minecraft:18w50a"
+	mappings "net.fabricmc:yarn:18w50a.91"
+	modCompile "net.fabricmc:fabric-loader:0.3.2.91"
+
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	modCompile "net.fabricmc:fabric:0.1.4.69"
 }
 
-group = "${modGroup}"
-archivesBaseName = "${modName}"
-version = "${releaseVersion}"
-
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+// if it is present.
+// If you remove this task, sources will not be generated.
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
 }
-
-minecraft {
-    version = "${mcVersion}-${mcfVersion}" // grab latest forge
-    runDir = "run"
-    replace '@VERSION@', project.version
-    mappings = "${mcpMap}"
-}
-
-processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-    inputs.property "kotlinversion", "${kotlinVersion}"
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version, 'kotlinversion':"${kotlinVersion}"
-    }
-
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
-
-jar {
-	appendix = "${mcVersion}"
-    classifier = "universal"
-    manifest {
-        attributes("FMLAT" : "trophyslots_at.cfg")
-    }
-}
-
-sourceJar {
-    appendix = "${mcVersion}"
-    classifier = "src"
-}
-
-shadowJar {
-    appendix = "${mcVersion}"
-    classifier = "universal"
-    relocate 'kotlin', 'net.lomeli.trophyslots.repack.kotlin'
-    relocate 'jet.runtime.typeinfo', 'net.lomeli.trophyslots.repack.jet.runtime.typeinfo'
-    relocate 'org.jetbrains.annotations', 'net.lomeli.trophyslots.repack.org.jetbrains.annotations'
-    relocate 'org.intellij.lang.annotations', 'net.lomeli.trophyslots.repack.org.intellij.lang.annotations'
-}
-
-reobf {
-    shadowJar { mappingType }
-}
-
-tasks.build.dependsOn reobfShadowJar
-
-artifacts {
-    archives shadowJar
-}
-

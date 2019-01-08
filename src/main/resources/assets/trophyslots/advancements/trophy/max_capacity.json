@@ -4,12 +4,15 @@
       "item": "minecraft:chest"
     },
     "title": {
-      "translate": "advancement.torphyslots.maximum_capacity_achievement"
+      "translate": "advancement.trophyslots.maximum_capacity_achievement"
     },
     "description": {
-      "translate": "advancement.torphyslots.maximum_capacity_achievement.desc"
+      "translate": "advancement.trophyslots.maximum_capacity_achievement.desc"
     },
-    "announce_to_chat": true
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
   },
   "parent": "trophyslots:trophy/root",
   "criteria": {

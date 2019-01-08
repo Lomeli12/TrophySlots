@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "net.lomeli.trophyslots.mixin.common",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ServerAdvancementManagerMixin",
+    "PlayerEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

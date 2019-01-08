@@ -1,11 +1,24 @@
-build
-.gradle
-*.class
-ftp.properties
+# gradle
 
-# Package Files #
-*.war
-*.ear
+.gradle/
+build/
+out/
+
+# idea
+
+.idea/
 *.iml
-build.bat
-build.sh
+*.ipr
+*.iws
+
+# vscode
+
+.settings/
+.vscode/
+bin/
+.classpath
+.project
+
+# fabric
+
+run/
