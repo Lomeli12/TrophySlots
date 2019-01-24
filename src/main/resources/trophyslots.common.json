@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "PlayerAdvancementTrackerMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "ItemEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
