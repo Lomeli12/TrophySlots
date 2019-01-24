@@ -1,10 +1,10 @@
 package net.lomeli.trophyslots;
 
 import net.fabricmc.api.ModInitializer;
-import net.lomeli.trophyslots.core.Logger;
+import net.lomeli.knit.config.ConfigFile;
+import net.lomeli.knit.utils.Logger;
 import net.lomeli.trophyslots.core.ServerEventHandler;
-import net.lomeli.trophyslots.core.config.ConfigFile;
-import net.lomeli.trophyslots.core.config.ModConfig;
+import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.criterion.ModCriterions;
 import net.lomeli.trophyslots.items.ModItems;
 
@@ -31,6 +31,7 @@ public class TrophySlots implements ModInitializer {
 		ModCriterions.initTriggers();
 		config = new ConfigFile(MOD_ID, ModConfig.class);
 		config.loadConfig();
+
 		//TODO: Packet handling, events
 		ModItems.init();
 		ServerEventHandler.registerEvents();

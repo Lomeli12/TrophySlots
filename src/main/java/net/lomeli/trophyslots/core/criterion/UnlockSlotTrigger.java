@@ -8,7 +8,7 @@ import com.google.gson.JsonObject;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
-import net.minecraft.advancement.ServerAdvancementManager;
+import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,7 +21,7 @@ import java.util.Set;
 public class UnlockSlotTrigger implements Criterion<UnlockSlotTrigger.Instance> {
     private static final String CRITERION_ID = "unlock_slot";
 
-    private Map<ServerAdvancementManager, Listeners> listeners = Maps.newHashMap();
+    private Map<PlayerAdvancementTracker, Listeners> listeners = Maps.newHashMap();
 
     @Override
     public Identifier getId() {
@@ -29,34 +29,34 @@ public class UnlockSlotTrigger implements Criterion<UnlockSlotTrigger.Instance> 
     }
 
     @Override
-    public void addCondition(ServerAdvancementManager advManager, ConditionsContainer<Instance> listener) {
-        Listeners criterion = listeners.getOrDefault(advManager, null);
+    public void beginTrackingCondition(PlayerAdvancementTracker advTracker, ConditionsContainer<Instance> listener) {
+        Listeners criterion = listeners.getOrDefault(advTracker, null);
 
         if (criterion == null) {
-            criterion = new Listeners(advManager);
-            listeners.put(advManager, criterion);
+            criterion = new Listeners(advTracker);
+            listeners.put(advTracker, criterion);
         }
 
         criterion.add(listener);
     }
 
     @Override
-    public void removeCondition(ServerAdvancementManager advManager, ConditionsContainer<Instance> listener) {
-        Listeners criterion = listeners.getOrDefault(advManager, null);
+    public void endTrackingCondition(PlayerAdvancementTracker advTracker, ConditionsContainer<Instance> listener) {
+        Listeners criterion = listeners.getOrDefault(advTracker, null);
         if (criterion != null) {
             criterion.remove(listener);
             if (criterion.isEmpty())
-                listeners.remove(advManager);
+                listeners.remove(advTracker);
         }
     }
 
     @Override
-    public void removePlayer(ServerAdvancementManager advManager) {
-        listeners.remove(advManager);
+    public void endTracking(PlayerAdvancementTracker advTracker) {
+        listeners.remove(advTracker);
     }
 
     @Override
-    public Instance deserializeConditions(JsonObject var1, JsonDeserializationContext var2) {
+    public Instance deserializeConditions(JsonObject json, JsonDeserializationContext context) {
         return null;
     }
 
@@ -85,9 +85,9 @@ public class UnlockSlotTrigger implements Criterion<UnlockSlotTrigger.Instance> 
 
     private static class Listeners {
         private Set<ConditionsContainer<Instance>> listeners = Sets.newHashSet();
-        private ServerAdvancementManager manager;
+        private PlayerAdvancementTracker manager;
 
-        Listeners(ServerAdvancementManager manager) {
+        Listeners(PlayerAdvancementTracker manager) {
             this.manager = manager;
         }
 

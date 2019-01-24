@@ -2,9 +2,9 @@ package net.lomeli.trophyslots.items;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.lomeli.knit.client.utils.ClientUtil;
 import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.client.ClientUtil;
-import net.lomeli.trophyslots.core.config.ModConfig;
+import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.criterion.ModCriterions;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;

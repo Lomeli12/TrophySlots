@@ -1,17 +1,19 @@
-package net.lomeli.trophyslots.core.config;
+package net.lomeli.trophyslots.core;
+
+import net.lomeli.knit.config.Config;
 
 public class ModConfig {
     private static final String CLIENT = "client";
     private static final String COMMON = "common";
     // Client
-    @Config(category = CLIENT,
+    @Config(category = CLIENT, categoryComment = "Client-side only configs. Ignore on server-side.",
             comment = "Render settings for locked slots. 0 = Crossed out; 1 = Grayed out; 2 = Grayed and crossed out; 3 = no special rendering.")
     public static int slotRenderType = 0;
     @Config(configName = "special", category = "client")
     public static boolean xmas = true;
 
     // Common
-    @Config(configName = "slotsLost", category = COMMON,
+    @Config(configName = "slotsLost", category = COMMON, categoryComment = "Configs that affects both singleplayer and multiplayer.",
             comment = "The number of slots one loses upon death. If set to -1, they'll lose ALL earned slots.")
     public static int loseSlotNum = 1;
     @Config(category = COMMON, comment = "The number of slots a player starts with.")

@@ -3,7 +3,7 @@ package net.lomeli.trophyslots.core.slots;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.config.ModConfig;
+import net.lomeli.trophyslots.core.ModConfig;
 import net.minecraft.nbt.CompoundTag;
 
 public class PlayerSlotManager {

@@ -6,18 +6,19 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 archivesBaseName = "Trophy Slots"
+group = "net.lomeli.trophyslots"
 version = "1.0.0"
 
 minecraft {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:18w50a"
-	mappings "net.fabricmc:yarn:18w50a.91"
-	modCompile "net.fabricmc:fabric-loader:0.3.2.91"
+    minecraft "com.mojang:minecraft:19w03a"
+    mappings "net.fabricmc:yarn:19w03a.4"
+    modCompile "net.fabricmc:fabric-loader:0.3.2.92"
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	modCompile "net.fabricmc:fabric:0.1.4.69"
+    // Fabric API. This is technically optional, but you probably want it anyway.
+    modCompile "net.fabricmc:fabric:0.1.4.75"
 }
 
 // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task

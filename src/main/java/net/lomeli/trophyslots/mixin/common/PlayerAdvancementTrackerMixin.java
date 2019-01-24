@@ -1,7 +1,7 @@
 package net.lomeli.trophyslots.mixin.common;
 
-import net.lomeli.trophyslots.core.AdvancementHandler;
-import net.minecraft.advancement.ServerAdvancementManager;
+import net.lomeli.trophyslots.core.handlers.AdvancementHandler;
+import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.advancement.SimpleAdvancement;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.lib.Opcodes;
@@ -11,18 +11,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ServerAdvancementManager.class)
-public class ServerAdvancementManagerMixin {
+@Mixin(PlayerAdvancementTracker.class)
+public class PlayerAdvancementTrackerMixin {
 
     @Shadow
-    private ServerPlayerEntity field_13391;
+    private ServerPlayerEntity owner;
 
-    @Inject(method = "onAdvancement",
+    @Inject(method = "grantCriterion",
             at = @At(shift = At.Shift.AFTER,
                     value = "INVOKE",
                     target = "Lnet/minecraft/advancement/AdvancementRewards;apply(Lnet/minecraft/server/network/ServerPlayerEntity;)V",
                     opcode = Opcodes.INVOKEVIRTUAL))
     private void onAdvancement(SimpleAdvancement advancement, String critereon, CallbackInfoReturnable<Boolean> info) {
-        AdvancementHandler.unlockedAdvancment(field_13391, advancement);
+        AdvancementHandler.unlockedAdvancment(owner, advancement);
     }
 }

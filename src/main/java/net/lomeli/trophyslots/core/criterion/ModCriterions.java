@@ -1,6 +1,6 @@
 package net.lomeli.trophyslots.core.criterion;
 
-import net.lomeli.trophyslots.core.utils.ObfUtil;
+import net.lomeli.knit.utils.ObfUtil;
 import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.advancement.criterion.Criterions;
 
