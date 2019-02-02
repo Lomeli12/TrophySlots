@@ -5,7 +5,8 @@
   "mixins": [
     "PlayerAdvancementTrackerMixin",
     "PlayerEntityMixin",
-    "ItemEntityMixin"
+    "ItemEntityMixin",
+    "SlotMixin"
   ],
   "injectors": {
     "defaultRequire": 1

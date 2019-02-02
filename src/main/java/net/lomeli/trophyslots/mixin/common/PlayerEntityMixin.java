@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
-public class PlayerEntityMixin implements ISlotHolder {
+public abstract class PlayerEntityMixin implements ISlotHolder {
     private PlayerSlotManager slotManager = new PlayerSlotManager();
 
     @Inject(method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))

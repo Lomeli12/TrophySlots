@@ -12,16 +12,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerAdvancementTracker.class)
-public class PlayerAdvancementTrackerMixin {
+public abstract class PlayerAdvancementTrackerMixin {
 
     @Shadow
     private ServerPlayerEntity owner;
 
-    @Inject(method = "grantCriterion",
-            at = @At(shift = At.Shift.AFTER,
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/advancement/AdvancementRewards;apply(Lnet/minecraft/server/network/ServerPlayerEntity;)V",
-                    opcode = Opcodes.INVOKEVIRTUAL))
+    @Inject(method = "grantCriterion", at = @At(shift = At.Shift.AFTER, value = "INVOKE",
+            target = "Lnet/minecraft/advancement/AdvancementRewards;apply(Lnet/minecraft/server/network/ServerPlayerEntity;)V",
+            opcode = Opcodes.INVOKEVIRTUAL))
     private void onAdvancement(SimpleAdvancement advancement, String critereon, CallbackInfoReturnable<Boolean> info) {
         AdvancementHandler.unlockedAdvancment(owner, advancement);
     }

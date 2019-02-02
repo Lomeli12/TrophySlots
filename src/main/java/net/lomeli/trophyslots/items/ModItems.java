@@ -5,8 +5,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ModItems {
-    public static Trophy trophy;
-    public static Trophy masterTrophy;
+    private static Trophy trophy;
+    private static Trophy masterTrophy;
 
     public static void init() {
         trophy = new Trophy(Trophy.TrophyType.NORMAL);
