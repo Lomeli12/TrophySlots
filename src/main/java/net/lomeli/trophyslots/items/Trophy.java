@@ -3,9 +3,11 @@ package net.lomeli.trophyslots.items;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.lomeli.knit.client.utils.ClientUtil;
+import net.lomeli.knit.network.MessageUtil;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.criterion.ModCriterions;
+import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
 import net.minecraft.client.item.TooltipOptions;
@@ -58,11 +60,14 @@ public class Trophy extends Item {
                         else
                             player.addChatMessage(new TranslatableTextComponent(msg, amount), false);
 
-                        //TODO: Send client update packet
                         if (!player.abilities.creativeMode)
                             stack.addAmount(-1);
-                        if (player instanceof ServerPlayerEntity)
+                        if (player instanceof ServerPlayerEntity) {
+                            TrophySlots.log.info("Sending slot update packet to player %s.", player.getName().getText());
+                            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked(),
+                                    ModConfig.reverseOrder), (ServerPlayerEntity) player);
                             ModCriterions.UNLOCK_SLOT.trigger((ServerPlayerEntity) player);
+                        }
                     }
                 }
             }

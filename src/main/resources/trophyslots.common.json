@@ -6,6 +6,7 @@
     "PlayerAdvancementTrackerMixin",
     "PlayerEntityMixin",
     "ItemEntityMixin",
+    "PlayerManagerMixin",
     "SlotMixin"
   ],
   "injectors": {
