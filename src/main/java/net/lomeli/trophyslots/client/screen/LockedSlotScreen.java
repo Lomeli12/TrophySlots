@@ -17,8 +17,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Iterator;
-
 public class LockedSlotScreen extends ButtonWidget {
     private static final int GREY_COLOR = 2130706433;
     private final ContainerScreen parentScreen;
@@ -32,12 +30,9 @@ public class LockedSlotScreen extends ButtonWidget {
     @Override
     public void draw(int mouseX, int mouseY, float renderTick) {
         if (!visible) return;
-
         MinecraftClient mc = MinecraftClient.getInstance();
         //TODO: Make this not an eyesore.
-        Iterator<Slot> containerSlots = parentScreen.getContainer().slotList.iterator();
-        while (containerSlots.hasNext()) {
-            Slot slot = containerSlots.next();
+        for (Slot slot : parentScreen.getContainer().slotList) {
             if (slot.inventory instanceof PlayerInventory) {
                 PlayerEntity player = ((PlayerInventory) slot.inventory).player;
                 if (!player.abilities.creativeMode && player instanceof ISlotHolder) {
