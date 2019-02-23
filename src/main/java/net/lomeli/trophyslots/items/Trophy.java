@@ -10,7 +10,7 @@ import net.lomeli.trophyslots.core.criterion.ModCriterions;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
-import net.minecraft.client.item.TooltipOptions;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -40,7 +40,7 @@ public class Trophy extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        ActionResult result = ActionResult.FAILURE;
+        ActionResult result = ActionResult.FAIL;
         ItemStack stack = player.getStackInHand(hand);
         if (world != null && !world.isClient && !stack.isEmpty() && player instanceof ISlotHolder) {
             PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
@@ -98,7 +98,7 @@ public class Trophy extends Item {
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void buildTooltip(ItemStack stack, @Nullable World world, List<TextComponent> toolTipList, TooltipOptions tooltipOptions) {
+    public void buildTooltip(ItemStack stack, @Nullable World world, List<TextComponent> toolTipList, TooltipContext tooltipOptions) {
         if (!(stack.getItem() instanceof Trophy) || toolTipList == null) return;
         if (ClientUtil.safeKeyDown(ClientUtil.LEFT_SHIFT)) {
             if (((Trophy) stack.getItem()).getTrophyType() == TrophyType.MASTER)

@@ -1,8 +1,8 @@
 package net.lomeli.trophyslots.items;
 
+import net.lomeli.knit.utils.RegistryUtil;
 import net.lomeli.trophyslots.TrophySlots;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ModItems {
     private static Trophy trophy;
@@ -12,7 +12,7 @@ public class ModItems {
         trophy = new Trophy(Trophy.TrophyType.NORMAL);
         masterTrophy = new Trophy(Trophy.TrophyType.MASTER);
 
-        Registry.ITEM.register(new Identifier(TrophySlots.MOD_ID, "trophy"), trophy);
-        Registry.ITEM.register(new Identifier(TrophySlots.MOD_ID, "master_trophy"), masterTrophy);
+        RegistryUtil.registerItem(new Identifier(TrophySlots.MOD_ID, "trophy"), trophy);
+        RegistryUtil.registerItem(new Identifier(TrophySlots.MOD_ID, "master_trophy"), masterTrophy);
     }
 }

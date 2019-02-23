@@ -1,14 +1,12 @@
 package net.lomeli.trophyslots.core.network;
 
 import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.networking.PacketContext;
-import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.fabric.api.network.PacketContext;
 import net.lomeli.knit.Knit;
 import net.lomeli.knit.network.AbstractMessage;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
-import net.lomeli.trophyslots.items.Trophy;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 

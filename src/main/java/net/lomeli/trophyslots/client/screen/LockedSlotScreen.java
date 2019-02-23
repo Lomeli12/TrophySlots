@@ -22,7 +22,7 @@ public class LockedSlotScreen extends ButtonWidget {
     private final ContainerScreen parentScreen;
 
     public LockedSlotScreen(ContainerScreen parentScreen) {
-        super(-200, 0, 0, 0, 0, "");
+        super(0, 0, 0, 0, "");
         this.enabled = false;
         this.parentScreen = parentScreen;
     }

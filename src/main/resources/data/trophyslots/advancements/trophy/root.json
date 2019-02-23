@@ -11,16 +11,19 @@
     },
     "frame": "task",
     "show_toast": true,
-    "announce_to_chat": false,
+    "announce_to_chat": true,
     "hidden": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
   },
   "criteria": {
     "first_slot": {
       "trigger": "trophyslots:unlock_slot",
-      "conditions": {
-        "slots_unlocked": 1
-      }
+      "conditions": {}
     }
-  }
+  },
+  "requirements": [
+    [
+      "first_slot"
+    ]
+  ]
 }
