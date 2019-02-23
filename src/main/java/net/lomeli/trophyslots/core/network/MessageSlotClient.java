@@ -1,9 +1,9 @@
 package net.lomeli.trophyslots.core.network;
 
 import net.fabricmc.fabric.api.network.PacketContext;
-import net.lomeli.knit.Knit;
 import net.lomeli.knit.network.AbstractMessage;
 import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
 import net.minecraft.util.Identifier;
@@ -47,11 +47,11 @@ public class MessageSlotClient extends AbstractMessage<MessageSlotClient> {
 
     @Override
     public void handle(PacketContext context, MessageSlotClient message) {
-        Knit.log.info("Packet receiving side: %s", context.getPacketEnvironment());
         if (message != null) {
             if (context.getPlayer() instanceof ISlotHolder) {
                 PlayerSlotManager slotManager = ((ISlotHolder) context.getPlayer()).getSlotManager();
                 slotManager.setSlotsUnlockedClient(message.slots);
+                ModConfig.reverseOrder = message.reverse;
             }
         }
     }
