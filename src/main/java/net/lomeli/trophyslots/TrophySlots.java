@@ -2,12 +2,9 @@ package net.lomeli.trophyslots;
 
 import net.fabricmc.api.ModInitializer;
 import net.lomeli.knit.config.ConfigFile;
-import net.lomeli.knit.network.MessageUtil;
 import net.lomeli.knit.utils.Logger;
 import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.criterion.ModCriterions;
-import net.lomeli.trophyslots.core.network.MessageReloadConfig;
-import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.items.ModItems;
 
 public class TrophySlots implements ModInitializer {
