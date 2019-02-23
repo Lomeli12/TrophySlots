@@ -12,11 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerManager.class)
 public abstract class PlayerManagerMixin {
 
-    @Inject(method = "method_14611", at = @At("HEAD"))
-    private void onPlayerLoggedOut(ServerPlayerEntity player, CallbackInfo callback) {
-        ServerEventHandler.onPlayerLoggedOut(player);
-    }
-
     @Inject(method = "onPlayerConnect", at = @At("TAIL"))
     private void onPlayerLoggedIn(ClientConnection connection, ServerPlayerEntity player, CallbackInfo callbackInfo) {
         ServerEventHandler.onPlayerLoggedIn(player);
