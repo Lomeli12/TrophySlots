@@ -1,6 +1,5 @@
 package net.lomeli.trophyslots.core.network;
 
-import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.lomeli.knit.network.AbstractMessage;
 import net.lomeli.trophyslots.TrophySlots;
@@ -34,10 +33,5 @@ public class MessageReloadConfig extends AbstractMessage<MessageReloadConfig> {
     @Override
     public void handle(PacketContext context, MessageReloadConfig message) {
         TrophySlots.config.loadConfig();
-    }
-
-    @Override
-    public EnvType getTargetSide() {
-        return EnvType.CLIENT;
     }
 }

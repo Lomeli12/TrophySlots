@@ -37,8 +37,6 @@ public class TrophySlots implements ModInitializer {
 		config.loadConfig();
 
 		log.info("Registering packets");
-		MessageUtil.registerMessage(new MessageSlotClient());
-		MessageUtil.registerMessage(new MessageReloadConfig());
 		ModItems.init();
 	}
 }

@@ -1,6 +1,5 @@
 package net.lomeli.trophyslots.core.network;
 
-import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.lomeli.knit.Knit;
 import net.lomeli.knit.network.AbstractMessage;
@@ -55,10 +54,5 @@ public class MessageSlotClient extends AbstractMessage<MessageSlotClient> {
                 slotManager.setSlotsUnlockedClient(message.slots);
             }
         }
-    }
-
-    @Override
-    public EnvType getTargetSide() {
-        return EnvType.CLIENT;
     }
 }
