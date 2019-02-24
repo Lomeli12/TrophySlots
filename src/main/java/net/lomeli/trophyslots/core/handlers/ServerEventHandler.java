@@ -9,7 +9,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 public class ServerEventHandler {
 
-    public static void onPlayerLoggedIn(ServerPlayerEntity player) {
+    public static void updateClientSlots(ServerPlayerEntity player) {
         if (player instanceof ISlotHolder) {
             PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
             MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked(), ModConfig.reverseOrder), player);
