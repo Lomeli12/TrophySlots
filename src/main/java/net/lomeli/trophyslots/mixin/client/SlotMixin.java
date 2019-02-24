@@ -3,6 +3,7 @@ package net.lomeli.trophyslots.mixin.client;
 import net.lomeli.trophyslots.client.accessors.ISlotAccessor;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
+import net.lomeli.trophyslots.core.slots.SlotHelper;
 import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -27,16 +28,7 @@ public abstract class SlotMixin implements ISlotAccessor {
 
     @Inject(method = "doDrawHoveringEffect", at = @At("TAIL"), cancellable = true)
     private void slotEnabled(CallbackInfoReturnable<Boolean> callback) {
-        if (inventory instanceof PlayerInventory) {
-            PlayerEntity player = ((PlayerInventory) inventory).player;
-            if (!player.abilities.creativeMode && player instanceof ISlotHolder) {
-                PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
-                if (!slotManager.slotUnlocked(invSlot)) {
-                    callback.setReturnValue(false);
-                    callback.cancel();
-                }
-            }
-        }
+        SlotHelper.disableSlot(callback, inventory, invSlot, false);
     }
 
     @Override
