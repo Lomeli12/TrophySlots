@@ -47,12 +47,12 @@ public class MessageSlotClient extends AbstractMessage<MessageSlotClient> {
 
     @Override
     public void handle(PacketContext context, MessageSlotClient message) {
-        if (message != null) {
-            if (context.getPlayer() instanceof ISlotHolder) {
-                PlayerSlotManager slotManager = ((ISlotHolder) context.getPlayer()).getSlotManager();
-                slotManager.setSlotsUnlockedClient(message.slots);
-                ModConfig.reverseOrder = message.reverse;
-            }
+        if (message == null)
+            return;
+        if (context.getPlayer() instanceof ISlotHolder) {
+            PlayerSlotManager slotManager = ((ISlotHolder) context.getPlayer()).getSlotManager();
+            slotManager.setSlotsUnlocked(message.slots);
+            ModConfig.reverseOrder = message.reverse;
         }
     }
 }

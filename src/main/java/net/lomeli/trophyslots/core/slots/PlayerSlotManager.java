@@ -39,11 +39,6 @@ public class PlayerSlotManager {
         this.slotsUnlocked = slotsUnlocked;
     }
 
-    @Environment(EnvType.CLIENT)
-    public void setSlotsUnlockedClient(int slotsUnlocked) {
-        this.slotsUnlocked = slotsUnlocked;
-    }
-
     public boolean maxSlotsUnlocked() {
         return slotsUnlocked >= getMaxSlots();
     }
