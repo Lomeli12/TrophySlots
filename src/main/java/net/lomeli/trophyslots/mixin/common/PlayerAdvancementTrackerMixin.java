@@ -20,7 +20,7 @@ public abstract class PlayerAdvancementTrackerMixin {
     @Inject(method = "grantCriterion", at = @At(shift = At.Shift.AFTER, value = "INVOKE",
             target = "Lnet/minecraft/advancement/AdvancementRewards;apply(Lnet/minecraft/server/network/ServerPlayerEntity;)V",
             opcode = Opcodes.INVOKEVIRTUAL))
-    private void onAdvancement(SimpleAdvancement advancement, String critereon, CallbackInfoReturnable<Boolean> info) {
+    private void onAdvancement(SimpleAdvancement advancement, String critereon, CallbackInfoReturnable<Boolean> callback) {
         AdvancementHandler.unlockedAdvancment(owner, advancement);
     }
 }

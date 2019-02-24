@@ -14,12 +14,12 @@ public abstract class PlayerEntityMixin implements ISlotHolder {
     private PlayerSlotManager slotManager = new PlayerSlotManager();
 
     @Inject(method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
-    private void readNBT(CompoundTag tag, CallbackInfo info) {
+    private void readNBT(CompoundTag tag, CallbackInfo callback) {
         getSlotManager().deserialize(tag);
     }
 
     @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
-    private void writeNBT(CompoundTag tag, CallbackInfo info) {
+    private void writeNBT(CompoundTag tag, CallbackInfo callback) {
         getSlotManager().serialize(tag);
     }
 
