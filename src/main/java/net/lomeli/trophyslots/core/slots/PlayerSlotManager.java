@@ -1,9 +1,7 @@
 package net.lomeli.trophyslots.core.slots;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ModConfig;
+import net.lomeli.trophyslots.utils.InventoryUtils;
 import net.minecraft.nbt.CompoundTag;
 
 public class PlayerSlotManager {
@@ -14,7 +12,7 @@ public class PlayerSlotManager {
     }
 
     public boolean unlockSlot(int amount) {
-        if (!maxSlotsUnlocked()){
+        if (!maxSlotsUnlocked()) {
             slotsUnlocked += amount;
             if (maxSlotsUnlocked()) slotsUnlocked = getMaxSlots();
             return true;
@@ -23,9 +21,9 @@ public class PlayerSlotManager {
     }
 
     public boolean slotUnlocked(int index) {
-        if (index < TrophySlots.MAX_SLOTS) {
+        if (index < InventoryUtils.MAX_SLOTS) {
             if (ModConfig.reverseOrder && index >= 9)
-                return index > TrophySlots.MAX_INV_SLOTS - (ModConfig.startingSlots + slotsUnlocked);
+                return index > InventoryUtils.MAX_INV_SLOTS - (ModConfig.startingSlots + slotsUnlocked);
             else return index < ModConfig.startingSlots + slotsUnlocked;
         }
         return true;
@@ -44,7 +42,7 @@ public class PlayerSlotManager {
     }
 
     public int getMaxSlots() {
-        return TrophySlots.MAX_SLOTS;
+        return InventoryUtils.MAX_SLOTS;
     }
 
     public void serialize(CompoundTag nbt) {

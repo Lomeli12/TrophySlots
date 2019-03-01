@@ -5,6 +5,16 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 
 public class InventoryUtils {
+    /**
+     * Player inventory slots
+     */
+    public static final int MAX_SLOTS = 36;
+
+    /**
+     * Player Inventory slots + armor slots + crafting slots
+     */
+    public static final int MAX_INV_SLOTS = 44;
+
     public static boolean canMergeStacks(ItemStack stack1, ItemStack stack2) {
         if (stack1.getItem() != stack2.getItem())
             return false;

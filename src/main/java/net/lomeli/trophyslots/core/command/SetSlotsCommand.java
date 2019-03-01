@@ -7,11 +7,11 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.lomeli.knit.command.ICommand;
 import net.lomeli.knit.network.MessageUtil;
-import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
+import net.lomeli.trophyslots.utils.InventoryUtils;
 import net.minecraft.command.arguments.GameProfileArgumentType;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.ServerCommandManager;
@@ -30,7 +30,7 @@ public class SetSlotsCommand implements ICommand {
         commandDispatcher.register(ServerCommandManager.literal(getName()).requires(
                 (commandSource) -> commandSource.hasPermissionLevel(2))
                 .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
-                        .then(ServerCommandManager.argument("amount", IntegerArgumentType.integer(0, TrophySlots.MAX_SLOTS))
+                        .then(ServerCommandManager.argument("amount", IntegerArgumentType.integer(0, InventoryUtils.MAX_SLOTS))
                                 .executes((commandContext) -> setPlayerSlots(commandContext.getSource(),
                                         GameProfileArgumentType.getProfilesArgument(commandContext, "targets"),
                                         IntegerArgumentType.getInteger(commandContext, "amount"))
