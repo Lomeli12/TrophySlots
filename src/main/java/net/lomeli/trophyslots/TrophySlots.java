@@ -1,12 +1,10 @@
 package net.lomeli.trophyslots;
 
 import net.fabricmc.api.ModInitializer;
-import net.lomeli.knit.command.CommandManager;
 import net.lomeli.knit.config.ConfigFile;
 import net.lomeli.knit.utils.Logger;
 import net.lomeli.trophyslots.core.ModConfig;
-import net.lomeli.trophyslots.core.command.GetSlotsCommand;
-import net.lomeli.trophyslots.core.command.SetSlotsCommand;
+import net.lomeli.trophyslots.core.command.ModCommands;
 import net.lomeli.trophyslots.core.criterion.ModCriterions;
 import net.lomeli.trophyslots.core.handlers.AdvancementHandler;
 import net.lomeli.trophyslots.core.handlers.PlayerHandler;
@@ -20,9 +18,6 @@ public class TrophySlots implements ModInitializer {
     public static final String MOD_ID = "trophyslots";
     static final String MOD_NAME = "Trophy Slots";
     
-
-	private static final CommandManager MOD_COMMANDS = new CommandManager();
-
     @Override
     public void onInitialize() {
         log = new Logger(MOD_NAME);
@@ -40,8 +35,6 @@ public class TrophySlots implements ModInitializer {
         PlayerHandler.initPlayerEvents();
 
         log.info("Registering commands");
-		MOD_COMMANDS.addCommand(new GetSlotsCommand());
-		MOD_COMMANDS.addCommand(new SetSlotsCommand());
-		MOD_COMMANDS.registerCommands();
-	}
+        ModCommands.registerCommands();
+    }
 }
