@@ -3,9 +3,7 @@
   "package": "net.lomeli.trophyslots.mixin.client",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ClientConnectionMixin",
     "ContainerScreenMixin",
-    "MinecraftClientMixin",
     "ScreenMixin",
     "SlotMixin"
   ],

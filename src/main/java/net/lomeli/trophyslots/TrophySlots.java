@@ -5,6 +5,8 @@ import net.lomeli.knit.config.ConfigFile;
 import net.lomeli.knit.utils.Logger;
 import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.criterion.ModCriterions;
+import net.lomeli.trophyslots.core.handlers.AdvancementHandler;
+import net.lomeli.trophyslots.core.handlers.PlayerHandler;
 import net.lomeli.trophyslots.items.ModItems;
 
 public class TrophySlots implements ModInitializer {
@@ -33,7 +35,11 @@ public class TrophySlots implements ModInitializer {
 		config = new ConfigFile(MOD_ID, ModConfig.class);
 		config.loadConfig();
 
-		log.info("Registering packets");
+		log.info("Registering items");
 		ModItems.init();
+
+		log.info("Registering events");
+		AdvancementHandler.initAdvancmentEvent();
+		PlayerHandler.initPlayerEvents();
 	}
 }

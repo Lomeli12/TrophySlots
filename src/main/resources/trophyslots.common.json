@@ -3,11 +3,7 @@
   "package": "net.lomeli.trophyslots.mixin.common",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PlayerAdvancementTrackerMixin",
     "PlayerEntityMixin",
-    "ItemEntityMixin",
-    "PlayerManagerMixin",
-    "ServerPlayerEntityMixin",
     "SlotMixin"
   ],
   "injectors": {

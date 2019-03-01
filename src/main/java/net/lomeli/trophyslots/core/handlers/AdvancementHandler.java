@@ -1,5 +1,6 @@
 package net.lomeli.trophyslots.core.handlers;
 
+import net.lomeli.knit.event.AdvancementCallback;
 import net.lomeli.knit.network.MessageUtil;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ModConfig;
@@ -13,9 +14,13 @@ import net.minecraft.text.TranslatableTextComponent;
 
 public class AdvancementHandler {
 
-    public static void unlockedAdvancment(ServerPlayerEntity player, SimpleAdvancement advancement) {
+    public static void initAdvancmentEvent() {
+        AdvancementCallback.EVENT.register(AdvancementHandler::unlockedAdvancment);
+    }
+
+    private static void unlockedAdvancment(ServerPlayerEntity player, SimpleAdvancement advancement) {
         if (!ModConfig.unlockViaAdvancements) return;
-        if (advancement.getId().getNamespace() == TrophySlots.MOD_ID) return;
+        if (advancement.getId().getNamespace().equals(TrophySlots.MOD_ID)) return;
         if (advancement.getDisplay() == null || !advancement.getDisplay().shouldAnnounceToChat()) return;
         if (!(player instanceof ISlotHolder) || player.world.isClient || player.abilities.creativeMode) return;
         PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
