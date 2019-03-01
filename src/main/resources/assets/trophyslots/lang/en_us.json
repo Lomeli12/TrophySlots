@@ -43,11 +43,12 @@
     "command.trophyslots.usage": "/tslots [command]",
 
     "command.trophyslots.set_slots.usage": "/tslots set-slots [player] [numOfSlots]",
-    "command.trophyslots.set_slots.success": "Set number of slots %s has unlocked to %s.",
+    "command.trophyslots.set_slots.success": "Set %s's slots unlocked to %s.",
     "command.trophyslots.set_slots.error": "§cNumber of slots must be between 0 and %s.",
 
     "command.trophyslots.get_slots.usage": "/tslots get-slots [player]",
-    "command.trophyslots.get_slots.success": "%s has unlocked %s slots.",
+    "command.trophyslots.get_slots.success": "%s has unlocked %s slot(s).",
+    "command.trophyslots.get_slots.error": "§cMust give player name.",
 
     "command.trophyslots.unlock_all.usage": "/tslots unlock-all [player]",
     "command.trophyslots.unlock_all.success": "Unlocked all slots for %s.",
