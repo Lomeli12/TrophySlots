@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.lomeli.knit.client.utils.ClientUtil;
 import net.lomeli.knit.network.MessageUtil;
+import net.lomeli.knit.utils.ItemNBTUtils;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.criterion.ModCriterions;
@@ -76,24 +77,13 @@ public class Trophy extends Item {
     }
 
     private int getSlotAmounts(ItemStack stack) {
-        int amount = 1;
-        try {
-            if (!stack.isEmpty() && stack.hasTag())
-                amount = stack.getTag().getInt(SLOT_AMOUNTS);
-        } catch (NullPointerException ex) {
-            TrophySlots.log.error("How the hell did this happen?", ex);
-        }
+        int amount = ItemNBTUtils.getInt(stack, SLOT_AMOUNTS);
+        if (amount < 1) amount = 1;
         return amount;
     }
 
     private boolean fromVillager(ItemStack stack) {
-        boolean flag = false;
-        try {
-            flag = !stack.isEmpty() && stack.hasTag() && stack.getTag().getBoolean(VILLAGER_TROPHY);
-        } catch (NullPointerException ex) {
-            TrophySlots.log.exception("How the hell did this happen?", ex);
-        }
-        return flag;
+        return ItemNBTUtils.getBoolean(stack, VILLAGER_TROPHY);
     }
 
     @Environment(EnvType.CLIENT)
