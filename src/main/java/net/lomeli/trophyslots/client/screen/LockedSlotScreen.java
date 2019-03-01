@@ -31,7 +31,7 @@ public class LockedSlotScreen extends ButtonWidget {
     public void draw(int mouseX, int mouseY, float renderTick) {
         if (!visible) return;
         MinecraftClient mc = MinecraftClient.getInstance();
-        //TODO: Make this not an eyesore.
+
         for (Slot slot : parentScreen.getContainer().slotList) {
             if (slot.inventory instanceof PlayerInventory) {
                 PlayerEntity player = ((PlayerInventory) slot.inventory).player;
@@ -59,17 +59,15 @@ public class LockedSlotScreen extends ButtonWidget {
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
             if (ModConfig.slotRenderType == 1 || ModConfig.slotRenderType == 2) {
-                GlStateManager.colorMask(true, true, true, false);
+                GlStateManager.enableLighting();
                 this.drawGradientRect(x, y, x + 16, y + 16, GREY_COLOR, GREY_COLOR);
-                GlStateManager.colorMask(true, true, true, true);
+                GlStateManager.disableLighting();
             }
             if (ModConfig.slotRenderType == 0 || ModConfig.slotRenderType == 2) {
                 Sprite crossSprite = mc.getSpriteAtlas().getSprite(SpriteHandler.CROSS_SPRITE);
-                GlStateManager.disableLighting();
                 GlStateManager.color4f(1f, 1f, 1f, 1f);
                 mc.getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
                 this.drawTexturedRect(x, y, crossSprite, 16, 16);
-                GlStateManager.enableLighting();
             }
 
             GlStateManager.disableBlend();
