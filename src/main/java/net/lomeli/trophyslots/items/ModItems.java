@@ -27,12 +27,10 @@ public class ModItems {
     public static void addTrades() {
         ItemStack villagerTrophy = new ItemStack(trophy);
         ItemNBTUtils.setBoolean(villagerTrophy, Trophy.VILLAGER_TROPHY, true);
-        TradeUtils.addTradeToProfession(VillagerProfession.LIBRARIAN, 1, new Trades.Factory[]{
+        TradeUtils.addTradeToProfession(VillagerProfession.LIBRARIAN, 3, new Trades.Factory[]{
                 new CustomTradeFactory(villagerTrophy,
                         new CurrencyItem(Items.EMERALD, 3, 5),
                         new CurrencyItem(Items.DIAMOND, 1, 5))
         });
     }
-
-
 }
