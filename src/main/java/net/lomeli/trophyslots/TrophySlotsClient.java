@@ -7,6 +7,7 @@ import net.lomeli.knit.network.MessageUtil;
 import net.lomeli.knit.utils.Logger;
 import net.lomeli.trophyslots.client.handler.EventHandlerClient;
 import net.lomeli.trophyslots.client.handler.SpriteHandler;
+import net.lomeli.trophyslots.core.network.MessageServerConfig;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 
 @Environment(EnvType.CLIENT)
@@ -24,5 +25,6 @@ public class TrophySlotsClient implements ClientModInitializer {
 
         log.info("Registering client packets");
         MessageUtil.registerMessage(new MessageSlotClient(), EnvType.CLIENT);
+        MessageUtil.registerMessage(new MessageServerConfig(), EnvType.CLIENT);
     }
 }
