@@ -42,25 +42,27 @@ public class GetSlotsCommand implements ICommand {
             PlayerManager playerManager = commandSource.getMinecraftServer().getPlayerManager();
             for (GameProfile profile : profiles) {
                 ServerPlayerEntity player = playerManager.getPlayer(profile.getId());
-                if (player instanceof ISlotHolder) {
-                    PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
-                    commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.get_slots.success",
-                            profile.getName(), slotManager.getSlotsUnlocked()), false);
+                if (getPlayerSlots(commandSource, player))
                     i++;
-                }
             }
         } else {
             ServerPlayerEntity player = commandSource.getPlayer();
-            if (player instanceof ISlotHolder) {
-                PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
-                commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.get_slots.success",
-                        player.getGameProfile().getName(), slotManager.getSlotsUnlocked()), false);
+            if (getPlayerSlots(commandSource, player))
                 i++;
-            }
         }
         if (i == 0)
             throw GET_SLOTS_ERROR.create();
         return i;
+    }
+
+    private boolean getPlayerSlots(ServerCommandSource commandSource, ServerPlayerEntity player) {
+        if (player instanceof ISlotHolder) {
+            PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
+            commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.get_slots.success",
+                    player.getGameProfile().getName(), slotManager.getSlotsUnlocked()), false);
+            return true;
+        }
+        return false;
     }
 
     @Override
