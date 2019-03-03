@@ -53,6 +53,6 @@
     "command.trophyslots.remove_slots.success": "Locked %s slot(s) from %s.",
     "command.trophyslots.remove_slots.error": "No slots were removed.",
 
-    "command.trophyslots.config.success": "Trophy Slot option %s set to %s.",
+    "command.trophyslots.config.success": "Trophy Slots option %s set to %s.",
     "command.trophyslots.config.error": "No options were change."
 }
