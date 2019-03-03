@@ -19,7 +19,7 @@ public class PlayerSlotManager {
     }
 
     public boolean slotUnlocked(int index) {
-        if (index < InventoryUtils.getMaxUnlockableSlots()) {
+        if (index < InventoryUtils.MAX_SLOTS) {
             if (ModConfig.reverseOrder && index >= 9)
                 return index > InventoryUtils.MAX_INV_SLOTS - (ModConfig.startingSlots + slotsUnlocked);
             else return index < ModConfig.startingSlots + slotsUnlocked;
@@ -42,7 +42,7 @@ public class PlayerSlotManager {
     public boolean maxSlotsUnlocked() {
         return slotsUnlocked >= InventoryUtils.getMaxUnlockableSlots();
     }
-    
+
     public void serialize(CompoundTag nbt) {
         nbt.putInt("player_slots", slotsUnlocked);
     }
