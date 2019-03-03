@@ -9,6 +9,7 @@ public class ModCommands {
         MOD_COMMANDS.addCommand(new GetSlotsCommand());
         MOD_COMMANDS.addCommand(new SetSlotsCommand());
         MOD_COMMANDS.addCommand(new RemoveSlotsCommand());
+        MOD_COMMANDS.addCommand(new UnlockSlotsCommand());
         MOD_COMMANDS.registerCommands();
     }
 }
