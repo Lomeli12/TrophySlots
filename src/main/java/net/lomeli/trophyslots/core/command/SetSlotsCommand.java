@@ -29,35 +29,46 @@ public class SetSlotsCommand implements ICommand {
     public void setupCommand(CommandDispatcher<ServerCommandSource> commandDispatcher) {
         commandDispatcher.register(ServerCommandManager.literal(getName()).requires(
                 (commandSource) -> commandSource.hasPermissionLevel(2))
-                .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
-                        .then(ServerCommandManager.argument("amount", IntegerArgumentType.integer(0, InventoryUtils.MAX_SLOTS))
+                .then(ServerCommandManager.argument("amount", IntegerArgumentType.integer(0, InventoryUtils.MAX_SLOTS))
+                        .executes((commandContext) -> setPlayerSlots(commandContext.getSource(), null,
+                                IntegerArgumentType.getInteger(commandContext, "amount")))
+                        .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
                                 .executes((commandContext) -> setPlayerSlots(commandContext.getSource(),
                                         GameProfileArgumentType.getProfilesArgument(commandContext, "targets"),
-                                        IntegerArgumentType.getInteger(commandContext, "amount"))
-                                )
-                        )
-                )
+                                        IntegerArgumentType.getInteger(commandContext, "amount")))))
         );
     }
 
     private int setPlayerSlots(ServerCommandSource commandSource, Collection<GameProfile> profiles, int amount) throws CommandSyntaxException {
         int i = 0;
-        PlayerManager playerManager = commandSource.getMinecraftServer().getPlayerManager();
 
-        for (GameProfile profile : profiles) {
-            ServerPlayerEntity player = playerManager.getPlayer(profile.getId());
-            if (player instanceof ISlotHolder) {
-                PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
-                slotManager.setSlotsUnlocked(amount);
-                MessageUtil.sendToClient(new MessageSlotClient(amount, ModConfig.reverseOrder), player);
-                commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.set_slots.success",
-                        profile.getName(), slotManager.getSlotsUnlocked()), false);
-                i++;
+        if (profiles != null && !profiles.isEmpty()) {
+            PlayerManager playerManager = commandSource.getMinecraftServer().getPlayerManager();
+            for (GameProfile profile : profiles) {
+                ServerPlayerEntity player = playerManager.getPlayer(profile.getId());
+                if (setPlayerSlot(commandSource, player, amount))
+                    i++;
             }
+        } else {
+            ServerPlayerEntity player = commandSource.getPlayer();
+            if (setPlayerSlot(commandSource, player, amount))
+                i++;
         }
         if (i == 0)
             throw SET_SLOTS_ERROR.create();
         return i;
+    }
+
+    private boolean setPlayerSlot(ServerCommandSource commandSource, ServerPlayerEntity player, int amount) {
+        if (player instanceof ISlotHolder) {
+            PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
+            slotManager.setSlotsUnlocked(amount);
+            MessageUtil.sendToClient(new MessageSlotClient(amount, ModConfig.reverseOrder), player);
+            commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.set_slots.success",
+                    player.getGameProfile().getName(), slotManager.getSlotsUnlocked()), false);
+            return true;
+        }
+        return false;
     }
 
     @Override

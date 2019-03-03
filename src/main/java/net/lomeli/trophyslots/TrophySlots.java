@@ -17,7 +17,7 @@ public class TrophySlots implements ModInitializer {
 
     public static final String MOD_ID = "trophyslots";
     static final String MOD_NAME = "Trophy Slots";
-    
+
     @Override
     public void onInitialize() {
         log = new Logger(MOD_NAME);
