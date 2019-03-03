@@ -30,6 +30,11 @@ public class TrophySlots implements ModInitializer {
         log.info("Registering items");
         ModItems.init();
 
+        if (ModConfig.canBuyTrophy) {
+            log.info("Buying trophies enabled, adding trades");
+            ModItems.addTrades();
+        }
+
         log.info("Registering events");
         AdvancementHandler.initAdvancmentEvent();
         PlayerHandler.initPlayerEvents();
