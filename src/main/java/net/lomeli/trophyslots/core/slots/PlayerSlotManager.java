@@ -7,10 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 public class PlayerSlotManager {
     private int slotsUnlocked;
 
-    public PlayerSlotManager() {
-        slotsUnlocked = 0;
-    }
-
     public boolean unlockSlot(int amount) {
         if (!maxSlotsUnlocked()) {
             slotsUnlocked += amount;
@@ -35,6 +31,10 @@ public class PlayerSlotManager {
 
     public void setSlotsUnlocked(int slotsUnlocked) {
         this.slotsUnlocked = slotsUnlocked;
+        if (this.slotsUnlocked < 0)
+            this.slotsUnlocked = 0;
+        if (this.slotsUnlocked > InventoryUtils.MAX_SLOTS)
+            this.slotsUnlocked = InventoryUtils.MAX_SLOTS;
     }
 
     public boolean maxSlotsUnlocked() {
@@ -50,6 +50,6 @@ public class PlayerSlotManager {
     }
 
     public void deserialize(CompoundTag tag) {
-        slotsUnlocked = tag.getInt("player_slots");
+        setSlotsUnlocked(tag.getInt("player_slots"));
     }
 }
