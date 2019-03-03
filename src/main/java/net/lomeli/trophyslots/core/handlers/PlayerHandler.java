@@ -4,6 +4,7 @@ import net.lomeli.knit.event.player.*;
 import net.lomeli.knit.network.MessageUtil;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ModConfig;
+import net.lomeli.trophyslots.core.network.MessageServerConfig;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
@@ -18,8 +19,8 @@ import net.minecraft.text.TranslatableTextComponent;
 public class PlayerHandler {
 
     public static void initPlayerEvents() {
-        PlayerLoginCallback.EVENT.register((connection, player) -> updateClientSlots(player));
-        PlayerRespawnCallback.EVENT.register((oldPlayer, newPlayer, dimType, keepEverything) -> updateClientSlots(newPlayer));
+        PlayerLoginCallback.EVENT.register((connection, player) -> updateClientSlots(player, true));
+        PlayerRespawnCallback.EVENT.register((oldPlayer, newPlayer, dimType, keepEverything) -> updateClientSlots(newPlayer, false));
         PlayerDeathCallback.EVENT.register(PlayerHandler::onPlayerDeath);
         ClonePlayerCallback.EVENT.register(PlayerHandler::clonePlayer);
         PlayerTickCallback.EVENT.register(PlayerHandler::playerUpdate);
@@ -59,10 +60,12 @@ public class PlayerHandler {
         return true;
     }
 
-    private static void updateClientSlots(ServerPlayerEntity player) {
+    private static void updateClientSlots(ServerPlayerEntity player, boolean updateConfig) {
         if (player instanceof ISlotHolder) {
             PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
-            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked(), ModConfig.reverseOrder), player);
+            if (updateConfig)
+                MessageUtil.sendToClient(new MessageServerConfig(), player);
+            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked()), player);
         }
     }
 
@@ -86,8 +89,7 @@ public class PlayerHandler {
                     player.addChatMessage(new TranslatableTextComponent(msg, ModConfig.loseSlotNum), false);
                 else
                     player.addChatMessage(new TranslatableTextComponent(msg), false);
-                MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked(),
-                        ModConfig.reverseOrder), player);
+                MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked()), player);
             }
         }
     }

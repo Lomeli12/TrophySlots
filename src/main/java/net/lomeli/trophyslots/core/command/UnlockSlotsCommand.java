@@ -71,7 +71,7 @@ public class UnlockSlotsCommand implements ICommand {
         if (player instanceof ISlotHolder) {
             PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
             slotManager.unlockSlot(amount);
-            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked(), ModConfig.reverseOrder), player);
+            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked()), player);
             commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.unlock_slots.success",
                     amount, player.getGameProfile().getName()), false);
             return true;

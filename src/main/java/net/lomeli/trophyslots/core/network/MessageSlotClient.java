@@ -13,14 +13,12 @@ public class MessageSlotClient extends AbstractMessage<MessageSlotClient> {
     private static final Identifier SLOT_CLIENT = new Identifier(TrophySlots.MOD_ID, "slots_client");
 
     private int slots;
-    private boolean reverse;
 
     public MessageSlotClient() {
     }
 
-    public MessageSlotClient(int numSlots, boolean reverse) {
+    public MessageSlotClient(int numSlots) {
         this.slots = numSlots;
-        this.reverse = reverse;
     }
 
     @Override
@@ -31,13 +29,11 @@ public class MessageSlotClient extends AbstractMessage<MessageSlotClient> {
     @Override
     public void toBytes(PacketByteBuf byteBuf) {
         byteBuf.writeInt(slots);
-        byteBuf.writeBoolean(reverse);
     }
 
     @Override
     public void fromBytes(PacketByteBuf byteBuf) {
         slots = byteBuf.readInt();
-        reverse = byteBuf.readBoolean();
     }
 
     @Override
@@ -52,7 +48,6 @@ public class MessageSlotClient extends AbstractMessage<MessageSlotClient> {
         if (context.getPlayer() instanceof ISlotHolder) {
             PlayerSlotManager slotManager = ((ISlotHolder) context.getPlayer()).getSlotManager();
             slotManager.setSlotsUnlocked(message.slots);
-            ModConfig.reverseOrder = message.reverse;
         }
     }
 }

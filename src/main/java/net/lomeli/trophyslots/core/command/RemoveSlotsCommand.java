@@ -7,7 +7,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.lomeli.knit.command.ICommand;
 import net.lomeli.knit.network.MessageUtil;
-import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
@@ -71,7 +70,7 @@ public class RemoveSlotsCommand implements ICommand {
         if (player instanceof ISlotHolder) {
             PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
             slotManager.unlockSlot(-amount);
-            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked(), ModConfig.reverseOrder), player);
+            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked()), player);
             commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.remove_slots.success",
                     amount, player.getGameProfile().getName()), false);
             return true;

@@ -42,20 +42,17 @@
     "update.trophyslots.none": "Using latest version of Trophy Slots",
 
     "command.trophyslots.set_slots.success": "Set %s's slots unlocked to %s.",
-    "command.trophyslots.set_slots.error": "§cNumber of slots must be between 0 and %s.",
+    "command.trophyslots.set_slots.error": "No slots were edited.",
 
     "command.trophyslots.get_slots.success": "%s has unlocked %s slot(s).",
-    "command.trophyslots.get_slots.error": "§cMust give player name.",
-
-    "command.trophyslots.unlock_all.success": "Unlocked all slots for %s.",
-    "command.trophyslots.unlock_all.error": "§c%s has unlocked all slots already.",
+    "command.trophyslots.get_slots.error": "Did not get any slot information.",
 
     "command.trophyslots.unlock_slots.success": "Unlocked %s slot(s) for %s.",
-    "command.trophyslots.unlock_slots.error": "§cNumber of slots must be between 1 and %s.",
-
-    "command.trophyslots.remove_all.success": "Removed all slots from %s.",
-    "command.trophyslots.remove_all.error": "§c%s has 0 slots unlocked.",
+    "command.trophyslots.unlock_slots.error": "No new slots were unlocked.",
 
     "command.trophyslots.remove_slots.success": "Locked %s slot(s) from %s.",
-    "command.trophyslots.remove_slots.error": "§cNumber of slots must be between 1 and %s."
+    "command.trophyslots.remove_slots.error": "No slots were removed.",
+
+    "command.trophyslots.config.success": "Trophy Slot option %s set to %s.",
+    "command.trophyslots.config.error": "No options were change."
 }

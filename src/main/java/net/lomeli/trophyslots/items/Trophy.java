@@ -67,8 +67,8 @@ public class Trophy extends Item {
                             stack.addAmount(-1);
                         if (player instanceof ServerPlayerEntity) {
                             TrophySlots.log.info("Sending slot update packet to player {}.", player.getName().getText());
-                            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked(),
-                                    ModConfig.reverseOrder), (ServerPlayerEntity) player);
+                            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked()),
+                                    (ServerPlayerEntity) player);
                             ModCriterions.UNLOCK_SLOT.trigger((ServerPlayerEntity) player);
                         }
                     }

@@ -1,5 +1,7 @@
 package net.lomeli.trophyslots.client.handler;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.lomeli.knit.client.event.ClientDisconnectCallback;
 import net.lomeli.knit.client.event.OpenScreenCallback;
 import net.lomeli.trophyslots.TrophySlots;
@@ -8,6 +10,7 @@ import net.lomeli.trophyslots.client.screen.LockedSlotScreen;
 import net.minecraft.client.gui.ContainerScreen;
 import net.minecraft.client.gui.Screen;
 
+@Environment(EnvType.CLIENT)
 public class EventHandlerClient {
 
     public static void initClientEvents() {

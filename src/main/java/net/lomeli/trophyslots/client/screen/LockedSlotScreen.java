@@ -1,6 +1,8 @@
 package net.lomeli.trophyslots.client.screen;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.lomeli.trophyslots.client.accessors.IContainerScreenAccessor;
 import net.lomeli.trophyslots.client.accessors.ISlotAccessor;
 import net.lomeli.trophyslots.client.handler.SpriteHandler;
@@ -17,6 +19,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import org.lwjgl.opengl.GL11;
 
+@Environment(EnvType.CLIENT)
 public class LockedSlotScreen extends ButtonWidget {
     private static final int GREY_COLOR = 2130706433;
     private final ContainerScreen parentScreen;
