@@ -11,6 +11,7 @@ import net.lomeli.trophyslots.core.criterion.ModCriterions;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
+import net.lomeli.trophyslots.utils.InventoryUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -50,13 +51,13 @@ public class Trophy extends Item {
             else if (!ModConfig.canUseTrophy)
                 player.addChatMessage(new TranslatableTextComponent("msg.trophyslots.trophy"), false);
             else if (hand == Hand.MAIN) {
-                int amount = trophyType == TrophyType.MASTER ? slotManager.getMaxSlots() : getSlotAmounts(stack);
+                int amount = trophyType == TrophyType.MASTER ? InventoryUtils.getMaxUnlockableSlots() : getSlotAmounts(stack);
                 if (amount != 0) {
-                    String msg = amount == slotManager.getMaxSlots() ? "msg.trophyslots.unlock_all" :
+                    String msg = amount == InventoryUtils.getMaxUnlockableSlots() ? "msg.trophyslots.unlock_all" :
                             amount == 1 ? "msg.trophyslots.unlock" :
                                     amount > 1 ? "msg.trophyslots.unlock_slot" : "msg.trophyslots.lost_slot";
                     if (slotManager.unlockSlot(amount)) {
-                        if (amount == 1 || amount == slotManager.getMaxSlots())
+                        if (amount == 1 || amount == InventoryUtils.getMaxUnlockableSlots())
                             player.addChatMessage(new TranslatableTextComponent(msg), false);
                         else
                             player.addChatMessage(new TranslatableTextComponent(msg, amount), false);

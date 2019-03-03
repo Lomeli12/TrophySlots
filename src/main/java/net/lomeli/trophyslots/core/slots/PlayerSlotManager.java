@@ -10,14 +10,14 @@ public class PlayerSlotManager {
     public boolean unlockSlot(int amount) {
         if (!maxSlotsUnlocked()) {
             slotsUnlocked += amount;
-            if (maxSlotsUnlocked()) slotsUnlocked = getMaxSlots();
+            if (maxSlotsUnlocked()) slotsUnlocked = InventoryUtils.getMaxUnlockableSlots();
             return true;
         }
         return false;
     }
 
     public boolean slotUnlocked(int index) {
-        if (index < InventoryUtils.MAX_SLOTS) {
+        if (index < InventoryUtils.getMaxUnlockableSlots()) {
             if (ModConfig.reverseOrder && index >= 9)
                 return index > InventoryUtils.MAX_INV_SLOTS - (ModConfig.startingSlots + slotsUnlocked);
             else return index < ModConfig.startingSlots + slotsUnlocked;
@@ -33,18 +33,14 @@ public class PlayerSlotManager {
         this.slotsUnlocked = slotsUnlocked;
         if (this.slotsUnlocked < 0)
             this.slotsUnlocked = 0;
-        if (this.slotsUnlocked > InventoryUtils.MAX_SLOTS)
-            this.slotsUnlocked = InventoryUtils.MAX_SLOTS;
+        if (this.slotsUnlocked > InventoryUtils.getMaxUnlockableSlots())
+            this.slotsUnlocked = InventoryUtils.getMaxUnlockableSlots();
     }
 
     public boolean maxSlotsUnlocked() {
-        return slotsUnlocked >= getMaxSlots();
+        return slotsUnlocked >= InventoryUtils.getMaxUnlockableSlots();
     }
-
-    public int getMaxSlots() {
-        return InventoryUtils.MAX_SLOTS;
-    }
-
+    
     public void serialize(CompoundTag nbt) {
         nbt.putInt("player_slots", slotsUnlocked);
     }

@@ -29,7 +29,7 @@ public class SetSlotsCommand implements ICommand {
     public void setupCommand(CommandDispatcher<ServerCommandSource> commandDispatcher) {
         commandDispatcher.register(ServerCommandManager.literal(getName()).requires(
                 (commandSource) -> commandSource.hasPermissionLevel(2))
-                .then(ServerCommandManager.argument("amount", IntegerArgumentType.integer(0, InventoryUtils.MAX_SLOTS))
+                .then(ServerCommandManager.argument("amount", IntegerArgumentType.integer(0, InventoryUtils.getMaxUnlockableSlots()))
                         .executes((commandContext) -> setPlayerSlots(commandContext.getSource(), null,
                                 IntegerArgumentType.getInteger(commandContext, "amount")))
                         .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())

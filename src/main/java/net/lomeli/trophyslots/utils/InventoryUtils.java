@@ -1,5 +1,6 @@
 package net.lomeli.trophyslots.utils;
 
+import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -46,5 +47,9 @@ public class InventoryUtils {
             }
         }
         return -1;
+    }
+
+    public static int getMaxUnlockableSlots() {
+        return MAX_SLOTS - ModConfig.startingSlots;
     }
 }
