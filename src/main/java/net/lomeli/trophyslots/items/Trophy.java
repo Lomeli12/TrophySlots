@@ -55,9 +55,10 @@ public class Trophy extends Item {
                 if (amount != 0) {
                     String msg = amount == InventoryUtils.getMaxUnlockableSlots() ? "msg.trophyslots.unlock_all" :
                             amount == 1 ? "msg.trophyslots.unlock" :
-                                    amount > 1 ? "msg.trophyslots.unlock_slot" : "msg.trophyslots.lost_slot";
+                                    amount > 1 ? "msg.trophyslots.unlock_slot" :
+                                            amount == -1 ? "msg.trophyslots.lost_slot" : "msg.trophyslots.lost_slot.multiple";
                     if (slotManager.unlockSlot(amount)) {
-                        if (amount == 1 || amount == InventoryUtils.getMaxUnlockableSlots())
+                        if (amount == 1 || amount == -1 || amount == InventoryUtils.getMaxUnlockableSlots())
                             player.addChatMessage(new TranslatableTextComponent(msg), false);
                         else
                             player.addChatMessage(new TranslatableTextComponent(msg, amount), false);
@@ -97,14 +98,19 @@ public class Trophy extends Item {
             else {
                 int amount = getSlotAmounts(stack);
                 if (amount > 1)
-                    toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.trophy.x"));
+                    toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.trophy.x", amount));
+                else if (amount == -1)
+                    toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.trophy.x.neg.one"));
+                else if (amount < -1)
+                    toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.trophy.x.neg", amount * -1));
                 else
                     toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.trophy"));
             }
+            if (!ModConfig.canUseTrophy)
+                toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.trophy.cannot_use"));
             if (fromVillager(stack) && !ModConfig.canBuyTrophy)
                 toolTipList.add(new TranslatableTextComponent("subtext.torphyslots.trophy.villager"));
-            toolTipList.add(new TranslatableTextComponent(ModConfig.canUseTrophy ? "subtext.trophyslots.trophy.can_use" :
-                    "subtext.trophyslots.trophy.cannot_use"));
+
         } else
             toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.info"));
     }
