@@ -80,7 +80,7 @@ public class Trophy extends Item {
 
     private int getSlotAmounts(ItemStack stack) {
         int amount = ItemNBTUtils.getInt(stack, SLOT_AMOUNTS);
-        if (amount < 1) amount = 1;
+        if (amount == 0) amount = 1;
         return amount;
     }
 
