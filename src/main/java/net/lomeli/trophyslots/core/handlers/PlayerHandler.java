@@ -68,7 +68,7 @@ public class PlayerHandler {
 
     private static void onPlayerDeath(ServerPlayerEntity player, DamageSource source) {
         if (ModConfig.loseSlots && (ModConfig.loseSlotNum == -1 || ModConfig.loseSlotNum > 0)) {
-            TrophySlots.log.info("%s died. Losing %s slot(s).", player.getName().getText(), ModConfig.loseSlotNum);
+            TrophySlots.log.info("{} died. Losing {} slot(s).", player.getName().getText(), ModConfig.loseSlotNum);
             if (!player.world.isClient() && player instanceof ISlotHolder) {
                 PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
                 int slots = slotManager.getSlotsUnlocked();

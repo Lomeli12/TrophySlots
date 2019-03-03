@@ -27,7 +27,7 @@ public class AdvancementHandler {
         if (slotManager.maxSlotsUnlocked()) return;
         if (slotManager.unlockSlot(1)) {
             player.addChatMessage(new TranslatableTextComponent("msg.trophyslots.unlock"), false);
-            TrophySlots.log.info("Sending slot update packet to player %s.", player.getName().getText());
+            TrophySlots.log.info("Sending slot update packet to player {}.", player.getName().getText());
             MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked(), ModConfig.reverseOrder), player);
             ModCriterions.UNLOCK_SLOT.trigger(player);
         }
