@@ -16,15 +16,15 @@ public class InventoryUtils {
      */
     public static final int MAX_INV_SLOTS = 44;
 
-    public static boolean canMergeStacks(ItemStack stack1, ItemStack stack2) {
-        if (stack1.getItem() != stack2.getItem())
+    public static boolean canMergeStacks(ItemStack slotStack, ItemStack inputStack) {
+        if (slotStack.getItem() != inputStack.getItem())
             return false;
-        else if (stack1.getDamage() != stack2.getDamage())
+        else if (slotStack.getDamage() != inputStack.getDamage())
             return false;
-        else if (stack1.getAmount() > stack1.getMaxAmount())
+        else if (slotStack.getAmount() >= slotStack.getMaxAmount())
             return false;
         else
-            return ItemStack.areTagsEqual(stack1, stack2);
+            return ItemStack.areTagsEqual(slotStack, inputStack);
     }
 
     public static int getNextEmptySlot(PlayerSlotManager slotManager, PlayerInventory inventory) {
