@@ -1,12 +1,8 @@
 package net.lomeli.trophyslots.mixin.client;
 
 import net.lomeli.trophyslots.client.accessors.ISlotAccessor;
-import net.lomeli.trophyslots.core.slots.ISlotHolder;
-import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
 import net.lomeli.trophyslots.core.slots.SlotHelper;
 import net.minecraft.container.Slot;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
