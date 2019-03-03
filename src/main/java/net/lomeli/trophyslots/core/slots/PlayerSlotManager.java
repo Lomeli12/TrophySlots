@@ -11,6 +11,8 @@ public class PlayerSlotManager {
         if (!maxSlotsUnlocked()) {
             slotsUnlocked += amount;
             if (maxSlotsUnlocked()) slotsUnlocked = InventoryUtils.getMaxUnlockableSlots();
+            if (slotsUnlocked < 0)
+                slotsUnlocked = 0;
             return true;
         }
         return false;
