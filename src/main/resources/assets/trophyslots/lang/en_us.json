@@ -56,5 +56,5 @@
     "command.trophyslots.remove_all.error": "§c%s has 0 slots unlocked.",
 
     "command.trophyslots.remove_slots.success": "Locked %s slot(s) from %s.",
-    "command.trophyslots.remove_slots.error": "§cNumber of slots must be between 1 and %s.",
+    "command.trophyslots.remove_slots.error": "§cNumber of slots must be between 1 and %s."
 }
