@@ -1,10 +1,10 @@
 package net.lomeli.trophyslots.core.command;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.lomeli.knit.command.ICommand;
+import net.lomeli.knit.command.ISubCommand;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
 import net.minecraft.command.arguments.GameProfileArgumentType;
@@ -17,13 +17,13 @@ import net.minecraft.text.TranslatableTextComponent;
 
 import java.util.Collection;
 
-public class GetSlotsCommand implements ICommand {
+public class GetSlotsCommand implements ISubCommand {
     private static final SimpleCommandExceptionType GET_SLOTS_ERROR =
             new SimpleCommandExceptionType(new TranslatableTextComponent("command.trophyslots.get_slots.error"));
 
     @Override
-    public void setupCommand(CommandDispatcher<ServerCommandSource> commandDispatcher) {
-        commandDispatcher.register(ServerCommandManager.literal(getName())
+    public void registerSubCommand(LiteralArgumentBuilder<ServerCommandSource> parentCommand) {
+        parentCommand.then(ServerCommandManager.literal(getName())
                 .executes((commandContext) -> givePlayerSlots(commandContext.getSource(), null))
                 .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
                         .requires((commandSource) -> commandSource.hasPermissionLevel(2))
