@@ -40,31 +40,21 @@
     "update.trophyslots.failed": "Could not check for updates for Trophy Slots",
     "update.trophyslots.none": "Using latest version of Trophy Slots",
 
-    "command.trophyslots.usage": "/tslots [command]",
-
-    "command.trophyslots.set_slots.usage": "/tslots set-slots [player] [numOfSlots]",
     "command.trophyslots.set_slots.success": "Set %s's slots unlocked to %s.",
     "command.trophyslots.set_slots.error": "§cNumber of slots must be between 0 and %s.",
 
-    "command.trophyslots.get_slots.usage": "/tslots get-slots [player]",
     "command.trophyslots.get_slots.success": "%s has unlocked %s slot(s).",
     "command.trophyslots.get_slots.error": "§cMust give player name.",
 
-    "command.trophyslots.unlock_all.usage": "/tslots unlock-all [player]",
     "command.trophyslots.unlock_all.success": "Unlocked all slots for %s.",
     "command.trophyslots.unlock_all.error": "§c%s has unlocked all slots already.",
 
-    "command.trophyslots.unlock_slots.usage": "/tslots unlock-slots [player] [numOfSlots]",
     "command.trophyslots.unlock_slots.success": "Unlocked %s slot(s) for %s.",
     "command.trophyslots.unlock_slots.error": "§cNumber of slots must be between 1 and %s.",
-    "command.trophyslots.unlock_slots.error.all": "§c%s has unlocked all slots already.",
 
-    "command.trophyslots.remove_all.usage": "/tslots remove-all [player]",
     "command.trophyslots.remove_all.success": "Removed all slots from %s.",
     "command.trophyslots.remove_all.error": "§c%s has 0 slots unlocked.",
 
-    "command.trophyslots.remove_slots.usage": "/tslots remove-slots [player] [numOfSlots]",
     "command.trophyslots.remove_slots.success": "Locked %s slot(s) from %s.",
     "command.trophyslots.remove_slots.error": "§cNumber of slots must be between 1 and %s.",
-    "command.trophyslots.remove_slots.error.none": "§c%s has 0 slots unlocked."
 }
