@@ -1,7 +1,7 @@
 package net.lomeli.trophyslots.core.network;
 
 import net.fabricmc.fabric.api.network.PacketContext;
-import net.lomeli.knit.network.AbstractMessage;
+import net.lomeli.knit.utils.network.AbstractMessage;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;

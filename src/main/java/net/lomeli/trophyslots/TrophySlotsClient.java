@@ -3,7 +3,7 @@ package net.lomeli.trophyslots;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.lomeli.knit.network.MessageUtil;
+import net.lomeli.knit.utils.network.MessageUtil;
 import net.lomeli.knit.utils.Logger;
 import net.lomeli.trophyslots.client.handler.EventHandlerClient;
 import net.lomeli.trophyslots.client.handler.SpriteHandler;

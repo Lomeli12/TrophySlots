@@ -3,7 +3,7 @@ package net.lomeli.trophyslots.items;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.lomeli.knit.client.utils.ClientUtil;
-import net.lomeli.knit.network.MessageUtil;
+import net.lomeli.knit.utils.network.MessageUtil;
 import net.lomeli.knit.utils.ItemNBTUtils;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ModConfig;
@@ -26,7 +26,6 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class Trophy extends Item {
@@ -90,7 +89,7 @@ public class Trophy extends Item {
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void buildTooltip(ItemStack stack, @Nullable World world, List<TextComponent> toolTipList, TooltipContext tooltipOptions) {
+    public void buildTooltip(ItemStack stack, World world, List<TextComponent> toolTipList, TooltipContext tooltipOptions) {
         if (!(stack.getItem() instanceof Trophy) || toolTipList == null) return;
         if (ClientUtil.safeKeyDown(ClientUtil.LEFT_SHIFT)) {
             if (((Trophy) stack.getItem()).getTrophyType() == TrophyType.MASTER)

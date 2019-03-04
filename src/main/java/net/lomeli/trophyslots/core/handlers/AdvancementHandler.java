@@ -1,7 +1,7 @@
 package net.lomeli.trophyslots.core.handlers;
 
 import net.lomeli.knit.event.AdvancementCallback;
-import net.lomeli.knit.network.MessageUtil;
+import net.lomeli.knit.utils.network.MessageUtil;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.criterion.ModCriterions;

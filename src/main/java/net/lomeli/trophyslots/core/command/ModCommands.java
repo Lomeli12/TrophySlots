@@ -1,7 +1,7 @@
 package net.lomeli.trophyslots.core.command;
 
-import net.lomeli.knit.command.CommandManager;
-import net.lomeli.knit.command.MasterCommand;
+import net.lomeli.knit.utils.command.CommandManager;
+import net.lomeli.knit.utils.command.MasterCommand;
 import net.lomeli.trophyslots.TrophySlots;
 
 public class ModCommands {
