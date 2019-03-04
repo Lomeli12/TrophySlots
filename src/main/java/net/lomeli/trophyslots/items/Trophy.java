@@ -93,7 +93,7 @@ public class Trophy extends Item {
         if (!(stack.getItem() instanceof Trophy) || toolTipList == null) return;
         if (ClientUtil.safeKeyDown(ClientUtil.LEFT_SHIFT)) {
             if (((Trophy) stack.getItem()).getTrophyType() == TrophyType.MASTER)
-                toolTipList.add(new TranslatableTextComponent("subtext.torphyslots.trophy.cheat"));
+                toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.trophy.cheat"));
             else {
                 int amount = getSlotAmounts(stack);
                 if (amount > 1)
@@ -108,7 +108,7 @@ public class Trophy extends Item {
             if (!ModConfig.canUseTrophy)
                 toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.trophy.cannot_use"));
             if (fromVillager(stack) && !ModConfig.canBuyTrophy)
-                toolTipList.add(new TranslatableTextComponent("subtext.torphyslots.trophy.villager"));
+                toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.trophy.villager"));
 
         } else
             toolTipList.add(new TranslatableTextComponent("subtext.trophyslots.info"));
