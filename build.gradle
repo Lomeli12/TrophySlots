@@ -23,8 +23,7 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modCompile "net.fabricmc:fabric:${fabricVersion}"
-
-    modCompile "net.lomeli:knit:${knitVersion}:dev"
+    modCompile "net.lomeli:Knit:${mcVersion}-${knitVersion}"
 }
 
 // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
