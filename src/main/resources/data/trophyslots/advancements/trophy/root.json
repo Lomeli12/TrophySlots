@@ -18,7 +18,9 @@
   "criteria": {
     "first_slot": {
       "trigger": "trophyslots:unlock_slot",
-      "conditions": {}
+      "conditions": {
+        "slots_unlocked": 1
+      }
     }
   },
   "requirements": [

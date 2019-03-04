@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.lomeli.knit.utils.command.ISubCommand;
 import net.lomeli.knit.utils.network.MessageUtil;
+import net.lomeli.trophyslots.core.criterion.ModCriteria;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
@@ -70,6 +71,7 @@ public class UnlockSlotsCommand implements ISubCommand {
         if (player instanceof ISlotHolder) {
             PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
             slotManager.unlockSlot(amount);
+            ModCriteria.UNLOCK_SLOT.trigger(player);
             MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked()), player);
             commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.unlock_slots.success",
                     amount, player.getGameProfile().getName()), false);

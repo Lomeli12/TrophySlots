@@ -4,7 +4,7 @@ import net.lomeli.knit.event.AdvancementCallback;
 import net.lomeli.knit.utils.network.MessageUtil;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ModConfig;
-import net.lomeli.trophyslots.core.criterion.ModCriterions;
+import net.lomeli.trophyslots.core.criterion.ModCriteria;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.slots.ISlotHolder;
 import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
@@ -29,7 +29,7 @@ public class AdvancementHandler {
             player.addChatMessage(new TranslatableTextComponent("msg.trophyslots.unlock"), false);
             TrophySlots.log.info("Sending slot update packet to player {}.", player.getName().getText());
             MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked()), player);
-            ModCriterions.UNLOCK_SLOT.trigger(player);
+            ModCriteria.UNLOCK_SLOT.trigger(player);
         }
     }
 }

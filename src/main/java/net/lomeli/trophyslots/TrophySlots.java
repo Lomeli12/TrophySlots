@@ -5,7 +5,7 @@ import net.lomeli.knit.config.ConfigFile;
 import net.lomeli.knit.utils.Logger;
 import net.lomeli.trophyslots.core.ModConfig;
 import net.lomeli.trophyslots.core.command.ModCommands;
-import net.lomeli.trophyslots.core.criterion.ModCriterions;
+import net.lomeli.trophyslots.core.criterion.ModCriteria;
 import net.lomeli.trophyslots.core.handlers.AdvancementHandler;
 import net.lomeli.trophyslots.core.handlers.PlayerHandler;
 import net.lomeli.trophyslots.items.ModItems;
@@ -21,11 +21,12 @@ public class TrophySlots implements ModInitializer {
     @Override
     public void onInitialize() {
         log = new Logger(MOD_NAME);
-        ModCriterions.initTriggers();
-
         log.info("Reading config!");
         config = new ConfigFile(MOD_ID, ModConfig.class);
         config.loadConfig();
+
+        log.info("Registering custom criteria");
+        ModCriteria.initTriggers();
 
         log.info("Registering items");
         ModItems.init();
