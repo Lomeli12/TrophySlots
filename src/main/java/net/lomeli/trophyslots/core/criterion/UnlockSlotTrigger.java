@@ -57,7 +57,7 @@ public class UnlockSlotTrigger implements Criterion<UnlockSlotTrigger.Instance> 
 
     @Override
     public Instance deserializeConditions(JsonObject json, JsonDeserializationContext context) {
-        return null;
+        return new Instance(json.get("slots_unlocked").getAsInt());
     }
 
     public void trigger(ServerPlayerEntity player) {
