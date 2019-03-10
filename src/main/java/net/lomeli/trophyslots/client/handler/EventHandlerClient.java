@@ -37,7 +37,7 @@ public class EventHandlerClient {
     }
 
     private static void postScreenDraw(Screen screen) {
-        if (ModConfig.special && screen instanceof ContainerScreen)
+        if (ModConfig.special && specialScreenRenderer.isSpecialDay() && screen instanceof ContainerScreen)
             specialScreenRenderer.tick(screen);
     }
 }
