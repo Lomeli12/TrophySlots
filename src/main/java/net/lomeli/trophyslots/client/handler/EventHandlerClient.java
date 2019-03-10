@@ -7,10 +7,11 @@ import net.lomeli.knit.client.event.OpenScreenCallback;
 import net.lomeli.knit.client.event.PostScreenDrawCallback;
 import net.lomeli.knit.client.event.PostScreenInitializeCallback;
 import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.TrophySlotsClient;
+import net.lomeli.trophyslots.client.ClientConfig;
 import net.lomeli.trophyslots.client.accessors.IScreenAccessor;
 import net.lomeli.trophyslots.client.screen.LockedSlotScreen;
 import net.lomeli.trophyslots.client.screen.special.SpecialScreenRenderer;
-import net.lomeli.trophyslots.core.ModConfig;
 import net.minecraft.client.gui.ContainerScreen;
 import net.minecraft.client.gui.Screen;
 
@@ -26,8 +27,10 @@ public class EventHandlerClient {
     }
 
     private static void postScreenInit(Screen screen) {
-        if (screen instanceof ContainerScreen && screen instanceof IScreenAccessor)
+        if (screen instanceof ContainerScreen && screen instanceof IScreenAccessor) {
+            TrophySlotsClient.log.info("Adding locked slot renderer to " + screen.getClass().getSimpleName());
             ((IScreenAccessor) screen).addBtn(new LockedSlotScreen((ContainerScreen) screen));
+        }
     }
 
     private static boolean openScreen(Screen screen) {
@@ -37,7 +40,7 @@ public class EventHandlerClient {
     }
 
     private static void postScreenDraw(Screen screen) {
-        if (ModConfig.special && specialScreenRenderer.isSpecialDay() && screen instanceof ContainerScreen)
+        if (ClientConfig.special && specialScreenRenderer.isSpecialDay() && screen instanceof ContainerScreen)
             specialScreenRenderer.tick(screen);
     }
 }

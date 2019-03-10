@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 
 public class MessageServerConfig extends AbstractMessage<MessageServerConfig> {
-    private static final Identifier UPDATE_CLIENT_CONFIG = new Identifier(TrophySlots.MOD_ID, "update_client_config");
+    private static final Identifier UPDATE_COMMON_CONFIG = new Identifier(TrophySlots.MOD_ID, "update_common_config");
 
     private boolean advancementUnlock;
     private boolean useTrophies;
@@ -57,7 +57,7 @@ public class MessageServerConfig extends AbstractMessage<MessageServerConfig> {
 
     @Override
     public Identifier getMessageID() {
-        return UPDATE_CLIENT_CONFIG;
+        return UPDATE_COMMON_CONFIG;
     }
 
     @Override

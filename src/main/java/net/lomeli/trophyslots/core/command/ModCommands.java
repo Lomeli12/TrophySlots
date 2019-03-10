@@ -15,6 +15,7 @@ public class ModCommands {
         tsCommands.registerCommand(new UnlockSlotsCommand());
         MOD_COMMANDS.addCommand(tsCommands);
         MOD_COMMANDS.addCommand(new TSConfigCommand());
+        MOD_COMMANDS.addCommand(new TSClientConfigCommand());
         MOD_COMMANDS.registerCommands();
     }
 }
