@@ -11,11 +11,14 @@ import net.minecraft.util.Identifier;
 public class SpriteHandler {
 
     public static final Identifier CROSS_SPRITE = new Identifier(TrophySlots.MOD_ID, "gui/cross");
+    public static final Identifier SNOWFLAKE = new Identifier(TrophySlots.MOD_ID, "gui/snowflake");
 
     public static void stitchSprites() {
         ClientSpriteRegistryCallback.EVENT.register((atlasTexture, registry) -> {
-            if (atlasTexture == MinecraftClient.getInstance().getSpriteAtlas())
+            if (atlasTexture == MinecraftClient.getInstance().getSpriteAtlas()) {
                 registry.register(CROSS_SPRITE);
+                registry.register(SNOWFLAKE);
+            }
         });
     }
 }
