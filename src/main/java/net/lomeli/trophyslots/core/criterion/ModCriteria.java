@@ -8,5 +8,4 @@ public class ModCriteria {
     public static void initTriggers() {
         CriteriaRegistry.registerCriterion(UNLOCK_SLOT);
     }
-
 }

@@ -65,10 +65,10 @@ public class UnlockSlotTrigger implements Criterion<UnlockSlotTrigger.Instance> 
             listeners.get(player.getAdvancementManager()).trigger(player);
     }
 
-    public static class Instance extends AbstractCriterionConditions {
+    static class Instance extends AbstractCriterionConditions {
         private final int minSlot;
 
-        public Instance(int minSlot) {
+        Instance(int minSlot) {
             super(new Identifier(TrophySlots.MOD_ID, CRITERION_ID));
             this.minSlot = minSlot;
         }
@@ -103,7 +103,7 @@ public class UnlockSlotTrigger implements Criterion<UnlockSlotTrigger.Instance> 
             listeners.remove(listener);
         }
 
-        public void trigger(ServerPlayerEntity player) {
+        void trigger(ServerPlayerEntity player) {
             List<ConditionsContainer<Instance>> list = null;
             for (ConditionsContainer<Instance> listener : listeners) {
                 if (listener.getConditions().test(player)) {
@@ -119,5 +119,4 @@ public class UnlockSlotTrigger implements Criterion<UnlockSlotTrigger.Instance> 
             }
         }
     }
-
 }
