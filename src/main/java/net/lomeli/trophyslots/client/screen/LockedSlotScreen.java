@@ -77,4 +77,8 @@ public class LockedSlotScreen extends ButtonWidget {
             GlStateManager.popMatrix();
         }
     }
+
+    @Override
+    public void onPressed() {
+    }
 }

@@ -30,7 +30,7 @@ public class ModItems {
         TradeUtils.addTradeToProfession(VillagerProfession.LIBRARIAN, 3, new Trades.Factory[]{
                 new CustomTradeFactory(villagerTrophy,
                         new CurrencyItem(Items.EMERALD, 3, 5),
-                        new CurrencyItem(Items.DIAMOND, 1, 5))
+                        new CurrencyItem(Items.DIAMOND, 1, 5), 5, 10, 0.2f)
         });
     }
 }
