@@ -25,7 +25,7 @@ public class TrophySlotsClient implements ClientModInitializer {
         log = new Logger(TrophySlots.MOD_NAME + "/Client");
 
         log.info("Loading client configs");
-        config = new ConfigFile(TrophySlots.MOD_ID + "_client", ClientConfig.class);
+        config = new ConfigFile(TrophySlots.MOD_ID, "config.knit.client", ClientConfig.class, true);
         config.loadConfig();
 
         log.info("Registering client events");

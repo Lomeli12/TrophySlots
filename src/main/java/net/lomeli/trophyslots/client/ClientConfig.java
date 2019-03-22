@@ -8,6 +8,6 @@ public class ClientConfig {
     @Config(categoryComment = "Client-side only configs. Ignore on server-side.",
             comment = "Render settings for locked slots. 0 = Crossed out; 1 = Grayed out; 2 = Grayed and crossed out; 3 = no special rendering.")
     public static int slotRenderType = 0;
-    @Config(configName = "special")
+    @Config(configName = "special", hideConfig = true)
     public static boolean special = true;
 }

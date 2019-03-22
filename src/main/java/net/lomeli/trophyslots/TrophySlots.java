@@ -22,7 +22,7 @@ public class TrophySlots implements ModInitializer {
     public void onInitialize() {
         log = new Logger(MOD_NAME);
         log.info("Reading config!");
-        config = new ConfigFile(MOD_ID, ModConfig.class);
+        config = new ConfigFile(MOD_ID, "config.knit.common", ModConfig.class);
         config.loadConfig();
 
         log.info("Registering custom criteria");
