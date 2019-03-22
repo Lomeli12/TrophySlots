@@ -3,6 +3,7 @@ package net.lomeli.trophyslots.core.network;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.lomeli.knit.utils.network.AbstractMessage;
 import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.TrophySlotsClient;
 import net.lomeli.trophyslots.client.ClientConfig;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
@@ -59,5 +60,6 @@ public class MessageClientConfig extends AbstractMessage<MessageClientConfig> {
             ClientConfig.slotRenderType = message.renderType;
         if (message.sendSpecial)
             ClientConfig.special = message.special;
+        TrophySlotsClient.config.saveConfig();
     }
 }
