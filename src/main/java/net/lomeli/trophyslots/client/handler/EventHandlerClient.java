@@ -5,12 +5,8 @@ import net.fabricmc.api.Environment;
 import net.lomeli.knit.client.event.ClientDisconnectCallback;
 import net.lomeli.knit.client.event.OpenScreenCallback;
 import net.lomeli.knit.client.event.PostScreenDrawCallback;
-import net.lomeli.knit.client.event.PostScreenInitializeCallback;
 import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.TrophySlotsClient;
 import net.lomeli.trophyslots.client.ClientConfig;
-import net.lomeli.trophyslots.client.accessors.IScreenAccessor;
-import net.lomeli.trophyslots.client.screen.LockedSlotScreen;
 import net.lomeli.trophyslots.client.screen.special.SpecialScreenRenderer;
 import net.minecraft.client.gui.ContainerScreen;
 import net.minecraft.client.gui.Screen;
@@ -21,16 +17,8 @@ public class EventHandlerClient {
 
     public static void initClientEvents() {
         ClientDisconnectCallback.EVENT.register(() -> TrophySlots.config.loadConfig());
-        PostScreenInitializeCallback.EVENT.register(EventHandlerClient::postScreenInit);
         PostScreenDrawCallback.EVENT.register((screen, mouseX, mouseY, lastFrameDuration) -> postScreenDraw(screen));
         OpenScreenCallback.EVENT.register(EventHandlerClient::openScreen);
-    }
-
-    private static void postScreenInit(Screen screen) {
-        if (screen instanceof ContainerScreen && screen instanceof IScreenAccessor) {
-            TrophySlotsClient.log.info("Adding locked slot renderer to " + screen.getClass().getSimpleName());
-            ((IScreenAccessor) screen).addBtn(new LockedSlotScreen((ContainerScreen) screen));
-        }
     }
 
     private static boolean openScreen(Screen screen) {
