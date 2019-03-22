@@ -2,7 +2,7 @@
   "id": "trophyslots",
   "name": "Trophy Slots",
   "description": "Locks slots in your inventory until you earn them back.",
-  "version": "1.1.0",
+  "version": "$version",
   "side": "universal",
   "initializers": [
     "net.lomeli.trophyslots.TrophySlots",
@@ -10,7 +10,7 @@
   ],
   "requires": {
     "fabric": "*",
-    "knit": "*"
+    "knit": "1.2.0"
   },
   "mixins": {
     "client": "trophyslots.client.json",

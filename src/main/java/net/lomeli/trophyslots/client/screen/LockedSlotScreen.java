@@ -25,13 +25,13 @@ public class LockedSlotScreen extends ButtonWidget {
     private final ContainerScreen parentScreen;
 
     public LockedSlotScreen(ContainerScreen parentScreen) {
-        super(0, 0, 0, 0, "");
-        this.enabled = false;
+        super(0, 0, 0, 0, "", null);
+        this.active = false;
         this.parentScreen = parentScreen;
     }
 
     @Override
-    public void draw(int mouseX, int mouseY, float renderTick) {
+    public void render(int mouseX, int mouseY, float renderTick) {
         if (!visible) return;
         MinecraftClient mc = MinecraftClient.getInstance();
 
@@ -81,4 +81,6 @@ public class LockedSlotScreen extends ButtonWidget {
     @Override
     public void onPressed() {
     }
+
+
 }
