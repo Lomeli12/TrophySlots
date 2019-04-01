@@ -34,7 +34,7 @@ public class SetSlotsCommand implements ISubCommand {
                                 IntegerArgumentType.getInteger(commandContext, "amount")))
                         .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
                                 .executes((commandContext) -> setPlayerSlots(commandContext.getSource(),
-                                        GameProfileArgumentType.getProfilesArgument(commandContext, "targets"),
+                                        GameProfileArgumentType.getProfileArgument(commandContext, "targets"),
                                         IntegerArgumentType.getInteger(commandContext, "amount")))))
         );
     }

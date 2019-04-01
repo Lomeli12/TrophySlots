@@ -32,7 +32,7 @@ public class GetSlotsCommand implements ISubCommand {
                             return CommandSource.suggestMatching(playerManager.getPlayerList().stream()
                                     .map((player) -> player.getGameProfile().getName()), suggestionBuilder);
                         }).executes((commandContext) -> givePlayerSlots(commandContext.getSource(),
-                                GameProfileArgumentType.getProfilesArgument(commandContext, "targets")))));
+                                GameProfileArgumentType.getProfileArgument(commandContext, "targets")))));
     }
 
     private int givePlayerSlots(ServerCommandSource commandSource, Collection<GameProfile> profiles) throws CommandSyntaxException {

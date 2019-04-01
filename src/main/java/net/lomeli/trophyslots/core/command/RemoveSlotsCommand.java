@@ -33,7 +33,7 @@ public class RemoveSlotsCommand implements ISubCommand {
                                 InventoryUtils.getMaxUnlockableSlots()))
                         .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
                                 .executes((commandContext) -> removePlayersSlots(commandContext.getSource(),
-                                        GameProfileArgumentType.getProfilesArgument(commandContext, "targets"),
+                                        GameProfileArgumentType.getProfileArgument(commandContext, "targets"),
                                         InventoryUtils.getMaxUnlockableSlots()))))
                 .then(ServerCommandManager.argument("amount", IntegerArgumentType.integer(1,
                         InventoryUtils.getMaxUnlockableSlots()))
@@ -41,7 +41,7 @@ public class RemoveSlotsCommand implements ISubCommand {
                                 IntegerArgumentType.getInteger(commandContext, "amount")))
                         .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
                                 .executes((commandContext) -> removePlayersSlots(commandContext.getSource(),
-                                        GameProfileArgumentType.getProfilesArgument(commandContext, "targets"),
+                                        GameProfileArgumentType.getProfileArgument(commandContext, "targets"),
                                         IntegerArgumentType.getInteger(commandContext, "amount")))))
         );
     }

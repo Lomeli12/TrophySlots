@@ -22,8 +22,8 @@ public class SpecialScreenRenderer {
 
     public void tick(Screen screen) {
         wind.tick();
-        manageFlurry(screen.screenWidth, screen.screenHeight);
-        edgeWrapFlakes(screen.screenWidth, screen.screenHeight);
+        manageFlurry(screen.width, screen.height);
+        edgeWrapFlakes(screen.width, screen.height);
         updateFlakePos();
         drawFlakes(screen);
     }

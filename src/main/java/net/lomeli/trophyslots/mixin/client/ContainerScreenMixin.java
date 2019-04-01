@@ -33,7 +33,7 @@ public abstract class ContainerScreenMixin extends Screen implements IContainerS
         return this.top;
     }
 
-    @Inject(method = "onInitialized", at = @At("TAIL"))
+    @Inject(method = "init", at = @At("TAIL"))
     private void onInit(CallbackInfo callback) {
         this.addButton(new LockedSlotScreen((ContainerScreen) (Object) this));
     }

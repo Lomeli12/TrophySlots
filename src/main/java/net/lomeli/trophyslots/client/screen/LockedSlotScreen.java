@@ -63,14 +63,14 @@ public class LockedSlotScreen extends ButtonWidget {
 
             if (ClientConfig.slotRenderType == 1 || ClientConfig.slotRenderType == 2) {
                 GlStateManager.enableLighting();
-                this.drawGradientRect(x, y, x + 16, y + 16, GREY_COLOR, GREY_COLOR);
+                this.blit(x, y, x + 16, y + 16, GREY_COLOR, GREY_COLOR);
                 GlStateManager.disableLighting();
             }
             if (ClientConfig.slotRenderType == 0 || ClientConfig.slotRenderType == 2) {
                 Sprite crossSprite = mc.getSpriteAtlas().getSprite(SpriteHandler.CROSS_SPRITE);
                 GlStateManager.color4f(1f, 1f, 1f, 1f);
                 mc.getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
-                this.drawTexturedRect(x, y, crossSprite, 16, 16);
+                this.blit(x, y, crossSprite, 16, 16);
             }
 
             GlStateManager.disableBlend();
@@ -79,8 +79,6 @@ public class LockedSlotScreen extends ButtonWidget {
     }
 
     @Override
-    public void onPressed() {
+    public void onPress() {
     }
-
-
 }
