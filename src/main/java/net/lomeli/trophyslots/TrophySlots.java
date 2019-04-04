@@ -37,7 +37,7 @@ public class TrophySlots implements ModInitializer {
         }
 
         log.info("Registering events");
-        AdvancementHandler.initAdvancmentEvent();
+        AdvancementHandler.initAdvancementEvent();
         PlayerHandler.initPlayerEvents();
 
         log.info("Registering commands");

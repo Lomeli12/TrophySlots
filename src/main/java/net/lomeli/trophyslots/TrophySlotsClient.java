@@ -15,7 +15,6 @@ import net.lomeli.trophyslots.core.network.MessageSlotClient;
 
 @Environment(EnvType.CLIENT)
 public class TrophySlotsClient implements ClientModInitializer {
-
     public static Logger log;
 
     public static ConfigFile config;

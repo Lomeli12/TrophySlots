@@ -14,11 +14,11 @@ import net.minecraft.text.TranslatableTextComponent;
 
 public class AdvancementHandler {
 
-    public static void initAdvancmentEvent() {
-        AdvancementCallback.EVENT.register(AdvancementHandler::unlockedAdvancment);
+    public static void initAdvancementEvent() {
+        AdvancementCallback.EVENT.register(AdvancementHandler::unlockedAdvancement);
     }
 
-    private static void unlockedAdvancment(ServerPlayerEntity player, SimpleAdvancement advancement) {
+    private static void unlockedAdvancement(ServerPlayerEntity player, SimpleAdvancement advancement) {
         if (!ModConfig.unlockViaAdvancements) return;
         if (advancement.getId().getNamespace().equals(TrophySlots.MOD_ID)) return;
         if (advancement.getDisplay() == null || !advancement.getDisplay().shouldAnnounceToChat()) return;
