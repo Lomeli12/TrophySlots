@@ -70,7 +70,7 @@ public class LockedSlotScreen extends ButtonWidget {
                 Sprite crossSprite = mc.getSpriteAtlas().getSprite(SpriteHandler.CROSS_SPRITE);
                 GlStateManager.color4f(1f, 1f, 1f, 1f);
                 mc.getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
-                this.blit(x, y, crossSprite, 16, 16);
+                blit(x, y, this.blitOffset, 16, 16, crossSprite);
             }
 
             GlStateManager.disableBlend();

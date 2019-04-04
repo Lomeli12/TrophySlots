@@ -39,7 +39,7 @@ public class SnowFlake {
         Sprite snowflake = MinecraftClient.getInstance().getSpriteAtlas().getSprite(SpriteHandler.SNOWFLAKE);
         MinecraftClient.getInstance().getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
         //WTF does "blit" mean?!!
-        screen.blit(this.xPos, this.yPos, snowflake, 6, 6);
+        screen.blit(this.xPos, this.yPos, 300, 6, 6, snowflake);
 
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
