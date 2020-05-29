@@ -1,24 +1,27 @@
 package net.lomeli.trophyslots.client.handler;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.lomeli.trophyslots.TrophySlots;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
+import net.minecraft.inventory.container.PlayerContainer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
-@Environment(EnvType.CLIENT)
+import net.lomeli.trophyslots.TrophySlots;
+
+@OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SpriteHandler {
 
-    public static final Identifier CROSS_SPRITE = new Identifier(TrophySlots.MOD_ID, "gui/cross");
-    public static final Identifier SNOWFLAKE = new Identifier(TrophySlots.MOD_ID, "gui/snowflake");
+    public static final ResourceLocation CROSS_SPRITE = new ResourceLocation(TrophySlots.MOD_ID, "gui/cross");
+    public static final ResourceLocation SNOWFLAKE = new ResourceLocation(TrophySlots.MOD_ID, "gui/snowflake");
 
-    public static void stitchSprites() {
-        ClientSpriteRegistryCallback.EVENT.register((atlasTexture, registry) -> {
-            if (atlasTexture == MinecraftClient.getInstance().getSpriteAtlas()) {
-                registry.register(CROSS_SPRITE);
-                registry.register(SNOWFLAKE);
-            }
-        });
+    @SubscribeEvent
+    public static void stitchSprite(TextureStitchEvent.Pre event) {
+        if (event.getMap().getTextureLocation() != PlayerContainer.LOCATION_BLOCKS_TEXTURE)
+            return;
+        event.addSprite(CROSS_SPRITE);
+        event.addSprite(SNOWFLAKE);
     }
 }

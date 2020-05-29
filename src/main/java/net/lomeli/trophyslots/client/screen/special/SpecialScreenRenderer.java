@@ -1,14 +1,15 @@
 package net.lomeli.trophyslots.client.screen.special;
 
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import com.google.common.collect.Lists;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.Screen;
 
 import java.util.Calendar;
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class SpecialScreenRenderer {
     private static final int MAX_FLAKES = 250;
     private static float gravity = 2;

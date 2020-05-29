@@ -1,35 +1,41 @@
 package net.lomeli.trophyslots.core.handlers;
 
-import net.lomeli.knit.event.AdvancementCallback;
-import net.lomeli.knit.utils.network.MessageUtil;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.entity.player.AdvancementEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
 import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.ModConfig;
+import net.lomeli.trophyslots.core.ServerConfig;
+import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
+import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 import net.lomeli.trophyslots.core.criterion.ModCriteria;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
-import net.lomeli.trophyslots.core.slots.ISlotHolder;
-import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
-import net.minecraft.advancement.SimpleAdvancement;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.TranslatableTextComponent;
+import net.lomeli.trophyslots.core.network.PacketHandler;
 
+@Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID)
 public class AdvancementHandler {
 
-    public static void initAdvancementEvent() {
-        AdvancementCallback.EVENT.register(AdvancementHandler::unlockedAdvancement);
-    }
-
-    private static void unlockedAdvancement(ServerPlayerEntity player, SimpleAdvancement advancement) {
-        if (!ModConfig.unlockViaAdvancements) return;
-        if (advancement.getId().getNamespace().equals(TrophySlots.MOD_ID)) return;
-        if (advancement.getDisplay() == null || !advancement.getDisplay().shouldAnnounceToChat()) return;
-        if (!(player instanceof ISlotHolder) || player.world.isClient || player.abilities.creativeMode) return;
-        PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
-        if (slotManager.maxSlotsUnlocked()) return;
-        if (slotManager.unlockSlot(1)) {
-            player.addChatMessage(new TranslatableTextComponent("msg.trophyslots.unlock"), false);
-            TrophySlots.log.info("Sending slot update packet to player {}.", player.getName().getText());
-            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked()), player);
+    @SubscribeEvent
+    public static void advancmentEvent(AdvancementEvent event) {
+        if (!ServerConfig.unlockViaAdvancements) return;
+        ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+        if (player instanceof FakePlayer || player.abilities.isCreativeMode) return;
+        Advancement advancement = event.getAdvancement();
+        if (advancement.getId().getNamespace().equalsIgnoreCase(TrophySlots.MOD_ID) || advancement.getDisplay() == null
+                || !advancement.getDisplay().shouldAnnounceToChat()) return;
+        IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
+        if (playerSlots == null || playerSlots.maxSlotsUnlocked()) return;
+        if (playerSlots.unlockSlot(1)) {
+            player.sendMessage(new TranslationTextComponent("msg.trophyslots.unlock"), ChatType.CHAT);
+            TrophySlots.log.debug("Sending slot update packet to player {}", player.getName().getFormattedText());
+            PacketHandler.sendToClient(new MessageSlotClient(playerSlots.getSlotsUnlocked()), player);
             ModCriteria.UNLOCK_SLOT.trigger(player);
         }
     }
+
 }

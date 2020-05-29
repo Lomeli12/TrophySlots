@@ -1,14 +1,13 @@
 package net.lomeli.trophyslots.core.network;
 
-import net.fabricmc.fabric.api.network.PacketContext;
-import net.lomeli.knit.utils.network.AbstractMessage;
-import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.ModConfig;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class MessageServerConfig extends AbstractMessage<MessageServerConfig> {
-    private static final Identifier UPDATE_COMMON_CONFIG = new Identifier(TrophySlots.MOD_ID, "update_common_config");
+import net.lomeli.trophyslots.core.ServerConfig;
+
+import java.util.function.Supplier;
+
+public class MessageServerConfig implements IMessage {
 
     private boolean advancementUnlock;
     private boolean useTrophies;
@@ -19,58 +18,53 @@ public class MessageServerConfig extends AbstractMessage<MessageServerConfig> {
     private int startingSlots;
 
     public MessageServerConfig() {
-        advancementUnlock = ModConfig.unlockViaAdvancements;
-        useTrophies = ModConfig.canUseTrophy;
-        buyTrophies = ModConfig.canBuyTrophy;
-        reverseOrder = ModConfig.reverseOrder;
-        loseSlots = ModConfig.loseSlots;
-        losingSlots = ModConfig.loseSlotNum;
-        startingSlots = ModConfig.startingSlots;
+        advancementUnlock = ServerConfig.unlockViaAdvancements;
+        useTrophies = ServerConfig.canUseTrophy;
+        buyTrophies = ServerConfig.canBuyTrophy;
+        reverseOrder = ServerConfig.reverseOrder;
+        loseSlots = ServerConfig.loseSlots;
+        losingSlots = ServerConfig.loseSlotNum;
+        startingSlots = ServerConfig.startingSlots;
     }
 
-    @Override
-    public MessageServerConfig createMessage() {
-        return new MessageServerConfig();
+    private MessageServerConfig(boolean advancementUnlock, boolean useTrophies, boolean buyTrophies, boolean reverseOrder,
+                                boolean loseSlots, int losingSlots, int startingSlots) {
+        this.advancementUnlock = advancementUnlock;
+        this.useTrophies = useTrophies;
+        this.buyTrophies = buyTrophies;
+        this.reverseOrder = reverseOrder;
+        this.loseSlots = loseSlots;
+        this.losingSlots = losingSlots;
+        this.startingSlots = startingSlots;
     }
 
-    @Override
-    public void toBytes(PacketByteBuf byteBuf) {
-        byteBuf.writeBoolean(advancementUnlock);
-        byteBuf.writeBoolean(useTrophies);
-        byteBuf.writeBoolean(buyTrophies);
-        byteBuf.writeBoolean(reverseOrder);
-        byteBuf.writeBoolean(loseSlots);
-        byteBuf.writeInt(losingSlots);
-        byteBuf.writeInt(startingSlots);
+    public static MessageServerConfig fromBytes(PacketBuffer buffer) {
+        return new MessageServerConfig(buffer.readBoolean(), buffer.readBoolean(), buffer.readBoolean(),
+                buffer.readBoolean(), buffer.readBoolean(), buffer.readInt(), buffer.readInt());
     }
 
-    @Override
-    public void fromBytes(PacketByteBuf byteBuf) {
-        advancementUnlock = byteBuf.readBoolean();
-        useTrophies = byteBuf.readBoolean();
-        buyTrophies = byteBuf.readBoolean();
-        reverseOrder = byteBuf.readBoolean();
-        loseSlots = byteBuf.readBoolean();
-        losingSlots = byteBuf.readInt();
-        startingSlots = byteBuf.readInt();
+    public static void toBytes(MessageServerConfig message, PacketBuffer buffer) {
+        buffer.writeBoolean(message.advancementUnlock);
+        buffer.writeBoolean(message.useTrophies);
+        buffer.writeBoolean(message.buyTrophies);
+        buffer.writeBoolean(message.reverseOrder);
+        buffer.writeBoolean(message.loseSlots);
+        buffer.writeInt(message.losingSlots);
+        buffer.writeInt(message.startingSlots);
     }
 
-    @Override
-    public Identifier getMessageID() {
-        return UPDATE_COMMON_CONFIG;
-    }
+    public static void handle(MessageServerConfig message, Supplier<NetworkEvent.Context> context) {
+        context.get().enqueueWork(() -> {
+            if (message == null)
+                return;
 
-    @Override
-    public void handle(PacketContext context, MessageServerConfig message) {
-        if (message == null)
-            return;
-
-        ModConfig.unlockViaAdvancements = message.advancementUnlock;
-        ModConfig.canUseTrophy = message.useTrophies;
-        ModConfig.canBuyTrophy = message.buyTrophies;
-        ModConfig.reverseOrder = message.reverseOrder;
-        ModConfig.loseSlots = message.loseSlots;
-        ModConfig.loseSlotNum = message.losingSlots;
-        ModConfig.startingSlots = message.startingSlots;
+            ServerConfig.unlockViaAdvancements = message.advancementUnlock;
+            ServerConfig.canUseTrophy = message.useTrophies;
+            ServerConfig.canBuyTrophy = message.buyTrophies;
+            ServerConfig.reverseOrder = message.reverseOrder;
+            ServerConfig.loseSlots = message.loseSlots;
+            ServerConfig.loseSlotNum = message.losingSlots;
+            ServerConfig.startingSlots = message.startingSlots;
+        });
     }
 }

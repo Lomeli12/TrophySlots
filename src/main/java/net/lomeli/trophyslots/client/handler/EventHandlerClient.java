@@ -1,34 +1,45 @@
 package net.lomeli.trophyslots.client.handler;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.lomeli.knit.client.event.ClientDisconnectCallback;
-import net.lomeli.knit.client.event.OpenScreenCallback;
-import net.lomeli.knit.client.event.PostScreenDrawCallback;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.client.ClientConfig;
+import net.lomeli.trophyslots.client.screen.LockedSlotScreen;
 import net.lomeli.trophyslots.client.screen.special.SpecialScreenRenderer;
-import net.minecraft.client.gui.ContainerScreen;
-import net.minecraft.client.gui.Screen;
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID, value = Dist.CLIENT)
 public class EventHandlerClient {
     private static SpecialScreenRenderer specialScreenRenderer = new SpecialScreenRenderer();
 
-    public static void initClientEvents() {
-        ClientDisconnectCallback.EVENT.register(() -> TrophySlots.config.loadConfig());
-        PostScreenDrawCallback.EVENT.register((screen, mouseX, mouseY, lastFrameDuration) -> postScreenDraw(screen));
-        OpenScreenCallback.EVENT.register(EventHandlerClient::openScreen);
+    @SubscribeEvent
+    public static void onPreScreenInit(GuiScreenEvent.InitGuiEvent.Pre event) {
+        Screen screen = event.getGui();
+        if (screen instanceof ContainerScreen) {
+            ContainerScreen<?> containerScreen = (ContainerScreen<?>) screen;
+            containerScreen.addButton(new LockedSlotScreen(containerScreen));
+        }
     }
 
-    private static boolean openScreen(Screen screen) {
-        if (!(screen instanceof ContainerScreen))
+
+    @SubscribeEvent
+    public static void onScreenOpen(GuiOpenEvent event) {
+        TrophySlots.log.info("Screen: {}", event.getGui());
+        if (!(event.getGui() instanceof ContainerScreen))
             specialScreenRenderer.clearFlakes();
-        return false;
     }
 
-    private static void postScreenDraw(Screen screen) {
-        if (ClientConfig.special && specialScreenRenderer.isSpecialDay() && screen instanceof ContainerScreen)
-            specialScreenRenderer.tick(screen);
+    @SubscribeEvent
+    public static void onPostScreenDraw(GuiScreenEvent.DrawScreenEvent.Post event) {
+        if (ClientConfig.special && event.getGui() instanceof ContainerScreen && specialScreenRenderer.isSpecialDay()) {
+            specialScreenRenderer.tick(event.getGui());
+        }
     }
 }

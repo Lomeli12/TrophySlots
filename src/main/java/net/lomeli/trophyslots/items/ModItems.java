@@ -1,36 +1,46 @@
 package net.lomeli.trophyslots.items;
 
-import net.lomeli.knit.utils.ItemNBTUtils;
-import net.lomeli.knit.utils.RegistryUtil;
-import net.lomeli.knit.utils.trades.CurrencyItem;
-import net.lomeli.knit.utils.trades.CustomTradeFactory;
-import net.lomeli.knit.utils.trades.TradeUtils;
-import net.lomeli.trophyslots.TrophySlots;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.entity.merchant.villager.VillagerTrades;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-import net.minecraft.village.Trades;
-import net.minecraft.village.VillagerProfession;
+import net.minecraftforge.common.BasicTrade;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ObjectHolder;
 
+import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.utils.NBTUtils;
+
+import com.google.common.collect.Lists;
+
+import java.util.List;
+
+@Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModItems {
-    private static Trophy trophy;
-    private static Trophy masterTrophy;
+    @ObjectHolder(TrophySlots.MOD_ID + ":trophy")
+    public static ItemTrophy trophy;
+    @ObjectHolder(TrophySlots.MOD_ID + ":master_trophy")
+    public static ItemTrophy masterTrophy;
 
-    public static void init() {
-        trophy = new Trophy(Trophy.TrophyType.NORMAL);
-        masterTrophy = new Trophy(Trophy.TrophyType.MASTER);
-
-        RegistryUtil.registerItem(new Identifier(TrophySlots.MOD_ID, "trophy"), trophy);
-        RegistryUtil.registerItem(new Identifier(TrophySlots.MOD_ID, "master_trophy"), masterTrophy);
+    @SubscribeEvent
+    public static void registerItems(RegistryEvent.Register<Item> event) {
+        event.getRegistry().registerAll(trophy = new ItemTrophy(ItemTrophy.TrophyType.NORMAL),
+                masterTrophy = new ItemTrophy(ItemTrophy.TrophyType.MASTER));
     }
 
-    public static void addTrades() {
-        ItemStack villagerTrophy = new ItemStack(trophy);
-        ItemNBTUtils.setBoolean(villagerTrophy, Trophy.VILLAGER_TROPHY, true);
-        TradeUtils.addTradeToProfession(VillagerProfession.LIBRARIAN, 3, new Trades.Factory[]{
-                new CustomTradeFactory(villagerTrophy,
-                        new CurrencyItem(Items.EMERALD, 3, 5),
-                        new CurrencyItem(Items.DIAMOND, 1, 5), 5, 10, 0.2f)
-        });
+    @SubscribeEvent
+    public static void addTrades(VillagerTradesEvent event) {
+        if (event.getType() == VillagerProfession.LIBRARIAN) {
+            ItemStack villagerTrophy = new ItemStack(trophy);
+            NBTUtils.setBoolean(villagerTrophy, ItemTrophy.VILLAGER_TROPHY, true);
+            List<VillagerTrades.ITrade> customTrades = Lists.newArrayList();
+            customTrades.add(new BasicTrade(new ItemStack(Items.EMERALD, 3), new ItemStack(Items.DIAMOND),
+                    villagerTrophy, 3, 10, 0.2f));
+            event.getTrades().put(event.getTrades().size(), customTrades);
+        }
     }
 }

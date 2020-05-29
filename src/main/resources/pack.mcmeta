@@ -1,6 +1,6 @@
 {
-	"pack": {
-		"pack_format": 1,
-		"description": "Trophy Slot Pack"
-	}
+    "pack": {
+        "description": "trophyslots resources",
+        "pack_format": 4
+    }
 }

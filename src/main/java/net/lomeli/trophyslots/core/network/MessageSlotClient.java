@@ -1,52 +1,41 @@
 package net.lomeli.trophyslots.core.network;
 
-import net.fabricmc.fabric.api.network.PacketContext;
-import net.lomeli.knit.utils.network.AbstractMessage;
-import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.slots.ISlotHolder;
-import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class MessageSlotClient extends AbstractMessage<MessageSlotClient> {
-    private static final Identifier SLOT_CLIENT = new Identifier(TrophySlots.MOD_ID, "slots_client");
+import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
+import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 
+import java.util.function.Supplier;
+
+public class MessageSlotClient implements IMessage {
     private int slots;
-
-    public MessageSlotClient() {
-    }
 
     public MessageSlotClient(int numSlots) {
         this.slots = numSlots;
     }
 
-    @Override
-    public MessageSlotClient createMessage() {
-        return new MessageSlotClient();
+    public static MessageSlotClient fromBytes(PacketBuffer buffer) {
+        return new MessageSlotClient(buffer.readInt());
     }
 
-    @Override
-    public void toBytes(PacketByteBuf byteBuf) {
-        byteBuf.writeInt(slots);
+    public static void toBytes(MessageSlotClient message, PacketBuffer buffer) {
+        buffer.writeInt(message.slots);
     }
 
-    @Override
-    public void fromBytes(PacketByteBuf byteBuf) {
-        slots = byteBuf.readInt();
-    }
-
-    @Override
-    public Identifier getMessageID() {
-        return SLOT_CLIENT;
-    }
-
-    @Override
-    public void handle(PacketContext context, MessageSlotClient message) {
-        if (message == null)
-            return;
-        if (context.getPlayer() instanceof ISlotHolder) {
-            PlayerSlotManager slotManager = ((ISlotHolder) context.getPlayer()).getSlotManager();
-            slotManager.setSlotsUnlocked(message.slots);
-        }
+    @OnlyIn(Dist.CLIENT)
+    public static void handle(MessageSlotClient message, Supplier<NetworkEvent.Context> context) {
+        context.get().enqueueWork(() -> {
+            if (message == null)
+                return;
+            PlayerEntity player = Minecraft.getInstance().player;
+            IPlayerSlots slots = PlayerSlotHelper.getPlayerSlots(player);
+            if (slots != null)
+                slots.setSlotsUnlocked(message.slots);
+        });
     }
 }

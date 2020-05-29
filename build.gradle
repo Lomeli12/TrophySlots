@@ -1,49 +1,101 @@
-plugins {
-	id 'fabric-loom' version '0.2.0-SNAPSHOT'
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
-archivesBaseName = "Trophy Slots"
-group = "net.lomeli.trophyslots"
-version = "1.2.0"
+version = modVersion
+group = modGroup
+archivesBaseName = modArchive
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-}
+    mappings channel: 'snapshot', version: "${mcMappings}"
 
-repositories {
-    maven { url "https://maven.lomeli12.net/"}
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run/client')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                trophyslots {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run/server')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                trophyslots {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run/data')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', 'trophyslots', '--all', '--output', file('src/generated/resources/')
+            mods {
+                trophyslots {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${mcVersion}"
-    mappings "net.fabricmc:yarn:${mappingVersion}"
-    modCompile "net.fabricmc:fabric-loader:${loaderVersion}"
-
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    modCompile "net.fabricmc:fabric:${fabricVersion}"
-    modCompile "net.lomeli:Knit:${mcVersion}-${knitVersion}"
-}
-
-processResources {
-    from(sourceSets.main.resources.srcDirs) {
-        include 'fabric.mod.json'
-        expand version: project.version
-    }
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'fabric.mod.json'
-    }
+    minecraft "net.minecraftforge:forge:${forgeVersion}"
 }
 
 jar {
-    classifier = "universal"
+    manifest {
+        attributes([
+                "Specification-Title": "${modName}",
+                "Specification-Vendor": "Lomeli",
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" :"Lomeli",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
 }
 
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = 'sources'
-	from sourceSets.main.allSource
+def reobfFile = file("$buildDir/reobfJar/output.jar")
+
+def reobfArtifact = artifacts.add('default', reobfFile) {
+    type 'jar'
+    builtBy 'reobfJar'
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact reobfArtifact
+        }
+    }
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+

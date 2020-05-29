@@ -1,0 +1,30 @@
+modLoader="javafml" #mandatory
+loaderVersion="[31,)" #mandatory (28 is current forge version)
+issueTrackerURL="https://github.com/Lomeli12/TrophySlots/issues" #optional
+
+[[mods]]
+modId="trophyslots"
+version="${file.jarVersion}"
+displayName="Trophy Slots"
+# updateJSONURL="http://myurl.me/"
+displayURL="http://lomeli12.net/"
+logoFile="logo.png"
+credits="Lomeli"
+authors="Lomeli"
+description='''
+Locks slots in your inventory until you earn them back.
+'''
+
+[[dependencies.trophyslots]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.trophyslots]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2]"
+    ordering="NONE"
+    side="BOTH"

@@ -1,17 +1,18 @@
 package net.lomeli.trophyslots.client.screen.special;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.inventory.container.PlayerContainer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import net.lomeli.trophyslots.client.handler.SpriteHandler;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Screen;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 
 import java.util.Random;
 
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class SnowFlake {
     private static final Random rand = new Random();
     private float weight;
@@ -36,8 +37,9 @@ public class SnowFlake {
 
 
         GlStateManager.color4f(1f, 1f, 1f, alpha);
-        Sprite snowflake = MinecraftClient.getInstance().getSpriteAtlas().getSprite(SpriteHandler.SNOWFLAKE);
-        MinecraftClient.getInstance().getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
+        TextureAtlasSprite snowflake = Minecraft.getInstance()
+                .getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE).apply(SpriteHandler.SNOWFLAKE);
+        Minecraft.getInstance().getTextureManager().bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
         //WTF does "blit" mean?!!
         screen.blit(this.xPos, this.yPos, 300, 6, 6, snowflake);
 
@@ -57,11 +59,11 @@ public class SnowFlake {
         return xPos;
     }
 
-    int getYPos() {
-        return yPos;
-    }
-
     void setXPos(int pos) {
         this.xPos = pos;
+    }
+
+    int getYPos() {
+        return yPos;
     }
 }
