@@ -1,21 +1,28 @@
 package net.lomeli.trophyslots.core.command;
 
-import net.lomeli.knit.utils.command.CommandManager;
-import net.lomeli.knit.utils.command.MasterCommand;
-import net.lomeli.trophyslots.TrophySlots;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 public class ModCommands {
-    private static final CommandManager MOD_COMMANDS = new CommandManager();
+    private static final List<ISubCommand> commands = Lists.newArrayList();
 
-    public static void registerCommands() {
-        MasterCommand tsCommands = new MasterCommand(TrophySlots.MOD_ID);
-        tsCommands.registerCommand(new GetSlotsCommand());
-        tsCommands.registerCommand(new SetSlotsCommand());
-        tsCommands.registerCommand(new RemoveSlotsCommand());
-        tsCommands.registerCommand(new UnlockSlotsCommand());
-        MOD_COMMANDS.addCommand(tsCommands);
-        MOD_COMMANDS.addCommand(new TSConfigCommand());
-        MOD_COMMANDS.addCommand(new TSClientConfigCommand());
-        MOD_COMMANDS.registerCommands();
+    private static void registerCommands() {
+    }
+
+    public static void registerCommands(CommandDispatcher<CommandSource> dispatcher) {
+        registerCommands();
+        LiteralArgumentBuilder<CommandSource> argumentBuilder = Commands.literal("tslots");
+
+        commands.forEach(sub -> sub.registerSubCommand(
+                argumentBuilder.then(Commands.literal(sub.getName()))
+        ));
+
+        dispatcher.register(argumentBuilder);
     }
 }
