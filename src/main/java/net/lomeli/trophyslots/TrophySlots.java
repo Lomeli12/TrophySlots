@@ -59,7 +59,7 @@ public class TrophySlots {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientInit);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_SPEC);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SERVER_SPEC);
     }
 
     public void commonInit(final FMLCommonSetupEvent event) {

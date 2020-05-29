@@ -24,8 +24,8 @@ public class PacketHandler {
                 MessageServerConfig::fromBytes, MessageServerConfig::handle);
         HANDLER.registerMessage(packetID++, MessageSlotClient.class, MessageSlotClient::toBytes,
                 MessageSlotClient::fromBytes, MessageSlotClient::handle);
-        HANDLER.registerMessage(packetID++, MessageReloadConfig.class, MessageReloadConfig::toBytes,
-                MessageReloadConfig::fromBytes, MessageReloadConfig::handle);
+        HANDLER.registerMessage(packetID++, MessageClientConfig.class, MessageClientConfig::toBytes,
+                MessageClientConfig::fromBytes, MessageClientConfig::handle);
     }
 
     public static void sendToServer(IMessage message) {
