@@ -1,13 +1,14 @@
 package net.lomeli.trophyslots.client.screen.special;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.google.common.collect.Lists;
 
 import java.util.Calendar;
 import java.util.List;
+
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SpecialScreenRenderer {

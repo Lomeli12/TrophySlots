@@ -6,10 +6,6 @@ import net.minecraft.advancements.criterion.CriterionInstance;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
-import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
-import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -19,6 +15,10 @@ import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
+import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 
 public class UnlockSlotTrigger implements ICriterionTrigger<UnlockSlotTrigger.Instance> {
     private static final String CRITERION_ID = "unlock_slot";

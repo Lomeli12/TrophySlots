@@ -3,15 +3,15 @@ package net.lomeli.trophyslots.core.capabilities;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import net.lomeli.trophyslots.TrophySlots;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-
-import net.lomeli.trophyslots.TrophySlots;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 //I kinda don't know what I'm doing here.
 public class PlayerSlotProvider implements ICapabilitySerializable<CompoundNBT> {

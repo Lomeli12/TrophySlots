@@ -4,10 +4,6 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.entity.player.AdvancementEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ServerConfig;
@@ -16,6 +12,10 @@ import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 import net.lomeli.trophyslots.core.criterion.ModCriteria;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.network.PacketHandler;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.entity.player.AdvancementEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID)
 public class AdvancementHandler {

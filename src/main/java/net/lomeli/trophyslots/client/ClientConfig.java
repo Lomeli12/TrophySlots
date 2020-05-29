@@ -1,9 +1,8 @@
 package net.lomeli.trophyslots.client;
 
+import net.lomeli.trophyslots.TrophySlots;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
-
-import net.lomeli.trophyslots.TrophySlots;
 
 public class ClientConfig {
     public static ModConfig clientConfig;

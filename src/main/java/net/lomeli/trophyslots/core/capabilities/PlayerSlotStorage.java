@@ -3,9 +3,10 @@ package net.lomeli.trophyslots.core.capabilities;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
+
+import net.minecraftforge.common.capabilities.Capability;
 
 public class PlayerSlotStorage implements Capability.IStorage<IPlayerSlots> {
     @Nullable

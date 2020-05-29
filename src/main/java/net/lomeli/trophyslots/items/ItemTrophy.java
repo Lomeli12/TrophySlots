@@ -13,6 +13,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ServerConfig;
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
@@ -22,9 +25,6 @@ import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.network.PacketHandler;
 import net.lomeli.trophyslots.utils.InventoryUtils;
 import net.lomeli.trophyslots.utils.NBTUtils;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class ItemTrophy extends Item {
     static final String VILLAGER_TROPHY = "fromVillager";

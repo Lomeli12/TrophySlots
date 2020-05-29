@@ -1,16 +1,16 @@
 package net.lomeli.trophyslots.client.screen.special;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.inventory.container.PlayerContainer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import net.lomeli.trophyslots.client.handler.SpriteHandler;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import java.util.Random;
+
+import net.lomeli.trophyslots.client.handler.SpriteHandler;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SnowFlake {

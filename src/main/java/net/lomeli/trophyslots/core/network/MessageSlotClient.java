@@ -3,14 +3,14 @@ package net.lomeli.trophyslots.core.network;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
 import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
-
-import java.util.function.Supplier;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 public class MessageSlotClient implements IMessage {
     private int slots;

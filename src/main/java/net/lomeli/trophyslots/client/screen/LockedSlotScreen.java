@@ -1,6 +1,5 @@
 package net.lomeli.trophyslots.client.screen;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -9,14 +8,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.inventory.container.Slot;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import org.lwjgl.opengl.GL11;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.lomeli.trophyslots.client.ClientConfig;
 import net.lomeli.trophyslots.client.handler.SpriteHandler;
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
 import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
 public class LockedSlotScreen extends Button {
