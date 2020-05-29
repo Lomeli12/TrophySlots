@@ -13,6 +13,7 @@ public class ModCommands {
     private static final List<ISubCommand> commands = Lists.newArrayList();
 
     private static void registerCommands() {
+        commands.add(new GetSlotsCommand());
     }
 
     public static void registerCommands(CommandDispatcher<CommandSource> dispatcher) {

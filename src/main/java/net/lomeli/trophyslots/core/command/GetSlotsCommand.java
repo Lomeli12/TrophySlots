@@ -1,68 +1,62 @@
 package net.lomeli.trophyslots.core.command;
 
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.command.arguments.GameProfileArgument;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.text.TranslationTextComponent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.lomeli.knit.utils.command.ISubCommand;
-import net.lomeli.trophyslots.core.slots.ISlotHolder;
-import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
-import net.minecraft.command.arguments.GameProfileArgumentType;
-import net.minecraft.server.PlayerManager;
-import net.minecraft.server.command.CommandSource;
-import net.minecraft.server.command.ServerCommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.TranslatableTextComponent;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
+import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 
 public class GetSlotsCommand implements ISubCommand {
     private static final SimpleCommandExceptionType GET_SLOTS_ERROR =
-            new SimpleCommandExceptionType(new TranslatableTextComponent("command.trophyslots.get_slots.error"));
+            new SimpleCommandExceptionType(new TranslationTextComponent("command.trophyslots.get_slots.error"));
 
     @Override
-    public void registerSubCommand(LiteralArgumentBuilder<ServerCommandSource> parentCommand) {
-        parentCommand.then(ServerCommandManager.literal(getName())
-                .executes((commandContext) -> givePlayerSlots(commandContext.getSource(), null))
-                .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
+    public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
+        argumentBuilder.executes((commandContext) -> givePlayerSlots(commandContext.getSource(), null))
+                .then(Commands.argument("targets", GameProfileArgument.gameProfile())
                         .requires((commandSource) -> commandSource.hasPermissionLevel(2))
-                        .suggests((commandContext, suggestionBuilder) -> {
-                            PlayerManager playerManager = commandContext.getSource().getMinecraftServer().getPlayerManager();
-                            return CommandSource.suggestMatching(playerManager.getPlayerList().stream()
-                                    .map((player) -> player.getGameProfile().getName()), suggestionBuilder);
-                        }).executes((commandContext) -> givePlayerSlots(commandContext.getSource(),
-                                GameProfileArgumentType.getProfileArgument(commandContext, "targets")))));
+                        .executes((commandContext) -> givePlayerSlots(commandContext.getSource(),
+                                GameProfileArgument.getGameProfiles(commandContext, "targets"))));
     }
 
-    private int givePlayerSlots(ServerCommandSource commandSource, Collection<GameProfile> profiles) throws CommandSyntaxException {
-        int i = 0;
+    private int givePlayerSlots(CommandSource source, Collection<GameProfile> profiles) throws CommandSyntaxException {
+        AtomicInteger changes = new AtomicInteger(0);
 
-        if (profiles != null) {
-            PlayerManager playerManager = commandSource.getMinecraftServer().getPlayerManager();
-            for (GameProfile profile : profiles) {
-                ServerPlayerEntity player = playerManager.getPlayer(profile.getId());
-                if (getPlayerSlots(commandSource, player))
-                    i++;
-            }
+        if (profiles != null && !profiles.isEmpty()) {
+            PlayerList playerList = source.getServer().getPlayerList();
+            profiles.forEach(profile -> {
+                ServerPlayerEntity player = playerList.getPlayerByUUID(profile.getId());
+                IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
+                if (playerSlots != null) {
+                    changes.getAndIncrement();
+                    source.sendFeedback(new TranslationTextComponent("command.trophyslots.get_slots.success",
+                            profile.getName(), playerSlots.getSlotsUnlocked()), false);
+                }
+            });
         } else {
-            ServerPlayerEntity player = commandSource.getPlayer();
-            if (getPlayerSlots(commandSource, player))
-                i++;
+            ServerPlayerEntity player = source.asPlayer();
+            IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
+            if (playerSlots != null) {
+                changes.getAndIncrement();
+                source.sendFeedback(new TranslationTextComponent("command.trophyslots.get_slots.success",
+                        player.getGameProfile().getName(), playerSlots.getSlotsUnlocked()), false);
+            }
         }
-        if (i == 0)
+        if (changes.intValue() == 0)
             throw GET_SLOTS_ERROR.create();
-        return i;
-    }
 
-    private boolean getPlayerSlots(ServerCommandSource commandSource, ServerPlayerEntity player) {
-        if (player instanceof ISlotHolder) {
-            PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
-            commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.get_slots.success",
-                    player.getGameProfile().getName(), slotManager.getSlotsUnlocked()), false);
-            return true;
-        }
-        return false;
+        return changes.intValue();
     }
 
     @Override
