@@ -7,7 +7,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraftforge.common.util.FakePlayer;
 
 public class PlayerSlotHelper {
-
+    @SuppressWarnings("all")
     public static IPlayerSlots getPlayerSlots(PlayerEntity player) {
         if (player == null || player instanceof FakePlayer)
             return null;

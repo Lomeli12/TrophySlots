@@ -13,14 +13,13 @@ public class PlayerSlotManager implements IPlayerSlots {
 
     @Override
     public boolean unlockSlot(int amount) {
-        if (!maxSlotsUnlocked()) {
-            slotsUnlocked += amount;
-            if (maxSlotsUnlocked()) slotsUnlocked = InventoryUtils.getMaxUnlockableSlots();
-            if (slotsUnlocked < 0)
-                slotsUnlocked = 0;
-            return true;
-        }
-        return false;
+        int oldSlotAmount = slotsUnlocked;
+        slotsUnlocked += amount;
+        if (slotsUnlocked > InventoryUtils.getMaxUnlockableSlots())
+            slotsUnlocked = InventoryUtils.getMaxUnlockableSlots();
+        if (slotsUnlocked < 0)
+            slotsUnlocked = 0;
+        return oldSlotAmount != slotsUnlocked;
     }
 
     @Override
