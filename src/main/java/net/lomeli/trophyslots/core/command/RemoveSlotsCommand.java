@@ -1,81 +1,80 @@
 package net.lomeli.trophyslots.core.command;
 
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.command.arguments.GameProfileArgument;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.text.TranslationTextComponent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.lomeli.knit.utils.command.ISubCommand;
-import net.lomeli.knit.utils.network.MessageUtil;
-import net.lomeli.trophyslots.core.network.MessageSlotClient;
-import net.lomeli.trophyslots.core.slots.ISlotHolder;
-import net.lomeli.trophyslots.core.slots.PlayerSlotManager;
-import net.lomeli.trophyslots.utils.InventoryUtils;
-import net.minecraft.command.arguments.GameProfileArgumentType;
-import net.minecraft.server.PlayerManager;
-import net.minecraft.server.command.ServerCommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.TranslatableTextComponent;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
+import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
+import net.lomeli.trophyslots.core.network.MessageSlotClient;
+import net.lomeli.trophyslots.core.network.PacketHandler;
+import net.lomeli.trophyslots.utils.InventoryUtils;
 
 public class RemoveSlotsCommand implements ISubCommand {
     private static final SimpleCommandExceptionType REMOVE_SLOTS_ERROR =
-            new SimpleCommandExceptionType(new TranslatableTextComponent("command.trophyslots.remove_slots.error"));
+            new SimpleCommandExceptionType(new TranslationTextComponent("command.trophyslots.remove_slots.error"));
 
     @Override
-    public void registerSubCommand(LiteralArgumentBuilder<ServerCommandSource> parentCommand) {
-        parentCommand.then(ServerCommandManager.literal(getName()).requires(
-                (commandSource) -> commandSource.hasPermissionLevel(2))
-                .then(ServerCommandManager.literal("all")
-                        .executes((commandContext) -> removePlayersSlots(commandContext.getSource(), null,
-                                InventoryUtils.getMaxUnlockableSlots()))
-                        .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
-                                .executes((commandContext) -> removePlayersSlots(commandContext.getSource(),
-                                        GameProfileArgumentType.getProfileArgument(commandContext, "targets"),
-                                        InventoryUtils.getMaxUnlockableSlots()))))
-                .then(ServerCommandManager.argument("amount", IntegerArgumentType.integer(1,
+    public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
+        argumentBuilder
+            .then(Commands.literal(getName())
+                .requires(commandSource -> commandSource.hasPermissionLevel(2)))
+            .then(Commands.literal("all"))
+                .executes(context -> removePlayersSlots(context.getSource(), null,
                         InventoryUtils.getMaxUnlockableSlots()))
-                        .executes((commandContext) -> removePlayersSlots(commandContext.getSource(), null,
-                                IntegerArgumentType.getInteger(commandContext, "amount")))
-                        .then(ServerCommandManager.argument("targets", GameProfileArgumentType.create())
-                                .executes((commandContext) -> removePlayersSlots(commandContext.getSource(),
-                                        GameProfileArgumentType.getProfileArgument(commandContext, "targets"),
-                                        IntegerArgumentType.getInteger(commandContext, "amount")))))
-        );
+                .then(Commands.argument("targets", GameProfileArgument.gameProfile()))
+                    .executes(context -> removePlayersSlots(context.getSource(),
+                            GameProfileArgument.getGameProfiles(context, "targets"),
+                            InventoryUtils.getMaxUnlockableSlots()))
+            .then(Commands.argument("amount", IntegerArgumentType.integer(1,
+                    InventoryUtils.getMaxUnlockableSlots()))
+                .executes(context -> removePlayersSlots(context.getSource(), null,
+                        IntegerArgumentType.getInteger(context, "amount")))
+                .then(Commands.argument("targets", GameProfileArgument.gameProfile()))
+                    .executes(context -> removePlayersSlots(context.getSource(),
+                            GameProfileArgument.getGameProfiles(context, "targets"),
+                            IntegerArgumentType.getInteger(context, "amount"))));
     }
 
-    private int removePlayersSlots(ServerCommandSource commandSource, Collection<GameProfile> profiles, int amount) throws CommandSyntaxException {
-        int i = 0;
+    private int removePlayersSlots(CommandSource source, Collection<GameProfile> profiles, int amount) throws CommandSyntaxException {
+        AtomicInteger result = new AtomicInteger(0);
 
         if (profiles != null && !profiles.isEmpty()) {
-            PlayerManager playerManager = commandSource.getMinecraftServer().getPlayerManager();
-            for (GameProfile profile : profiles) {
-                ServerPlayerEntity player = playerManager.getPlayer(profile.getId());
-                if (removePlayerSlots(commandSource, player, amount))
-                    i++;
-            }
-        } else {
-            ServerPlayerEntity player = commandSource.getPlayer();
-            if (removePlayerSlots(commandSource, player, amount))
-                i++;
-        }
-        if (i == 0)
+            PlayerList playerList = source.getServer().getPlayerList();
+            profiles.forEach(profile -> {
+                ServerPlayerEntity player = playerList.getPlayerByUUID(profile.getId());
+                if (removePlayerSlots(source, player, amount))
+                    result.incrementAndGet();
+            });
+        } else if (removePlayerSlots(source, source.asPlayer(), amount))
+                result.incrementAndGet();
+
+        if (result.intValue() == 0)
             throw REMOVE_SLOTS_ERROR.create();
-        return i;
+
+        return result.intValue();
     }
 
-    private boolean removePlayerSlots(ServerCommandSource commandSource, ServerPlayerEntity player, int amount) {
-        if (player instanceof ISlotHolder) {
-            PlayerSlotManager slotManager = ((ISlotHolder) player).getSlotManager();
-            slotManager.unlockSlot(-amount);
-            MessageUtil.sendToClient(new MessageSlotClient(slotManager.getSlotsUnlocked()), player);
-            commandSource.sendFeedback(new TranslatableTextComponent("command.trophyslots.remove_slots.success",
-                    amount, player.getGameProfile().getName()), false);
-            return true;
-        }
-        return false;
+    private boolean removePlayerSlots(CommandSource source, ServerPlayerEntity player, int amount) {
+        IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
+        if (playerSlots == null)
+            return false;
+        playerSlots.unlockSlot(-amount);
+        PacketHandler.sendToClient(new MessageSlotClient(playerSlots.getSlotsUnlocked()), player);
+        source.sendFeedback(new TranslationTextComponent("command.trophyslots.remove_slots.success",
+                amount, player.getGameProfile().getName()), false);
+        return true;
     }
 
     @Override

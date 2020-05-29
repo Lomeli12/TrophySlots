@@ -14,6 +14,7 @@ public class ModCommands {
 
     private static void registerCommands() {
         commands.add(new GetSlotsCommand());
+        commands.add(new RemoveSlotsCommand());
     }
 
     public static void registerCommands(CommandDispatcher<CommandSource> dispatcher) {
