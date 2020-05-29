@@ -24,22 +24,21 @@ public class GetSlotsCommand implements ISubCommand {
     @Override
     public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
         argumentBuilder.executes((commandContext) -> givePlayerSlots(commandContext.getSource(), null))
-                .then(Commands.argument("targets", GameProfileArgument.gameProfile())
-                        .requires((commandSource) -> commandSource.hasPermissionLevel(2))
-                        .executes((commandContext) -> givePlayerSlots(commandContext.getSource(),
-                                GameProfileArgument.getGameProfiles(commandContext, "targets"))));
+            .then(Commands.argument("targets", GameProfileArgument.gameProfile())
+                .requires((commandSource) -> commandSource.hasPermissionLevel(2))
+                    .executes((commandContext) -> givePlayerSlots(commandContext.getSource(),
+                        GameProfileArgument.getGameProfiles(commandContext, "targets"))));
     }
 
     private int givePlayerSlots(CommandSource source, Collection<GameProfile> profiles) throws CommandSyntaxException {
-        AtomicInteger changes = new AtomicInteger(0);
+        AtomicInteger result = new AtomicInteger(0);
 
         if (profiles != null && !profiles.isEmpty()) {
             PlayerList playerList = source.getServer().getPlayerList();
             profiles.forEach(profile -> {
-                ServerPlayerEntity player = playerList.getPlayerByUUID(profile.getId());
-                IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
+                IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(playerList.getPlayerByUUID(profile.getId()));
                 if (playerSlots != null) {
-                    changes.getAndIncrement();
+                    result.getAndIncrement();
                     source.sendFeedback(new TranslationTextComponent("command.trophyslots.get_slots.success",
                             profile.getName(), playerSlots.getSlotsUnlocked()), false);
                 }
@@ -48,15 +47,15 @@ public class GetSlotsCommand implements ISubCommand {
             ServerPlayerEntity player = source.asPlayer();
             IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
             if (playerSlots != null) {
-                changes.getAndIncrement();
+                result.getAndIncrement();
                 source.sendFeedback(new TranslationTextComponent("command.trophyslots.get_slots.success",
                         player.getGameProfile().getName(), playerSlots.getSlotsUnlocked()), false);
             }
         }
-        if (changes.intValue() == 0)
+        if (result.intValue() == 0)
             throw GET_SLOTS_ERROR.create();
 
-        return changes.intValue();
+        return result.intValue();
     }
 
     @Override

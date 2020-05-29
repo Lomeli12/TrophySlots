@@ -53,8 +53,7 @@ public class RemoveSlotsCommand implements ISubCommand {
         if (profiles != null && !profiles.isEmpty()) {
             PlayerList playerList = source.getServer().getPlayerList();
             profiles.forEach(profile -> {
-                ServerPlayerEntity player = playerList.getPlayerByUUID(profile.getId());
-                if (removePlayerSlots(source, player, amount))
+                if (removePlayerSlots(source, playerList.getPlayerByUUID(profile.getId()), amount))
                     result.incrementAndGet();
             });
         } else if (removePlayerSlots(source, source.asPlayer(), amount))

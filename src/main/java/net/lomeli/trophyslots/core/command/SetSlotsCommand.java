@@ -45,8 +45,7 @@ public class SetSlotsCommand implements ISubCommand {
         if (profiles != null && !profiles.isEmpty()) {
             PlayerList playerList = source.getServer().getPlayerList();
             profiles.forEach(profile -> {
-                ServerPlayerEntity player = playerList.getPlayerByUUID(profile.getId());
-                if (setPlayerSlot(source, player, amount))
+                if (setPlayerSlot(source, playerList.getPlayerByUUID(profile.getId()), amount))
                     result.incrementAndGet();
             });
         } else if (setPlayerSlot(source, source.asPlayer(), amount))
