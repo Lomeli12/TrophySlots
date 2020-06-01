@@ -1,14 +1,14 @@
 package net.lomeli.trophyslots.core.command;
 
 
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.util.text.TranslationTextComponent;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.util.text.TranslationTextComponent;
 
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ServerConfig;
@@ -20,7 +20,7 @@ public class TSConfigCommand implements ISubCommand {
     private static final SimpleCommandExceptionType CONFIG_ERROR =
             new SimpleCommandExceptionType(new TranslationTextComponent("command.trophyslots.config.error"));
 
-    private static final String[] CONFIG_OPTIONS = { "loseSlotOnDeathAmount", "startingSlots", "advancementUnlock",
+    private static final String[] CONFIG_OPTIONS = {"loseSlotOnDeathAmount", "startingSlots", "advancementUnlock",
             "useTrophies", "buyTrophies", "reverseUnlockOrder", "loseSlotsOnDeath"};
 
     @Override
@@ -33,14 +33,14 @@ public class TSConfigCommand implements ISubCommand {
                         InventoryUtils.getMaxUnlockableSlots()
                 );
                 argumentBuilder.then(Commands.literal(config))
-                    .then(Commands.argument("amount", intArg))
+                        .then(Commands.argument("amount", intArg))
                         .executes(context -> setConfigValue(context.getSource(), config,
-                            IntegerArgumentType.getInteger(context, "amount")));
+                                IntegerArgumentType.getInteger(context, "amount")));
             } else {
                 argumentBuilder.then(Commands.literal(config))
-                    .then(Commands.argument("value", BoolArgumentType.bool()))
+                        .then(Commands.argument("value", BoolArgumentType.bool()))
                         .executes(context -> setConfigValue(context.getSource(), config,
-                            BoolArgumentType.getBool(context, "value")));
+                                BoolArgumentType.getBool(context, "value")));
             }
         }
     }

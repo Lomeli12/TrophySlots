@@ -24,10 +24,10 @@ public class GetSlotsCommand implements ISubCommand {
     @Override
     public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
         argumentBuilder.executes((commandContext) -> givePlayerSlots(commandContext.getSource(), null))
-            .then(Commands.argument("targets", GameProfileArgument.gameProfile())
-                .requires((commandSource) -> commandSource.hasPermissionLevel(2))
-                    .executes((commandContext) -> givePlayerSlots(commandContext.getSource(),
-                        GameProfileArgument.getGameProfiles(commandContext, "targets"))));
+                .then(Commands.argument("targets", GameProfileArgument.gameProfile())
+                        .requires((commandSource) -> commandSource.hasPermissionLevel(2))
+                        .executes((commandContext) -> givePlayerSlots(commandContext.getSource(),
+                                GameProfileArgument.getGameProfiles(commandContext, "targets"))));
     }
 
     private int givePlayerSlots(CommandSource source, Collection<GameProfile> profiles) throws CommandSyntaxException {

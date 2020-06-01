@@ -28,23 +28,23 @@ public class RemoveSlotsCommand implements ISubCommand {
     @Override
     public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
         argumentBuilder
-            .then(Commands.literal(getName())
-                .requires(commandSource -> commandSource.hasPermissionLevel(2)))
-            .then(Commands.literal("all"))
+                .then(Commands.literal(getName())
+                        .requires(commandSource -> commandSource.hasPermissionLevel(2)))
+                .then(Commands.literal("all"))
                 .executes(context -> removePlayersSlots(context.getSource(), null,
                         InventoryUtils.getMaxUnlockableSlots()))
                 .then(Commands.argument("targets", GameProfileArgument.gameProfile()))
-                    .executes(context -> removePlayersSlots(context.getSource(),
-                            GameProfileArgument.getGameProfiles(context, "targets"),
-                            InventoryUtils.getMaxUnlockableSlots()))
-            .then(Commands.argument("amount", IntegerArgumentType.integer(1,
-                    InventoryUtils.getMaxUnlockableSlots()))
-                .executes(context -> removePlayersSlots(context.getSource(), null,
-                        IntegerArgumentType.getInteger(context, "amount")))
-                .then(Commands.argument("targets", GameProfileArgument.gameProfile()))
-                    .executes(context -> removePlayersSlots(context.getSource(),
-                            GameProfileArgument.getGameProfiles(context, "targets"),
-                            IntegerArgumentType.getInteger(context, "amount"))));
+                .executes(context -> removePlayersSlots(context.getSource(),
+                        GameProfileArgument.getGameProfiles(context, "targets"),
+                        InventoryUtils.getMaxUnlockableSlots()))
+                .then(Commands.argument("amount", IntegerArgumentType.integer(1,
+                        InventoryUtils.getMaxUnlockableSlots()))
+                        .executes(context -> removePlayersSlots(context.getSource(), null,
+                                IntegerArgumentType.getInteger(context, "amount")))
+                        .then(Commands.argument("targets", GameProfileArgument.gameProfile()))
+                        .executes(context -> removePlayersSlots(context.getSource(),
+                                GameProfileArgument.getGameProfiles(context, "targets"),
+                                IntegerArgumentType.getInteger(context, "amount"))));
     }
 
     private int removePlayersSlots(CommandSource source, Collection<GameProfile> profiles, int amount) throws CommandSyntaxException {
@@ -57,7 +57,7 @@ public class RemoveSlotsCommand implements ISubCommand {
                     result.incrementAndGet();
             });
         } else if (removePlayerSlots(source, source.asPlayer(), amount))
-                result.incrementAndGet();
+            result.incrementAndGet();
 
         if (result.intValue() == 0)
             throw REMOVE_SLOTS_ERROR.create();

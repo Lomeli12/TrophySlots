@@ -18,17 +18,18 @@ import net.minecraftforge.common.util.FakePlayer;
 public class TSClientConfigCommand implements ISubCommand {
     private static final SimpleCommandExceptionType CONFIG_ERROR =
             new SimpleCommandExceptionType(new TranslationTextComponent("command.trophyslots.config.error"));
+
     @Override
     public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
         argumentBuilder.then(Commands.literal(getName())
-            .then(Commands.literal("slotRenderType")
-                .then(Commands.argument("value", IntegerArgumentType.integer(0, 3))
-                    .executes(context -> setConfigValue(context.getSource(), "slotRenderType",
-                        IntegerArgumentType.getInteger(context, "value")))))
-            .then(Commands.literal("enableSecret")
-                .then(Commands.argument("value", BoolArgumentType.bool())
-                    .executes(context -> setConfigValue(context.getSource(), "enableSecret",
-                        BoolArgumentType.getBool(context, "value")))))
+                .then(Commands.literal("slotRenderType")
+                        .then(Commands.argument("value", IntegerArgumentType.integer(0, 3))
+                                .executes(context -> setConfigValue(context.getSource(), "slotRenderType",
+                                        IntegerArgumentType.getInteger(context, "value")))))
+                .then(Commands.literal("enableSecret")
+                        .then(Commands.argument("value", BoolArgumentType.bool())
+                                .executes(context -> setConfigValue(context.getSource(), "enableSecret",
+                                        BoolArgumentType.getBool(context, "value")))))
         );
     }
 

@@ -29,20 +29,20 @@ public class UnlockSlotsCommand implements ISubCommand {
     @Override
     public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
         argumentBuilder.then(Commands.literal(getName()).requires(source -> source.hasPermissionLevel(2))
-            .then(Commands.literal("all")
-                .executes(context -> unlockPlayerSlots(context.getSource(), null,
-                        InventoryUtils.getMaxUnlockableSlots()))
-                .then(Commands.argument("targets", GameProfileArgument.gameProfile())
-                    .executes(context -> unlockPlayerSlots(context.getSource(),
-                            GameProfileArgument.getGameProfiles(context, "targets"),
-                            InventoryUtils.getMaxUnlockableSlots()))))
-            .then(Commands.argument("amount", IntegerArgumentType.integer(1, InventoryUtils.getMaxUnlockableSlots()))
-                .executes(context -> unlockPlayerSlots(context.getSource(), null,
-                        IntegerArgumentType.getInteger(context, "amount")))
-                .then(Commands.argument("targets", GameProfileArgument.gameProfile())
-                    .executes(context -> unlockPlayerSlots(context.getSource(),
-                            GameProfileArgument.getGameProfiles(context, "targets"),
-                            IntegerArgumentType.getInteger(context, "amount"))))));
+                .then(Commands.literal("all")
+                        .executes(context -> unlockPlayerSlots(context.getSource(), null,
+                                InventoryUtils.getMaxUnlockableSlots()))
+                        .then(Commands.argument("targets", GameProfileArgument.gameProfile())
+                                .executes(context -> unlockPlayerSlots(context.getSource(),
+                                        GameProfileArgument.getGameProfiles(context, "targets"),
+                                        InventoryUtils.getMaxUnlockableSlots()))))
+                .then(Commands.argument("amount", IntegerArgumentType.integer(1, InventoryUtils.getMaxUnlockableSlots()))
+                        .executes(context -> unlockPlayerSlots(context.getSource(), null,
+                                IntegerArgumentType.getInteger(context, "amount")))
+                        .then(Commands.argument("targets", GameProfileArgument.gameProfile())
+                                .executes(context -> unlockPlayerSlots(context.getSource(),
+                                        GameProfileArgument.getGameProfiles(context, "targets"),
+                                        IntegerArgumentType.getInteger(context, "amount"))))));
     }
 
     private int unlockPlayerSlots(CommandSource source, Collection<GameProfile> profiles, int amount) throws CommandSyntaxException {

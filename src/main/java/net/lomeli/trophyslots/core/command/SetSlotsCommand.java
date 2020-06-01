@@ -29,14 +29,14 @@ public class SetSlotsCommand implements ISubCommand {
     @Override
     public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
         argumentBuilder.then(Commands.literal(getName()).requires(source -> source.hasPermissionLevel(2)))
-            .then(Commands.argument("amount",
-                    IntegerArgumentType.integer(0, InventoryUtils.getMaxUnlockableSlots()))
-                .executes(context -> setPlayersSlots(context.getSource(), null,
-                        IntegerArgumentType.getInteger(context, "amount")))
-                .then(Commands.argument("targets", GameProfileArgument.gameProfile())
-                    .executes(context -> setPlayersSlots(context.getSource(),
-                            GameProfileArgument.getGameProfiles(context, "targets"),
-                            IntegerArgumentType.getInteger(context, "amount")))));
+                .then(Commands.argument("amount",
+                        IntegerArgumentType.integer(0, InventoryUtils.getMaxUnlockableSlots()))
+                        .executes(context -> setPlayersSlots(context.getSource(), null,
+                                IntegerArgumentType.getInteger(context, "amount")))
+                        .then(Commands.argument("targets", GameProfileArgument.gameProfile())
+                                .executes(context -> setPlayersSlots(context.getSource(),
+                                        GameProfileArgument.getGameProfiles(context, "targets"),
+                                        IntegerArgumentType.getInteger(context, "amount")))));
     }
 
     private int setPlayersSlots(CommandSource source, Collection<GameProfile> profiles, int amount) throws CommandSyntaxException {

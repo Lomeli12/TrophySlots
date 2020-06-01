@@ -28,7 +28,7 @@ public class MessageServerConfig implements IMessage {
     }
 
     public MessageServerConfig(boolean advancementUnlock, boolean useTrophies, boolean buyTrophies, boolean reverseOrder,
-                                boolean loseSlots, int losingSlots, int startingSlots) {
+                               boolean loseSlots, int losingSlots, int startingSlots) {
         this.advancementUnlock = advancementUnlock;
         this.useTrophies = useTrophies;
         this.buyTrophies = buyTrophies;
