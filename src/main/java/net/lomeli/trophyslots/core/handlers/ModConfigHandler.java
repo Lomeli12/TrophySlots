@@ -21,9 +21,4 @@ public class ModConfigHandler {
             ServerConfig.bakeConfig(config);
         }
     }
-
-    public static void setValueAndSave(final ModConfig config, final String path, final Object value) {
-        config.getConfigData().set(path, value);
-        config.save();
-    }
 }
