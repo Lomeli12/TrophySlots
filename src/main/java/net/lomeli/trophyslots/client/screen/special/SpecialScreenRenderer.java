@@ -25,9 +25,9 @@ public class SpecialScreenRenderer {
     public void tick(Screen screen) {
         wind.tick();
         manageFlurry(screen.width, screen.height);
-        edgeWrapFlakes(screen.width, screen.height);
+        edgeWrapFlakes(screen.width);
         updateFlakePos();
-        drawFlakes(screen);
+        drawFlakes();
     }
 
     private void manageFlurry(int screenWidth, int screenHeight) {
@@ -37,11 +37,11 @@ public class SpecialScreenRenderer {
             flurry.add(new SnowFlake(screenWidth));
     }
 
-    private void drawFlakes(Screen screen) {
-        flurry.forEach(flake -> flake.render(screen));
+    private void drawFlakes() {
+        flurry.forEach(SnowFlake::render);
     }
 
-    private void edgeWrapFlakes(int screenWidth, int screenHeight) {
+    private void edgeWrapFlakes(int screenWidth) {
         flurry.forEach(flake -> {
             if (flake.getXPos() > screenWidth + 16)
                 flake.setXPos(-15);

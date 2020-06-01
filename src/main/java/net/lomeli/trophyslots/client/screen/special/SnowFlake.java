@@ -1,7 +1,7 @@
 package net.lomeli.trophyslots.client.screen.special;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.inventory.container.PlayerContainer;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -15,10 +15,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class SnowFlake {
     private static final Random rand = new Random();
-    private float weight;
+    private final float weight;
     private int xPos;
     private int yPos;
-    private float alpha;
+    private final float alpha;
 
     SnowFlake(int screenWidth) {
         this((int) (Math.random() * screenWidth), 0 - (int) Math.floor(16 * rand.nextFloat()), (float) (Math.random() / 2) + 1f);
@@ -31,17 +31,16 @@ public class SnowFlake {
         this.weight = weight;
     }
 
-    public void render(Screen screen) {
+    public void render() {
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
-
-
+        
         GlStateManager.color4f(1f, 1f, 1f, alpha);
         TextureAtlasSprite snowflake = Minecraft.getInstance()
                 .getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE).apply(SpriteHandler.SNOWFLAKE);
         Minecraft.getInstance().getTextureManager().bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
         //WTF does "blit" mean?!!
-        screen.blit(this.xPos, this.yPos, 300, 6, 6, snowflake);
+        AbstractGui.blit(this.xPos, this.yPos, 300, 6, 6, snowflake);
 
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
