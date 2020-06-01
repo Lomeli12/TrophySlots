@@ -20,12 +20,10 @@ public class EventHandlerClient {
     private static SpecialScreenRenderer specialScreenRenderer = new SpecialScreenRenderer();
 
     @SubscribeEvent
-    public static void onPreScreenInit(GuiScreenEvent.InitGuiEvent.Pre event) {
+    public static void onPreScreenInit(GuiScreenEvent.InitGuiEvent.Post event) {
         Screen screen = event.getGui();
-        if (screen instanceof ContainerScreen) {
-            ContainerScreen<?> containerScreen = (ContainerScreen<?>) screen;
-            containerScreen.addButton(new LockedSlotScreen(containerScreen));
-        }
+        if (screen instanceof ContainerScreen)
+            event.addWidget(new LockedSlotScreen((ContainerScreen<?>) screen));
     }
 
 
