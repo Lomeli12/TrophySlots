@@ -72,6 +72,6 @@ public class SetSlotsCommand implements ISubCommand {
 
     @Override
     public String getName() {
-        return null;
+        return "set_slots";
     }
 }
