@@ -27,7 +27,7 @@ public class MessageServerConfig implements IMessage {
         startingSlots = ServerConfig.startingSlots;
     }
 
-    private MessageServerConfig(boolean advancementUnlock, boolean useTrophies, boolean buyTrophies, boolean reverseOrder,
+    public MessageServerConfig(boolean advancementUnlock, boolean useTrophies, boolean buyTrophies, boolean reverseOrder,
                                 boolean loseSlots, int losingSlots, int startingSlots) {
         this.advancementUnlock = advancementUnlock;
         this.useTrophies = useTrophies;
@@ -58,13 +58,15 @@ public class MessageServerConfig implements IMessage {
             if (message == null)
                 return;
 
-            ServerConfig.unlockViaAdvancements = message.advancementUnlock;
-            ServerConfig.canUseTrophy = message.useTrophies;
-            ServerConfig.canBuyTrophy = message.buyTrophies;
-            ServerConfig.reverseOrder = message.reverseOrder;
-            ServerConfig.loseSlots = message.loseSlots;
-            ServerConfig.loseSlotNum = message.losingSlots;
-            ServerConfig.startingSlots = message.startingSlots;
+            ServerConfig.setBoolValue("unlockViaAdvancements", message.advancementUnlock);
+            ServerConfig.setBoolValue("canUseTrophy", message.useTrophies);
+            ServerConfig.setBoolValue("canBuyTrophy", message.buyTrophies);
+            ServerConfig.setBoolValue("reverseOrder", message.reverseOrder);
+            ServerConfig.setBoolValue("loseSlots", message.loseSlots);
+            ServerConfig.setIntValue("loseSlotNum", message.losingSlots);
+            ServerConfig.setIntValue("startingSlots", message.startingSlots);
+            ServerConfig.reloadConfig();
         });
+        context.get().setPacketHandled(true);
     }
 }

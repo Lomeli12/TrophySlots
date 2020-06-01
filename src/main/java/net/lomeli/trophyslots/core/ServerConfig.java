@@ -61,6 +61,57 @@ public class ServerConfig {
         builder.pop();
     }
 
+    public static void reloadConfig() {
+        if (serverConfig != null) {
+            serverConfig.save();
+            bakeConfig(serverConfig);
+        }
+    }
+
+    public static void setBoolValue(String specName, boolean flag) {
+        ForgeConfigSpec.BooleanValue booleanSpec = null;
+        switch (specName.toLowerCase()) {
+            case "unlockviaadvancements":
+                booleanSpec = TrophySlots.SERVER.unlockViaAdvancementsSpec;
+                break;
+            case "canusetrophy":
+                booleanSpec = TrophySlots.SERVER.canUseTrophySpec;
+                break;
+            case "canbuytrophy":
+                booleanSpec = TrophySlots.SERVER.canBuyTrophySpec;
+                break;
+            case "loseslots":
+                booleanSpec = TrophySlots.SERVER.loseSlotsSpec;
+                break;
+            case "reverseorder":
+                booleanSpec = TrophySlots.SERVER.reverseOrderSpec;
+                break;
+        }
+
+        if (booleanSpec == null)
+            return;
+
+        booleanSpec.set(flag);
+        booleanSpec.save();
+    }
+
+    public static void setIntValue(String specName, int value) {
+        ForgeConfigSpec.IntValue intSpec = null;
+        switch (specName.toLowerCase()) {
+            case "startingslots":
+                intSpec = TrophySlots.SERVER.startingSlotspec;
+                break;
+            case "loseslotnum":
+                intSpec = TrophySlots.SERVER.loseSlotNumSpec;
+                break;
+        }
+        if (intSpec == null)
+            return;
+
+        intSpec.set(value);
+        intSpec.save();
+    }
+
     public static void bakeConfig(final ModConfig config) {
         serverConfig = config;
 
