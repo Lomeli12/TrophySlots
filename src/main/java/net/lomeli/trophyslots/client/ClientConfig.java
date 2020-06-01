@@ -28,7 +28,7 @@ public class ClientConfig {
         builder.pop();
     }
 
-    private static void reloadConfig() {
+    public static void reloadConfig() {
         if (clientConfig != null) {
             clientConfig.save();
             bakeConfig(clientConfig);
@@ -38,13 +38,11 @@ public class ClientConfig {
     public static void setSlotRenderType(int type) {
         TrophySlots.CLIENT.slotRenderTypeSpec.set(type);
         TrophySlots.CLIENT.slotRenderTypeSpec.save();
-        reloadConfig();
     }
 
     public static void setSpecial(boolean flag) {
         TrophySlots.CLIENT.specialSpec.set(flag);
         TrophySlots.CLIENT.specialSpec.save();
-        reloadConfig();
     }
 
     public static void bakeConfig(final ModConfig config) {

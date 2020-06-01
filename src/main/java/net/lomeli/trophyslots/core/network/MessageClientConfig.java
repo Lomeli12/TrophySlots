@@ -35,7 +35,7 @@ public class MessageClientConfig implements IMessage {
             if (ClientConfig.clientConfig != null) {
                 ClientConfig.setSpecial(message.special);
                 ClientConfig.setSlotRenderType(message.renderType);
-                ClientConfig.bakeConfig(ClientConfig.clientConfig);
+                ClientConfig.reloadConfig();
             }
         });
     }
