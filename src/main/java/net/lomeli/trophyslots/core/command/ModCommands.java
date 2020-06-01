@@ -25,9 +25,7 @@ public class ModCommands {
         registerCommands();
         LiteralArgumentBuilder<CommandSource> argumentBuilder = Commands.literal("tslots");
 
-        commands.forEach(sub -> sub.registerSubCommand(
-                argumentBuilder.then(Commands.literal(sub.getName()))
-        ));
+        commands.forEach(sub -> sub.registerSubCommand(argumentBuilder.then(Commands.literal(sub.getName()))));
 
         dispatcher.register(argumentBuilder);
     }
