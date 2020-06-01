@@ -37,5 +37,6 @@ public class MessageSlotClient implements IMessage {
             if (slots != null)
                 slots.setSlotsUnlocked(message.slots);
         });
+        context.get().setPacketHandled(true);
     }
 }

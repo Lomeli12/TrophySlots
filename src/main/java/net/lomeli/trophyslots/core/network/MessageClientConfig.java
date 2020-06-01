@@ -38,5 +38,6 @@ public class MessageClientConfig implements IMessage {
                 ClientConfig.reloadConfig();
             }
         });
+        context.get().setPacketHandled(true);
     }
 }
