@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.core.ServerConfig;
 import net.lomeli.trophyslots.utils.NBTUtils;
 import net.minecraftforge.common.BasicTrade;
 import net.minecraftforge.event.RegistryEvent;
@@ -34,6 +35,7 @@ public class ModItems {
 
     @SubscribeEvent
     public static void addTrades(VillagerTradesEvent event) {
+        if (!ServerConfig.canBuyTrophy) return;
         if (event.getType() == VillagerProfession.LIBRARIAN) {
             ItemStack villagerTrophy = new ItemStack(trophy);
             NBTUtils.setBoolean(villagerTrophy, ItemTrophy.VILLAGER_TROPHY, true);
