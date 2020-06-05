@@ -3,20 +3,14 @@ package net.lomeli.trophyslots;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLLoader;
 
 import net.lomeli.trophyslots.client.ClientConfig;
-import net.lomeli.trophyslots.client.ClientProxy;
-import net.lomeli.trophyslots.core.CommonProxy;
-import net.lomeli.trophyslots.core.IProxy;
 import net.lomeli.trophyslots.core.ServerConfig;
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
 import net.lomeli.trophyslots.core.capabilities.PlayerSlotManager;
@@ -37,7 +31,6 @@ public class TrophySlots {
     public static final ServerConfig SERVER;
     static final String MOD_NAME = "Trophy Slots";
     public static Logger log = LogManager.getLogger(MOD_NAME);
-    public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     static {
         {
@@ -56,21 +49,15 @@ public class TrophySlots {
         MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonInit);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientInit);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_SPEC);
     }
 
     public void commonInit(final FMLCommonSetupEvent event) {
-        proxy.initialize();
         PacketHandler.registerPackets();
         ModCriteria.initTriggers();
         CapabilityManager.INSTANCE.register(IPlayerSlots.class, new PlayerSlotStorage(), PlayerSlotManager::new);
-    }
-
-    public void clientInit(final FMLClientSetupEvent event) {
-        proxy.initialize();
     }
 
     public void serverStarting(final FMLServerStartingEvent event) {
