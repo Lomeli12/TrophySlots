@@ -26,11 +26,13 @@ public class UnlockSlotTrigger implements ICriterionTrigger<UnlockSlotTrigger.In
     private final Map<PlayerAdvancements, Listeners> listenersMap = Maps.newHashMap();
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public ResourceLocation getId() {
         return new ResourceLocation(TrophySlots.MOD_ID, CRITERION_ID);
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public void addListener(PlayerAdvancements playerAdvancements, Listener<Instance> listener) {
         Listeners criterion = this.listenersMap.getOrDefault(playerAdvancements, null);
 
@@ -42,6 +44,7 @@ public class UnlockSlotTrigger implements ICriterionTrigger<UnlockSlotTrigger.In
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public void removeListener(PlayerAdvancements playerAdvancements, Listener<Instance> listener) {
         Listeners criterion = listenersMap.getOrDefault(playerAdvancements, null);
         if (criterion != null) {
@@ -52,11 +55,13 @@ public class UnlockSlotTrigger implements ICriterionTrigger<UnlockSlotTrigger.In
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public void removeAllListeners(PlayerAdvancements playerAdvancements) {
         listenersMap.remove(playerAdvancements);
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public Instance deserializeInstance(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext) {
         return new Instance(jsonObject.get("slots_unlocked").getAsInt());
     }
