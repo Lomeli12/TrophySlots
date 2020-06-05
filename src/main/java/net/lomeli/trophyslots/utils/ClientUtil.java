@@ -1,10 +1,9 @@
 package net.lomeli.trophyslots.utils;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.InputMappings;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.util.InputMappings;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientUtil {

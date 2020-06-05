@@ -1,11 +1,11 @@
 package net.lomeli.trophyslots.core.network;
 
+import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraft.network.PacketBuffer;
 
 import java.util.function.Supplier;
 
 import net.lomeli.trophyslots.client.ClientConfig;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 public class MessageClientConfig implements IMessage {
 

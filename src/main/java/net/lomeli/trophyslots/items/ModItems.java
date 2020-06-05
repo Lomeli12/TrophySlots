@@ -1,5 +1,11 @@
 package net.lomeli.trophyslots.items;
 
+import net.minecraftforge.common.BasicTrade;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ObjectHolder;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
 import net.minecraft.item.Item;
@@ -13,12 +19,6 @@ import java.util.List;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.ServerConfig;
 import net.lomeli.trophyslots.utils.NBTUtils;
-import net.minecraftforge.common.BasicTrade;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.village.VillagerTradesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ObjectHolder;
 
 @Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModItems {

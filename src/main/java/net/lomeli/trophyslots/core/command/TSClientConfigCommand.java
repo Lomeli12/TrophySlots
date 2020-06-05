@@ -1,5 +1,6 @@
 package net.lomeli.trophyslots.core.command;
 
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -13,7 +14,6 @@ import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.client.ClientConfig;
 import net.lomeli.trophyslots.core.network.MessageClientConfig;
 import net.lomeli.trophyslots.core.network.PacketHandler;
-import net.minecraftforge.common.util.FakePlayer;
 
 public class TSClientConfigCommand implements ISubCommand {
     private static final SimpleCommandExceptionType CONFIG_ERROR =

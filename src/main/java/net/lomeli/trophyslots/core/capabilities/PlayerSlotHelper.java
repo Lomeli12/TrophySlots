@@ -1,10 +1,9 @@
 package net.lomeli.trophyslots.core.capabilities;
 
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-
-import net.minecraftforge.common.util.FakePlayer;
 
 public class PlayerSlotHelper {
     @SuppressWarnings("all")

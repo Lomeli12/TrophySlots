@@ -1,14 +1,14 @@
 package net.lomeli.trophyslots.client.handler;
 
-import net.minecraft.inventory.container.PlayerContainer;
-import net.minecraft.util.ResourceLocation;
-
-import net.lomeli.trophyslots.TrophySlots;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraft.inventory.container.PlayerContainer;
+import net.minecraft.util.ResourceLocation;
+
+import net.lomeli.trophyslots.TrophySlots;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)

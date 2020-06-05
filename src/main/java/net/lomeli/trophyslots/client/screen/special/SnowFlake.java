@@ -1,5 +1,7 @@
 package net.lomeli.trophyslots.client.screen.special;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -9,8 +11,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import java.util.Random;
 
 import net.lomeli.trophyslots.client.handler.SpriteHandler;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SnowFlake {
@@ -34,7 +34,7 @@ public class SnowFlake {
     public void render() {
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
-        
+
         GlStateManager.color4f(1f, 1f, 1f, alpha);
         TextureAtlasSprite snowflake = Minecraft.getInstance()
                 .getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE).apply(SpriteHandler.SNOWFLAKE);
