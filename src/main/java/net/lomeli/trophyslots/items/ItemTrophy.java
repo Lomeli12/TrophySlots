@@ -78,7 +78,6 @@ public class ItemTrophy extends Item {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> toolTips, ITooltipFlag flag) {
-        if (!(stack.getItem() instanceof ItemTrophy)) return;
         //if (ClientUtil.safeKeyDown(ClientUtil.LEFT_SHIFT)) {
         if (((ItemTrophy) stack.getItem()).getTrophyType() == TrophyType.MASTER)
             toolTips.add(new TranslationTextComponent("subtext.trophyslots.trophy.cheat"));
