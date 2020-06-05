@@ -9,6 +9,5 @@ import net.lomeli.trophyslots.core.IProxy;
 public class ClientProxy implements IProxy {
     @Override
     public void initialize() {
-
     }
 }

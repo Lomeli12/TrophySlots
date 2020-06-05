@@ -36,8 +36,7 @@ public class TrophySlots {
     public static final ClientConfig CLIENT;
     public static final ServerConfig SERVER;
     static final String MOD_NAME = "Trophy Slots";
-    public static boolean DEV_ENV;
-    public static Logger log = LogManager.getLogger();
+    public static Logger log = LogManager.getLogger(MOD_NAME);
     public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     static {
@@ -64,7 +63,6 @@ public class TrophySlots {
     }
 
     public void commonInit(final FMLCommonSetupEvent event) {
-        DEV_ENV = FMLLoader.getNameFunction("srg").isPresent();
         proxy.initialize();
         PacketHandler.registerPackets();
         ModCriteria.initTriggers();
