@@ -21,7 +21,7 @@ public class SnowFlake {
     private final float alpha;
 
     SnowFlake(int screenWidth) {
-        this((int) (Math.random() * screenWidth), 0 - (int) Math.floor(16 * rand.nextFloat()), (float) (Math.random() / 2) + 1f);
+        this((int) (Math.random() * screenWidth), -(int) Math.floor(16 * rand.nextFloat()), (float) (Math.random() / 2) + 1f);
     }
 
     private SnowFlake(int x, int y, float weight) {

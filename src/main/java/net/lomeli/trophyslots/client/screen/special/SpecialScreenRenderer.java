@@ -12,9 +12,9 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class SpecialScreenRenderer {
     private static final int MAX_FLAKES = 250;
-    private static float gravity = 2;
-    private Wind wind;
-    private List<SnowFlake> flurry;
+    private static final float gravity = 2;
+    private final Wind wind;
+    private final List<SnowFlake> flurry;
 
     public SpecialScreenRenderer() {
         wind = new Wind();
