@@ -9,8 +9,8 @@ import net.lomeli.trophyslots.client.ClientConfig;
 
 public class MessageClientConfig implements IMessage {
 
-    private boolean special;
-    private int renderType;
+    private final boolean special;
+    private final int renderType;
 
     public MessageClientConfig() {
         this(true, 0);

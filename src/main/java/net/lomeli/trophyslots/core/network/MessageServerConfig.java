@@ -9,13 +9,13 @@ import net.lomeli.trophyslots.core.ServerConfig;
 
 public class MessageServerConfig implements IMessage {
 
-    private boolean advancementUnlock;
-    private boolean useTrophies;
-    private boolean buyTrophies;
-    private boolean reverseOrder;
-    private boolean loseSlots;
-    private int losingSlots;
-    private int startingSlots;
+    private final boolean advancementUnlock;
+    private final boolean useTrophies;
+    private final boolean buyTrophies;
+    private final boolean reverseOrder;
+    private final boolean loseSlots;
+    private final int losingSlots;
+    private final int startingSlots;
 
     public MessageServerConfig() {
         advancementUnlock = ServerConfig.unlockViaAdvancements;

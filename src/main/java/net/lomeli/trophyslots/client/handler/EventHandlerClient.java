@@ -17,7 +17,7 @@ import net.lomeli.trophyslots.client.screen.special.SpecialScreenRenderer;
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID, value = Dist.CLIENT)
 public class EventHandlerClient {
-    private static SpecialScreenRenderer specialScreenRenderer = new SpecialScreenRenderer();
+    private static final SpecialScreenRenderer specialScreenRenderer = new SpecialScreenRenderer();
 
     @SubscribeEvent
     public static void onPreScreenInit(GuiScreenEvent.InitGuiEvent.Post event) {

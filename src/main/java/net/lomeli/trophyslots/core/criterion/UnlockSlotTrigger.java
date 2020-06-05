@@ -23,7 +23,7 @@ import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 public class UnlockSlotTrigger implements ICriterionTrigger<UnlockSlotTrigger.Instance> {
     private static final String CRITERION_ID = "unlock_slot";
 
-    private Map<PlayerAdvancements, Listeners> listenersMap = Maps.newHashMap();
+    private final Map<PlayerAdvancements, Listeners> listenersMap = Maps.newHashMap();
 
     @Override
     public ResourceLocation getId() {

@@ -13,7 +13,7 @@ import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
 import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 
 public class MessageSlotClient implements IMessage {
-    private int slots;
+    private final int slots;
 
     public MessageSlotClient(int numSlots) {
         this.slots = numSlots;
