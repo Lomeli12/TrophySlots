@@ -40,7 +40,7 @@ public class ModItems {
             ItemStack villagerTrophy = new ItemStack(trophy);
             NBTUtils.setBoolean(villagerTrophy, ItemTrophy.VILLAGER_TROPHY, true);
             List<VillagerTrades.ITrade> customTrades = Lists.newArrayList();
-            customTrades.add(new BasicTrade(new ItemStack(Items.EMERALD, 3), new ItemStack(Items.DIAMOND),
+            customTrades.add(new BasicTrade(new ItemStack(Items.EMERALD, 5), new ItemStack(Items.DIAMOND),
                     villagerTrophy, 3, 10, 0.2f));
             event.getTrades().put(event.getTrades().size(), customTrades);
         }
