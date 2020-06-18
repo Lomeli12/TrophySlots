@@ -10,7 +10,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.inventory.container.Slot;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.lomeli.trophyslots.client.ClientConfig;
 import net.lomeli.trophyslots.client.handler.SpriteHandler;
@@ -55,25 +57,26 @@ public class LockedSlotScreen extends Button {
         int x = left + xPos;
         int y = top + yPos;
 
-        GlStateManager.pushMatrix();
+        MatrixStack matrix = new MatrixStack();
+        matrix.push();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
         if (ClientConfig.slotRenderType == 1 || ClientConfig.slotRenderType == 2) {
-            GlStateManager.enableLighting();
+            RenderSystem.enableLighting();
             this.fillGradient(x, y, x + 16, y + 16, GREY_COLOR, GREY_COLOR);
-            GlStateManager.disableLighting();
+            RenderSystem.disableLighting();
         }
         if (ClientConfig.slotRenderType == 0 || ClientConfig.slotRenderType == 2) {
             TextureAtlasSprite crossSprite = mc.getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE)
                     .apply(SpriteHandler.CROSS_SPRITE);
-            GlStateManager.color4f(1f, 1f, 1f, 1f);
+            RenderSystem.color4f(1f, 1f, 1f, 1f);
             mc.getTextureManager().bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
             blit(x, y, this.getBlitOffset(), 16, 16, crossSprite);
         }
 
         GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
+        matrix.pop();
     }
 
     @Override

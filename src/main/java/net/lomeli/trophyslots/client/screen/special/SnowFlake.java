@@ -6,7 +6,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.inventory.container.PlayerContainer;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import java.util.Random;
 
@@ -32,10 +34,11 @@ public class SnowFlake {
     }
 
     public void render() {
-        GlStateManager.pushMatrix();
+        MatrixStack matrix = new MatrixStack();
+        matrix.push();
         GlStateManager.enableBlend();
 
-        GlStateManager.color4f(1f, 1f, 1f, alpha);
+        RenderSystem.color4f(1f, 1f, 1f, alpha);
         TextureAtlasSprite snowflake = Minecraft.getInstance()
                 .getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE).apply(SpriteHandler.SNOWFLAKE);
         Minecraft.getInstance().getTextureManager().bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
@@ -43,7 +46,7 @@ public class SnowFlake {
         AbstractGui.blit(this.xPos, this.yPos, 300, 6, 6, snowflake);
 
         GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
+        matrix.pop();
     }
 
     public void update(Wind wind, float gravity) {
