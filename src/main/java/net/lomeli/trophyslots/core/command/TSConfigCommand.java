@@ -32,12 +32,12 @@ public class TSConfigCommand implements ISubCommand {
                         config.equalsIgnoreCase("loseSlotOnDeathAmount") ? -1 : 9,
                         InventoryUtils.getMaxUnlockableSlots()
                 );
-                argumentBuilder.then(Commands.literal(config))
+                argumentBuilder.then(Commands.literal(config).requires((source -> source.hasPermissionLevel(2))))
                         .then(Commands.argument("amount", intArg))
                         .executes(context -> setConfigValue(context.getSource(), config,
                                 IntegerArgumentType.getInteger(context, "amount")));
             } else {
-                argumentBuilder.then(Commands.literal(config))
+                argumentBuilder.then(Commands.literal(config).requires((source -> source.hasPermissionLevel(2))))
                         .then(Commands.argument("value", BoolArgumentType.bool()))
                         .executes(context -> setConfigValue(context.getSource(), config,
                                 BoolArgumentType.getBool(context, "value")));
