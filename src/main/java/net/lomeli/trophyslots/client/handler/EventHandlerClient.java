@@ -29,7 +29,7 @@ public class EventHandlerClient {
 
     @SubscribeEvent
     public static void onScreenOpen(GuiOpenEvent event) {
-        TrophySlots.log.info("Screen: {}", event.getGui());
+        TrophySlots.log.debug("Screen: {}", event.getGui());
         if (!(event.getGui() instanceof ContainerScreen))
             specialScreenRenderer.clearFlakes();
     }
