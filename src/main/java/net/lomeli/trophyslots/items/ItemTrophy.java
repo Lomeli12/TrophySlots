@@ -13,6 +13,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -39,7 +40,8 @@ public class ItemTrophy extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+    @SuppressWarnings("NullableProblems")
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         ActionResult<ItemStack> result = ActionResult.resultFail(stack);
         if (!world.isRemote && !stack.isEmpty()) {
@@ -77,6 +79,7 @@ public class ItemTrophy extends Item {
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> toolTips, ITooltipFlag flag) {
         //if (ClientUtil.safeKeyDown(ClientUtil.LEFT_SHIFT)) {
         if (((ItemTrophy) stack.getItem()).getTrophyType() == TrophyType.MASTER)
@@ -116,6 +119,7 @@ public class ItemTrophy extends Item {
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public Rarity getRarity(ItemStack stack) {
         return getTrophyType() == TrophyType.MASTER ? Rarity.EPIC : Rarity.RARE;
     }
