@@ -21,7 +21,7 @@ import net.lomeli.trophyslots.core.network.PacketHandler;
 public class AdvancementHandler {
 
     @SubscribeEvent
-    public static void advancmentEvent(AdvancementEvent event) {
+    public static void advancementEvent(AdvancementEvent event) {
         if (!ServerConfig.unlockViaAdvancements) return;
         ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
         if (player instanceof FakePlayer || player.abilities.isCreativeMode) return;
