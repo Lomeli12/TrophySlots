@@ -8,9 +8,6 @@ import net.lomeli.trophyslots.utils.InventoryUtils;
 public class PlayerSlotManager implements IPlayerSlots {
     private int slotsUnlocked;
 
-    public PlayerSlotManager() {
-    }
-
     @Override
     public boolean unlockSlot(int amount) {
         int oldSlotAmount = slotsUnlocked;
