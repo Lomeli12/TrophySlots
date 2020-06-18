@@ -89,8 +89,8 @@ public class UnlockSlotTrigger implements ICriterionTrigger<UnlockSlotTrigger.In
     }
 
     private static class Listeners {
-        private Set<Listener<Instance>> listeners = Sets.newHashSet();
-        private PlayerAdvancements manager;
+        private final Set<Listener<Instance>> listeners = Sets.newHashSet();
+        private final PlayerAdvancements manager;
 
         Listeners(PlayerAdvancements manager) {
             this.manager = manager;
