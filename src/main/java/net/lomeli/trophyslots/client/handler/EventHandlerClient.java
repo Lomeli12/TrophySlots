@@ -26,18 +26,15 @@ public class EventHandlerClient {
             event.addWidget(new LockedSlotScreen((ContainerScreen<?>) screen));
     }
 
-
     @SubscribeEvent
     public static void onScreenOpen(GuiOpenEvent event) {
-        TrophySlots.log.debug("Screen: {}", event.getGui());
         if (!(event.getGui() instanceof ContainerScreen))
             specialScreenRenderer.clearFlakes();
     }
 
     @SubscribeEvent
     public static void onPostScreenDraw(GuiScreenEvent.DrawScreenEvent.Post event) {
-        if (ClientConfig.special && event.getGui() instanceof ContainerScreen && specialScreenRenderer.isSpecialDay()) {
+        if (ClientConfig.special && event.getGui() instanceof ContainerScreen && specialScreenRenderer.isSpecialDay())
             specialScreenRenderer.tick(event.getGui());
-        }
     }
 }
