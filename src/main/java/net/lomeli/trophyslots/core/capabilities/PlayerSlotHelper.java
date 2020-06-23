@@ -4,6 +4,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Slot;
 
 public class PlayerSlotHelper {
     @SuppressWarnings("all")
@@ -12,6 +13,10 @@ public class PlayerSlotHelper {
             return null;
         return player.getCapability(PlayerSlotProvider.SLOTS, null)
                 .orElseThrow(() -> new IllegalArgumentException("LazyOptional must not be empty!"));
+    }
+
+    public static boolean isSlotUnlocked(Slot slot) {
+        return isSlotUnlocked(slot.inventory, slot.getSlotIndex());
     }
 
     public static boolean isSlotUnlocked(IInventory inventory, int index) {

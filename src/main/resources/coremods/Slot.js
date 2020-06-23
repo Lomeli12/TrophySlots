@@ -85,10 +85,7 @@ function patchBoolCheck(instructions) {
     var label = new LabelNode();
 
     newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-    newInstructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/inventory/container/Slot", "inventory", "Lnet/minecraft/inventory/IInventory;"));
-    newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-    newInstructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/inventory/container/Slot", "slotIndex", "I"));
-    newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "net/lomeli/trophyslots/core/capabilities/PlayerSlotHelper", "isSlotUnlocked", "(Lnet/minecraft/inventory/IInventory;I)Z", false));
+    newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "net/lomeli/trophyslots/core/capabilities/PlayerSlotHelper", "isSlotUnlocked", "(Lnet/minecraft/inventory/container/Slot;)Z", false));
     newInstructions.add(new JumpInsnNode(Opcodes.IFNE, label));
     newInstructions.add(new InsnNode(Opcodes.ICONST_0));
     newInstructions.add(new InsnNode(Opcodes.IRETURN));
