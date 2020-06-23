@@ -25,6 +25,8 @@ public class TSConfigCommand implements ISubCommand {
 
     @Override
     public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
+        LiteralArgumentBuilder<CommandSource> base = Commands.literal(getName());
+
         for (int i = 0; i < CONFIG_OPTIONS.length; i++) {
             String config = CONFIG_OPTIONS[i];
             if (i < 2) {
@@ -32,17 +34,18 @@ public class TSConfigCommand implements ISubCommand {
                         config.equalsIgnoreCase("loseSlotOnDeathAmount") ? -1 : 9,
                         InventoryUtils.getMaxUnlockableSlots()
                 );
-                argumentBuilder.then(Commands.literal(config).requires((source -> source.hasPermissionLevel(2))))
-                        .then(Commands.argument("amount", intArg))
+                base.then(Commands.literal(config).requires((source -> source.hasPermissionLevel(2)))
+                        .then(Commands.argument("amount", intArg)
                         .executes(context -> setConfigValue(context.getSource(), config,
-                                IntegerArgumentType.getInteger(context, "amount")));
+                                IntegerArgumentType.getInteger(context, "amount")))));
             } else {
-                argumentBuilder.then(Commands.literal(config).requires((source -> source.hasPermissionLevel(2))))
-                        .then(Commands.argument("value", BoolArgumentType.bool()))
+                base.then(Commands.literal(config).requires((source -> source.hasPermissionLevel(2)))
+                        .then(Commands.argument("value", BoolArgumentType.bool())
                         .executes(context -> setConfigValue(context.getSource(), config,
-                                BoolArgumentType.getBool(context, "value")));
+                                BoolArgumentType.getBool(context, "value")))));
             }
         }
+        argumentBuilder.then(base);
     }
 
     private int setConfigValue(CommandSource source, String config, Object value) throws CommandSyntaxException {
