@@ -1,9 +1,14 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/trophy-slots/",
+  "1.16.1": {
+    "7.0.0": "- Updated to 1.16.1\n- Requires Forge 32.0.2 or newer"
+  },
   "1.15.2": {
     "6.0.0": "- Updated to 1.15.2\n- Requires Forge 31.2.0 or newer"
   },
   "promos": {
+    "1.16.1-latest": "7.0.0",
+    "1.16.1-recommended": "7.0.0",
     "1.15.2-latest": "6.0.0",
     "1.15.2-recommended": "6.0.0"
   }
