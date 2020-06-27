@@ -37,9 +37,9 @@ public class UnlockSlotsCommand implements ISubCommand {
                         .then(Commands.argument("amount",
                                 IntegerArgumentType.integer(1, InventoryUtils.getMaxUnlockableSlots()))
                                 .executes(context -> unlockPlayerSlots(context.getSource(),
-                                GameProfileArgument.getGameProfiles(context, "target"),
-                                IntegerArgumentType.getInteger(context, "amount"))))
-                        )
+                                        GameProfileArgument.getGameProfiles(context, "target"),
+                                        IntegerArgumentType.getInteger(context, "amount"))))
+                )
                 .then(Commands.literal("all")
                         .executes(context -> unlockPlayerSlots(context.getSource(),
                                 null,
@@ -48,7 +48,7 @@ public class UnlockSlotsCommand implements ISubCommand {
                         .executes(context -> unlockPlayerSlots(context.getSource(),
                                 null,
                                 IntegerArgumentType.getInteger(context, "amount"))))
-                );
+        );
     }
 
     private int unlockPlayerSlots(CommandSource source, Collection<GameProfile> profiles, int amount) throws CommandSyntaxException {

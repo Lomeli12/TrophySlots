@@ -3,6 +3,7 @@ package net.lomeli.trophyslots.client.screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -10,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.util.text.StringTextComponent;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -27,14 +29,14 @@ public class LockedSlotScreen extends Button {
 
     @SuppressWarnings("all")
     public LockedSlotScreen(ContainerScreen<?> parentScreen) {
-        super(0, 0, 0, 0, "", null);
-        this.active = false;
+        super(0, 0, 0, 0, new StringTextComponent(""), null);
+        this.field_230693_o_ = false;
         this.parentScreen = parentScreen;
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float renderTick) {
-        if (!visible) return;
+    public void func_230431_b_(MatrixStack stack, int mouseX, int mouseY, float renderTick) {
+        if (!this.field_230694_p_) return;
         Minecraft mc = Minecraft.getInstance();
 
         for (Slot slot : parentScreen.getContainer().inventorySlots) {
@@ -64,7 +66,8 @@ public class LockedSlotScreen extends Button {
 
         if (ClientConfig.slotRenderType == 1 || ClientConfig.slotRenderType == 2) {
             RenderSystem.enableLighting();
-            this.fillGradient(x, y, x + 16, y + 16, GREY_COLOR, GREY_COLOR);
+
+            this.func_238468_a_(matrix, x, y, x + 16, y + 16, GREY_COLOR, GREY_COLOR);
             RenderSystem.disableLighting();
         }
         if (ClientConfig.slotRenderType == 0 || ClientConfig.slotRenderType == 2) {
@@ -72,7 +75,7 @@ public class LockedSlotScreen extends Button {
                     .apply(SpriteHandler.CROSS_SPRITE);
             RenderSystem.color4f(1f, 1f, 1f, 1f);
             mc.getTextureManager().bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
-            blit(x, y, this.getBlitOffset(), 16, 16, crossSprite);
+            AbstractGui.func_238470_a_(matrix, x, y, this.func_230927_p_(), 16, 16, crossSprite);
         }
 
         GlStateManager.disableBlend();
@@ -80,6 +83,6 @@ public class LockedSlotScreen extends Button {
     }
 
     @Override
-    public void onPress() {
+    public void func_230930_b_() {
     }
 }

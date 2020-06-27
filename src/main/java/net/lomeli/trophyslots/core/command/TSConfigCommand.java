@@ -36,13 +36,13 @@ public class TSConfigCommand implements ISubCommand {
                 );
                 base.then(Commands.literal(config).requires((source -> source.hasPermissionLevel(2)))
                         .then(Commands.argument("amount", intArg)
-                        .executes(context -> setConfigValue(context.getSource(), config,
-                                IntegerArgumentType.getInteger(context, "amount")))));
+                                .executes(context -> setConfigValue(context.getSource(), config,
+                                        IntegerArgumentType.getInteger(context, "amount")))));
             } else {
                 base.then(Commands.literal(config).requires((source -> source.hasPermissionLevel(2)))
                         .then(Commands.argument("value", BoolArgumentType.bool())
-                        .executes(context -> setConfigValue(context.getSource(), config,
-                                BoolArgumentType.getBool(context, "value")))));
+                                .executes(context -> setConfigValue(context.getSource(), config,
+                                        BoolArgumentType.getBool(context, "value")))));
             }
         }
         argumentBuilder.then(base);

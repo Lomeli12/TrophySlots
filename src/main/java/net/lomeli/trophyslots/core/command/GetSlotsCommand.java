@@ -26,9 +26,9 @@ public class GetSlotsCommand implements ISubCommand {
         argumentBuilder.then(Commands.literal(getName())
                 .executes((context -> givePlayerSlots(context.getSource(), null)))
                 .then(Commands.argument("target", GameProfileArgument.gameProfile())
-                    .requires((source -> source.hasPermissionLevel(2)))
-                    .executes((context -> givePlayerSlots(context.getSource(),
-                            GameProfileArgument.getGameProfiles(context, "target"))))
+                        .requires((source -> source.hasPermissionLevel(2)))
+                        .executes((context -> givePlayerSlots(context.getSource(),
+                                GameProfileArgument.getGameProfiles(context, "target"))))
                 )
         );
     }

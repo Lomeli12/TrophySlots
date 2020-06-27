@@ -43,7 +43,7 @@ public class SnowFlake {
                 .getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE).apply(SpriteHandler.SNOWFLAKE);
         Minecraft.getInstance().getTextureManager().bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
         //WTF does "blit" mean?!!
-        AbstractGui.blit(this.xPos, this.yPos, 300, 6, 6, snowflake);
+        AbstractGui.func_238470_a_(matrix, this.xPos, this.yPos, 300, 6, 6, snowflake);
 
         GlStateManager.disableBlend();
         matrix.pop();
