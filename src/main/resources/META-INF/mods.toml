@@ -18,13 +18,13 @@ Locks slots in your inventory until you earn them back.
 [[dependencies.trophyslots]]
     modId="forge"
     mandatory=true
-    versionRange="[31,)"
+    versionRange="[32,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.trophyslots]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.16,)"
     ordering="NONE"
     side="BOTH"
