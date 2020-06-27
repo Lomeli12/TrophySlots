@@ -6,6 +6,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -31,8 +32,9 @@ public class AdvancementHandler {
         IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
         if (playerSlots == null || playerSlots.maxSlotsUnlocked()) return;
         if (playerSlots.unlockSlot(1)) {
-            player.sendMessage(new TranslationTextComponent("msg.trophyslots.unlock"), ChatType.CHAT);
-            TrophySlots.log.debug("Sending slot update packet to player {}", player.getName().getFormattedText());
+            player.func_241151_a_(new TranslationTextComponent("msg.trophyslots.unlock"), ChatType.CHAT,
+                    Util.field_240973_b_);
+            TrophySlots.log.debug("Sending slot update packet to player {}", player.getName().func_230531_f_());
             PacketHandler.sendToClient(new MessageSlotClient(playerSlots.getSlotsUnlocked()), player);
             ModCriteria.UNLOCK_SLOT.trigger(player);
         }
