@@ -2,11 +2,9 @@ package net.lomeli.trophyslots.core.command;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.GameProfileArgument;
+import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.TranslationTextComponent;
-import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -29,10 +27,10 @@ public class SetSlotsCommand implements ISubCommand {
     @Override
     public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
         argumentBuilder.then(Commands.literal(getName()).requires(source -> source.hasPermissionLevel(2))
-                .then(Commands.argument("target", GameProfileArgument.gameProfile())
+                .then(Commands.argument("target", EntityArgument.players())
                         .then(Commands.argument("amount", IntegerArgumentType.integer(0, InventoryUtils.getMaxUnlockableSlots()))
                                 .executes(context -> setPlayersSlots(context.getSource(),
-                                        GameProfileArgument.getGameProfiles(context, "targets"),
+                                        EntityArgument.getPlayers(context, "targets"),
                                         IntegerArgumentType.getInteger(context, "amount")))))
                 .then(Commands.argument("amount",
                         IntegerArgumentType.integer(0, InventoryUtils.getMaxUnlockableSlots()))
@@ -40,13 +38,12 @@ public class SetSlotsCommand implements ISubCommand {
                                 IntegerArgumentType.getInteger(context, "amount")))));
     }
 
-    private int setPlayersSlots(CommandSource source, Collection<GameProfile> profiles, int amount) throws CommandSyntaxException {
+    private int setPlayersSlots(CommandSource source, Collection<ServerPlayerEntity> players, int amount) throws CommandSyntaxException {
         AtomicInteger result = new AtomicInteger(0);
 
-        if (profiles != null && !profiles.isEmpty()) {
-            PlayerList playerList = source.getServer().getPlayerList();
-            profiles.forEach(profile -> {
-                if (setPlayerSlot(source, playerList.getPlayerByUUID(profile.getId()), amount))
+        if (players != null && !players.isEmpty()) {
+            players.forEach(player -> {
+                if (setPlayerSlot(source, player, amount))
                     result.incrementAndGet();
             });
         } else if (setPlayerSlot(source, source.asPlayer(), amount))

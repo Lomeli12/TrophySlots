@@ -2,17 +2,18 @@ package net.lomeli.trophyslots.core.command;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.GameProfileArgument;
+import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.TranslationTextComponent;
-import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
+import com.google.common.collect.Lists;
+
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
@@ -34,31 +35,33 @@ public class RemoveSlotsCommand implements ISubCommand {
                 ).then(Commands.argument("amount", IntegerArgumentType.integer(1, InventoryUtils.getMaxUnlockableSlots()))
                         .executes(context -> removePlayersSlots(context.getSource(), null,
                                 IntegerArgumentType.getInteger(context, "amount")))
-                ).then(Commands.argument("target", GameProfileArgument.gameProfile())
+                ).then(Commands.argument("target", EntityArgument.player())
                         .then(Commands.literal("all")
                                 .executes(context -> removePlayersSlots(context.getSource(),
-                                        GameProfileArgument.getGameProfiles(context, "target"),
+                                        EntityArgument.getPlayers(context, "target"),
                                         InventoryUtils.getMaxUnlockableSlots()))
                         ).then(Commands.argument("amount", IntegerArgumentType.integer(1, InventoryUtils.getMaxUnlockableSlots()))
                                 .executes(context -> removePlayersSlots(context.getSource(),
-                                        GameProfileArgument.getGameProfiles(context, "target"),
+                                        EntityArgument.getPlayers(context, "target"),
                                         IntegerArgumentType.getInteger(context, "amount")))
                         )
                 )
         );
     }
 
-    private int removePlayersSlots(CommandSource source, Collection<GameProfile> profiles, int amount) throws CommandSyntaxException {
+    private int removePlayersSlots(CommandSource source, Collection<ServerPlayerEntity> targets, int amount) throws CommandSyntaxException {
         AtomicInteger result = new AtomicInteger(0);
 
-        if (profiles != null && !profiles.isEmpty()) {
-            PlayerList playerList = source.getServer().getPlayerList();
-            profiles.forEach(profile -> {
-                if (removePlayerSlots(source, playerList.getPlayerByUUID(profile.getId()), amount))
-                    result.incrementAndGet();
-            });
-        } else if (removePlayerSlots(source, source.asPlayer(), amount))
-            result.incrementAndGet();
+        List<ServerPlayerEntity> players = Lists.newArrayList();
+        if (targets != null && !targets.isEmpty())
+            players.addAll(targets);
+        else
+            players.add(source.asPlayer());
+
+        players.forEach(profile -> {
+            if (removePlayerSlots(source, profile, amount))
+                result.incrementAndGet();
+        });
 
         if (result.intValue() == 0)
             throw REMOVE_SLOTS_ERROR.create();
