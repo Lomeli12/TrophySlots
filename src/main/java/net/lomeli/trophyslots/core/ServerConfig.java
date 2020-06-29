@@ -12,8 +12,6 @@ public class ServerConfig {
     public static boolean unlockViaAdvancements = true;
     public static boolean canUseTrophy = true;
     public static boolean canBuyTrophy = false;
-    //TODO: Use Forge's update thing instead of repeatedly failing at making your own
-    //public static boolean checkForUpdates = true;
     public static boolean loseSlots = false;
     public static boolean reverseOrder = false;
 
