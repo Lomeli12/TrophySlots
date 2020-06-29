@@ -31,7 +31,7 @@ public class ItemTrophy extends Item {
     static final String VILLAGER_TROPHY = "fromVillager";
     private static final String SLOT_AMOUNTS = "slotAmounts";
 
-    private TrophyType trophyType;
+    private final TrophyType trophyType;
 
     public ItemTrophy(TrophyType trophyType) {
         super(new Item.Properties().maxStackSize(1).group(ItemGroup.MISC));

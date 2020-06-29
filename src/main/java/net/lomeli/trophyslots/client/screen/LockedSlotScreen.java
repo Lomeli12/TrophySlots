@@ -35,6 +35,7 @@ public class LockedSlotScreen extends Button {
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public void func_230431_b_(MatrixStack stack, int mouseX, int mouseY, float renderTick) {
         if (!this.field_230694_p_) return;
         Minecraft mc = Minecraft.getInstance();

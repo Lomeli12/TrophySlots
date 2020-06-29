@@ -17,11 +17,13 @@ public class UnlockSlotTrigger extends AbstractCriterionTrigger<UnlockSlotTrigge
     private static final String CRITERION_ID = "unlock_slot";
 
     @Override
+    @SuppressWarnings("NullableProblems")
     protected Instance func_230241_b_(JsonObject jsonObject, EntityPredicate.AndPredicate predicate, ConditionArrayParser arrayParser) {
         return new Instance(jsonObject.get("slots_unlocked").getAsInt(), predicate);
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public ResourceLocation getId() {
         return new ResourceLocation(TrophySlots.MOD_ID, CRITERION_ID);
     }
