@@ -19,7 +19,7 @@ public class PlayerSlotHelper {
         return isSlotUnlocked(slot.inventory, slot.getSlotIndex());
     }
 
-    public static boolean isSlotUnlocked(IInventory inventory, int index) {
+    private static boolean isSlotUnlocked(IInventory inventory, int index) {
         if (inventory instanceof PlayerInventory) {
             PlayerEntity player = ((PlayerInventory) inventory).player;
             if (!player.abilities.isCreativeMode) {
