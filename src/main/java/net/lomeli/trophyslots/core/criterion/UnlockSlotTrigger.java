@@ -29,7 +29,6 @@ public class UnlockSlotTrigger extends AbstractCriterionTrigger<UnlockSlotTrigge
     }
 
     public void trigger(ServerPlayerEntity player) {
-        // Test trigger
         this.func_235959_a_(player, (instance) -> instance.test(player));
     }
 
