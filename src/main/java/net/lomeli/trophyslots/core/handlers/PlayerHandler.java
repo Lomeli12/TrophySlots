@@ -94,14 +94,15 @@ public class PlayerHandler {
     }
 
     @SubscribeEvent
-    public static void onPlayerLoggedInt(PlayerEvent.PlayerLoggedInEvent event) {
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getPlayer() instanceof ServerPlayerEntity)
             updateClientSlots((ServerPlayerEntity) event.getPlayer());
     }
 
     @SubscribeEvent
-    public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-
+    public static void playerChangedDimensions(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (event.getPlayer() instanceof ServerPlayerEntity)
+            updateClientSlots((ServerPlayerEntity) event.getPlayer());
     }
 
     private static void updateClientSlots(ServerPlayerEntity player) {
