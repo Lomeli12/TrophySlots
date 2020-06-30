@@ -18,9 +18,9 @@ import net.lomeli.trophyslots.client.handler.SpriteHandler;
 public class SnowFlake {
     private static final Random rand = new Random();
     private final float weight;
+    private final float alpha;
     private int xPos;
     private int yPos;
-    private final float alpha;
 
     SnowFlake(int screenWidth) {
         this((int) (Math.random() * screenWidth), -(int) Math.floor(16 * rand.nextFloat()), (float) (Math.random() / 2) + 1f);
