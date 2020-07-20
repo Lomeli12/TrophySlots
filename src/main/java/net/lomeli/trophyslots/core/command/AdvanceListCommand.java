@@ -45,7 +45,7 @@ public class AdvanceListCommand implements ISubCommand {
             source.sendFeedback(new TranslationTextComponent("command.trophyslots.advlist.success"), false);
         } catch (IOException ex) {
             TrophySlots.log.error("Could not write advancment list to file!", ex);
-            source.sendFeedback(new TranslationTextComponent("command.trophyslots.advlist.success"), false);
+            source.sendFeedback(new TranslationTextComponent("command.trophyslots.advlist.error"), false);
             return 1;
         }
 
