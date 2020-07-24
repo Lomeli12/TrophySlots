@@ -50,7 +50,7 @@ public class LockedSlotScreen extends Button {
     }
 
     private void drawLockedSlot(Minecraft mc, int xPos, int yPos) {
-        if (ClientConfig.slotRenderType == 3)
+        if (ClientConfig.renderType == SlotRenderType.NONE)
             return;
         int left = parentScreen.getGuiLeft();
         int top = parentScreen.getGuiTop();
@@ -62,12 +62,12 @@ public class LockedSlotScreen extends Button {
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        if (ClientConfig.slotRenderType == 1 || ClientConfig.slotRenderType == 2) {
+        if (ClientConfig.renderType.isGreyOut()) {
             RenderSystem.enableLighting();
             this.fillGradient(x, y, x + 16, y + 16, GREY_COLOR, GREY_COLOR);
             RenderSystem.disableLighting();
         }
-        if (ClientConfig.slotRenderType == 0 || ClientConfig.slotRenderType == 2) {
+        if (ClientConfig.renderType.drawCross()) {
             TextureAtlasSprite crossSprite = mc.getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE)
                     .apply(SpriteHandler.CROSS_SPRITE);
             RenderSystem.color4f(1f, 1f, 1f, 1f);
