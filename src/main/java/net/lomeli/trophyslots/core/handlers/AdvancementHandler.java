@@ -28,6 +28,10 @@ public class AdvancementHandler {
         Advancement advancement = event.getAdvancement();
         if (advancement.getId().getNamespace().equalsIgnoreCase(TrophySlots.MOD_ID) || advancement.getDisplay() == null
                 || !advancement.getDisplay().shouldAnnounceToChat()) return;
+        if (ServerConfig.listMode == ListMode.WHITE && !ServerConfig.advancementList.contains(advancement.getId()))
+            return;
+        if (ServerConfig.listMode == ListMode.BLACK && ServerConfig.advancementList.contains(advancement.getId()))
+            return;
         IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
         if (playerSlots == null || playerSlots.maxSlotsUnlocked()) return;
         if (playerSlots.unlockSlot(1)) {
@@ -38,4 +42,7 @@ public class AdvancementHandler {
         }
     }
 
+    public enum ListMode {
+        WHITE, BLACK, NONE;
+    }
 }

@@ -2,8 +2,14 @@ package net.lomeli.trophyslots.core;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraft.util.ResourceLocation;
+
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.core.handlers.AdvancementHandler;
 
 public class ServerConfig {
     public static ModConfig serverConfig;
@@ -12,10 +18,10 @@ public class ServerConfig {
     public static boolean unlockViaAdvancements = true;
     public static boolean canUseTrophy = true;
     public static boolean canBuyTrophy = false;
-    //TODO: Use Forge's update thing instead of repeatedly failing at making your own
-    //public static boolean checkForUpdates = true;
     public static boolean loseSlots = false;
     public static boolean reverseOrder = false;
+    public static List<ResourceLocation> advancementList = Lists.newArrayList();
+    public static AdvancementHandler.ListMode listMode;
 
     final ForgeConfigSpec.IntValue loseSlotNumSpec;
     final ForgeConfigSpec.IntValue startingSlotspec;
@@ -24,6 +30,8 @@ public class ServerConfig {
     final ForgeConfigSpec.BooleanValue canBuyTrophySpec;
     final ForgeConfigSpec.BooleanValue loseSlotsSpec;
     final ForgeConfigSpec.BooleanValue reverseOrderSpec;
+    final ForgeConfigSpec.ConfigValue<String> advancementListSpec;
+    final ForgeConfigSpec.EnumValue<AdvancementHandler.ListMode> listModeSpec;
 
     public ServerConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
@@ -58,6 +66,15 @@ public class ServerConfig {
                         "2 = Grayed and crossed out; 3 = no special rendering.")
                 .translation("config.trophyslots.render_locked_slots")
                 .define("reverseOrder", false);
+        advancementListSpec = builder
+                .comment("List of advancements to either white or black listed. Each advancement should be " +
+                        "separated by a ';'. Example:\"minecraft:story/smelt_iron;minecraft:story/shiny_gear\"")
+                .translation("config.trophyslots.advancement_list")
+                .define("advancmentList", "");
+        listModeSpec = builder
+                .comment("Use a white, black, or no list of advancements to filter.")
+                .translation("config.trophyslots.list_mode")
+                .defineEnum("listMode", AdvancementHandler.ListMode.NONE);
 
         builder.pop();
     }
@@ -113,6 +130,11 @@ public class ServerConfig {
         intSpec.save();
     }
 
+    public static void setListMode(AdvancementHandler.ListMode mode) {
+        TrophySlots.SERVER.listModeSpec.set(mode);
+        TrophySlots.SERVER.listModeSpec.save();
+    }
+
     public static void bakeConfig(final ModConfig config) {
         serverConfig = config;
 
@@ -124,6 +146,10 @@ public class ServerConfig {
         canBuyTrophy = TrophySlots.SERVER.canBuyTrophySpec.get();
         loseSlots = TrophySlots.SERVER.loseSlotsSpec.get();
         reverseOrder = TrophySlots.SERVER.reverseOrderSpec.get();
-    }
+        listMode = TrophySlots.SERVER.listModeSpec.get();
 
+        advancementList.clear();
+        for (String s : TrophySlots.SERVER.advancementListSpec.get().split(";"))
+            advancementList.add(new ResourceLocation(s));
+    }
 }
