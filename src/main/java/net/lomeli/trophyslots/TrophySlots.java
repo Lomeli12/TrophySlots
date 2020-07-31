@@ -1,8 +1,12 @@
 package net.lomeli.trophyslots;
 
+import net.lomeli.trophyslots.client.ClientProxy;
+import net.lomeli.trophyslots.core.CommonProxy;
+import net.lomeli.trophyslots.core.IProxy;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -31,6 +35,7 @@ public class TrophySlots {
     public static final ServerConfig SERVER;
     static final String MOD_NAME = "Trophy Slots";
     public static Logger log = LogManager.getLogger(MOD_NAME);
+    public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     static {
         {
