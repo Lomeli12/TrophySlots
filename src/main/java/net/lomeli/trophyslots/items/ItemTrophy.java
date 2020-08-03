@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemTrophy extends Item {
-    static final String VILLAGER_TROPHY = "fromVillager";
+    public static final String VILLAGER_TROPHY = "fromVillager";
     private static final String SLOT_AMOUNTS = "slotAmounts";
 
     private final TrophyType trophyType;
