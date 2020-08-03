@@ -19,6 +19,7 @@ public class ModCommands {
         commands.add(new UnlockSlotsCommand());
         commands.add(new TSClientConfigCommand());
         commands.add(new TSConfigCommand());
+        commands.add(new AdvanceListCommand());
     }
 
     public static void registerCommands(CommandDispatcher<CommandSource> dispatcher) {
