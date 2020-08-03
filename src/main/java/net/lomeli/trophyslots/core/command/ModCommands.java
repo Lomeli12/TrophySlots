@@ -1,7 +1,6 @@
 package net.lomeli.trophyslots.core.command;
 
 import com.google.common.collect.Lists;
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.lomeli.trophyslots.TrophySlots;
 import net.minecraft.command.CommandSource;
