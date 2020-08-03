@@ -1,11 +1,10 @@
 package net.lomeli.trophyslots.core.command;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
+import com.google.common.collect.Lists;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
-import com.google.common.collect.Lists;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
 
 import java.util.List;
 

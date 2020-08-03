@@ -1,5 +1,14 @@
 package net.lomeli.trophyslots.items;
 
+import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.core.ServerConfig;
+import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
+import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
+import net.lomeli.trophyslots.core.criterion.ModCriteria;
+import net.lomeli.trophyslots.core.network.MessageSlotClient;
+import net.lomeli.trophyslots.core.network.PacketHandler;
+import net.lomeli.trophyslots.utils.InventoryUtils;
+import net.lomeli.trophyslots.utils.NBTUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -16,16 +25,6 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-
-import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.ServerConfig;
-import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
-import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
-import net.lomeli.trophyslots.core.criterion.ModCriteria;
-import net.lomeli.trophyslots.core.network.MessageSlotClient;
-import net.lomeli.trophyslots.core.network.PacketHandler;
-import net.lomeli.trophyslots.utils.InventoryUtils;
-import net.lomeli.trophyslots.utils.NBTUtils;
 
 public class ItemTrophy extends Item {
     static final String VILLAGER_TROPHY = "fromVillager";

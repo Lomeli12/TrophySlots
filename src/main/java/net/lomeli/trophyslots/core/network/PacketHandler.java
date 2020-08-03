@@ -1,12 +1,11 @@
 package net.lomeli.trophyslots.core.network;
 
+import net.lomeli.trophyslots.TrophySlots;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
-
-import net.lomeli.trophyslots.TrophySlots;
 
 public class PacketHandler {
     private static final ResourceLocation CHANNEL_NAME = new ResourceLocation(TrophySlots.MOD_ID, "main_channel");

@@ -1,12 +1,11 @@
 package net.lomeli.trophyslots.core.handlers;
 
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.client.ClientConfig;
 import net.lomeli.trophyslots.core.ServerConfig;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 
 @Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModConfigHandler {

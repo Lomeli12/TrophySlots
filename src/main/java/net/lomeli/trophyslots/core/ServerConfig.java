@@ -1,12 +1,11 @@
 package net.lomeli.trophyslots.core;
 
 import com.google.common.collect.Lists;
+import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.handlers.AdvancementHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
-
-import net.lomeli.trophyslots.TrophySlots;
 
 import java.util.List;
 

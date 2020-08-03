@@ -1,9 +1,9 @@
 package net.lomeli.trophyslots.core.capabilities;
 
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
 

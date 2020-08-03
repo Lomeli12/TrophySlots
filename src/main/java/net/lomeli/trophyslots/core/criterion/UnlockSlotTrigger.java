@@ -1,17 +1,15 @@
 package net.lomeli.trophyslots.core.criterion;
 
+import com.google.gson.JsonObject;
+import net.lomeli.trophyslots.TrophySlots;
+import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
+import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
 import net.minecraft.advancements.criterion.CriterionInstance;
 import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.util.ResourceLocation;
-
-import com.google.gson.JsonObject;
-
-import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
-import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 
 public class UnlockSlotTrigger extends AbstractCriterionTrigger<UnlockSlotTrigger.Instance> {
     private static final String CRITERION_ID = "unlock_slot";

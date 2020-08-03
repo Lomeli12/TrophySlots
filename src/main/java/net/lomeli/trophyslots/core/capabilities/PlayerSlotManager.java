@@ -1,9 +1,8 @@
 package net.lomeli.trophyslots.core.capabilities;
 
-import net.minecraft.nbt.CompoundNBT;
-
 import net.lomeli.trophyslots.core.ServerConfig;
 import net.lomeli.trophyslots.utils.InventoryUtils;
+import net.minecraft.nbt.CompoundNBT;
 
 public class PlayerSlotManager implements IPlayerSlots {
     private int slotsUnlocked;

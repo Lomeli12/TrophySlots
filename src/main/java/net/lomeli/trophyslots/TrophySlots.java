@@ -1,8 +1,16 @@
 package net.lomeli.trophyslots;
 
+import net.lomeli.trophyslots.client.ClientConfig;
 import net.lomeli.trophyslots.client.ClientProxy;
 import net.lomeli.trophyslots.core.CommonProxy;
 import net.lomeli.trophyslots.core.IProxy;
+import net.lomeli.trophyslots.core.ServerConfig;
+import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
+import net.lomeli.trophyslots.core.capabilities.PlayerSlotManager;
+import net.lomeli.trophyslots.core.capabilities.PlayerSlotStorage;
+import net.lomeli.trophyslots.core.command.ModCommands;
+import net.lomeli.trophyslots.core.criterion.ModCriteria;
+import net.lomeli.trophyslots.core.network.PacketHandler;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -13,15 +21,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-import net.lomeli.trophyslots.client.ClientConfig;
-import net.lomeli.trophyslots.core.ServerConfig;
-import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
-import net.lomeli.trophyslots.core.capabilities.PlayerSlotManager;
-import net.lomeli.trophyslots.core.capabilities.PlayerSlotStorage;
-import net.lomeli.trophyslots.core.command.ModCommands;
-import net.lomeli.trophyslots.core.criterion.ModCriteria;
-import net.lomeli.trophyslots.core.network.PacketHandler;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
