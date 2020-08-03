@@ -8,18 +8,15 @@ import net.lomeli.trophyslots.core.ServerConfig;
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
 import net.lomeli.trophyslots.core.capabilities.PlayerSlotManager;
 import net.lomeli.trophyslots.core.capabilities.PlayerSlotStorage;
-import net.lomeli.trophyslots.core.command.ModCommands;
 import net.lomeli.trophyslots.core.criterion.ModCriteria;
 import net.lomeli.trophyslots.core.network.PacketHandler;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -51,8 +48,6 @@ public class TrophySlots {
     }
 
     public TrophySlots() {
-        MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
-
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonInit);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_SPEC);
@@ -63,9 +58,5 @@ public class TrophySlots {
         PacketHandler.registerPackets();
         ModCriteria.initTriggers();
         CapabilityManager.INSTANCE.register(IPlayerSlots.class, new PlayerSlotStorage(), PlayerSlotManager::new);
-    }
-
-    public void serverStarting(final FMLServerStartingEvent event) {
-        ModCommands.registerCommands(event.getCommandDispatcher());
     }
 }

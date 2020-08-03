@@ -3,11 +3,16 @@ package net.lomeli.trophyslots.core.command;
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.lomeli.trophyslots.TrophySlots;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
+@Mod.EventBusSubscriber(modid = TrophySlots.MOD_ID)
 public class ModCommands {
     private static final List<ISubCommand> commands = Lists.newArrayList();
 
@@ -21,12 +26,13 @@ public class ModCommands {
         commands.add(new AdvanceListCommand());
     }
 
-    public static void registerCommands(CommandDispatcher<CommandSource> dispatcher) {
+    @SubscribeEvent
+    public static void registerCommands(RegisterCommandsEvent event) {
         registerCommands();
         LiteralArgumentBuilder<CommandSource> argumentBuilder = Commands.literal("tslots");
 
         commands.forEach(sub -> sub.registerSubCommand(argumentBuilder.then(Commands.literal(sub.getName()))));
 
-        dispatcher.register(argumentBuilder);
+        event.getDispatcher().register(argumentBuilder);
     }
 }
