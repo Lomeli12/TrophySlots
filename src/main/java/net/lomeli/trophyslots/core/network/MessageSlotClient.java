@@ -1,8 +1,8 @@
 package net.lomeli.trophyslots.core.network;
 
 import net.lomeli.trophyslots.TrophySlots;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -13,11 +13,11 @@ public class MessageSlotClient implements IMessage {
         this.slots = numSlots;
     }
 
-    public static MessageSlotClient fromBytes(PacketBuffer buffer) {
+    public static MessageSlotClient fromBytes(FriendlyByteBuf buffer) {
         return new MessageSlotClient(buffer.readInt());
     }
 
-    public static void toBytes(MessageSlotClient message, PacketBuffer buffer) {
+    public static void toBytes(MessageSlotClient message, FriendlyByteBuf buffer) {
         buffer.writeInt(message.slots);
     }
 

@@ -1,5 +1,5 @@
 modLoader = "javafml" #mandatory
-loaderVersion = "[32,)" #mandatory (28 is current forge version)
+loaderVersion = "[39,)" #mandatory
 issueTrackerURL = "https://github.com/Lomeli12/TrophySlots/issues" #optional
 license = "LGPLv3"
 
@@ -7,7 +7,7 @@ license = "LGPLv3"
 modId = "trophyslots"
 version = "${file.jarVersion}"
 displayName = "Trophy Slots"
-updateJSONURL = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/1.16/forge-update.json"
+updateJSONURL = "https://raw.githubusercontent.com/Lomeli12/TrophySlots/1.18/forge-update.json"
 displayURL = "http://lomeli12.net/"
 logoFile = "logo.png"
 credits = "Lomeli"
@@ -19,13 +19,13 @@ Locks slots in your inventory until you earn them back.
 [[dependencies.trophyslots]]
 modId = "forge"
 mandatory = true
-versionRange = "[32,)"
+versionRange = "[39,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.trophyslots]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.16,)"
+versionRange = "[1.18,)"
 ordering = "NONE"
 side = "BOTH"

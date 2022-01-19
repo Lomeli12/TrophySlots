@@ -1,14 +1,11 @@
 package net.lomeli.trophyslots.client.screen.special;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.client.gui.screens.Screen;
 
 import java.util.Calendar;
 import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
 public class SpecialScreenRenderer {
     private static final int MAX_FLAKES = 250;
     private static final float gravity = 2;
@@ -22,8 +19,8 @@ public class SpecialScreenRenderer {
 
     public void tick(Screen screen) {
         wind.tick();
-        manageFlurry(screen.field_230708_k_, screen.field_230709_l_);
-        edgeWrapFlakes(screen.field_230708_k_);
+        manageFlurry(screen.width, screen.height);
+        edgeWrapFlakes(screen.width);
         updateFlakePos();
         drawFlakes();
     }

@@ -10,34 +10,34 @@ import net.lomeli.trophyslots.core.criterion.ModCriteria;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.network.PacketHandler;
 import net.lomeli.trophyslots.utils.InventoryUtils;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SetSlotsCommand implements ISubCommand {
     private static final SimpleCommandExceptionType SET_SLOTS_ERROR =
-            new SimpleCommandExceptionType(new TranslationTextComponent("command.trophyslots.set_slots.error"));
+            new SimpleCommandExceptionType(new TranslatableComponent("command.trophyslots.set_slots.error"));
 
     @Override
-    public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
-        argumentBuilder.then(Commands.literal(getName()).requires(source -> source.hasPermissionLevel(2))
+    public void registerSubCommand(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        argumentBuilder.then(Commands.literal(getName()).requires(source -> source.hasPermission(2))
                 .then(Commands.argument("target", EntityArgument.players())
                         .then(Commands.argument("amount", IntegerArgumentType.integer(0, InventoryUtils.getMaxUnlockableSlots()))
                                 .executes(context -> setPlayersSlots(context.getSource(),
                                         EntityArgument.getPlayers(context, "targets"),
                                         IntegerArgumentType.getInteger(context, "amount")))))
                 .then(Commands.argument("amount",
-                        IntegerArgumentType.integer(0, InventoryUtils.getMaxUnlockableSlots()))
+                                IntegerArgumentType.integer(0, InventoryUtils.getMaxUnlockableSlots()))
                         .executes(context -> setPlayersSlots(context.getSource(), null,
                                 IntegerArgumentType.getInteger(context, "amount")))));
     }
 
-    private int setPlayersSlots(CommandSource source, Collection<ServerPlayerEntity> players, int amount) throws CommandSyntaxException {
+    private int setPlayersSlots(CommandSourceStack source, Collection<ServerPlayer> players, int amount) throws CommandSyntaxException {
         AtomicInteger result = new AtomicInteger(0);
 
         if (players != null && !players.isEmpty()) {
@@ -45,7 +45,7 @@ public class SetSlotsCommand implements ISubCommand {
                 if (setPlayerSlot(source, player, amount))
                     result.incrementAndGet();
             });
-        } else if (setPlayerSlot(source, source.asPlayer(), amount))
+        } else if (setPlayerSlot(source, source.getPlayerOrException(), amount))
             result.incrementAndGet();
 
         if (result.intValue() == 0)
@@ -54,7 +54,7 @@ public class SetSlotsCommand implements ISubCommand {
         return result.intValue();
     }
 
-    private boolean setPlayerSlot(CommandSource source, ServerPlayerEntity player, int amount) {
+    private boolean setPlayerSlot(CommandSourceStack source, ServerPlayer player, int amount) {
         IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
         if (playerSlots == null)
             return false;
@@ -62,7 +62,7 @@ public class SetSlotsCommand implements ISubCommand {
         if (playerSlots.getSlotsUnlocked() > 0)
             ModCriteria.UNLOCK_SLOT.trigger(player);
         PacketHandler.sendToClient(new MessageSlotClient(playerSlots.getSlotsUnlocked()), player);
-        source.sendFeedback(new TranslationTextComponent("command.trophyslots.set_slots.success",
+        source.sendSuccess(new TranslatableComponent("command.trophyslots.set_slots.success",
                 player.getGameProfile().getName(), playerSlots.getSlotsUnlocked()), false);
         return true;
     }

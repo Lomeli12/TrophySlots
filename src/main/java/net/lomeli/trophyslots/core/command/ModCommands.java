@@ -3,8 +3,8 @@ package net.lomeli.trophyslots.core.command;
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.lomeli.trophyslots.TrophySlots;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,7 +28,7 @@ public class ModCommands {
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         registerCommands();
-        LiteralArgumentBuilder<CommandSource> argumentBuilder = Commands.literal("tslots");
+        LiteralArgumentBuilder<CommandSourceStack> argumentBuilder = Commands.literal("tslots");
 
         commands.forEach(sub -> sub.registerSubCommand(argumentBuilder.then(Commands.literal(sub.getName()))));
 

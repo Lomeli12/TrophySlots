@@ -6,11 +6,11 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
 import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,34 +18,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GetSlotsCommand implements ISubCommand {
     private static final SimpleCommandExceptionType GET_SLOTS_ERROR =
-            new SimpleCommandExceptionType(new TranslationTextComponent("command.trophyslots.get_slots.error"));
+            new SimpleCommandExceptionType(new TranslatableComponent("command.trophyslots.get_slots.error"));
 
     @Override
-    public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
+    public void registerSubCommand(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
         argumentBuilder.then(Commands.literal(getName())
                 .executes((context -> givePlayerSlots(context.getSource(), null)))
                 .then(Commands.argument("target", EntityArgument.players())
-                        .requires((source -> source.hasPermissionLevel(2)))
+                        .requires((source -> source.hasPermission(2)))
                         .executes((context -> givePlayerSlots(context.getSource(),
                                 EntityArgument.getPlayers(context, "target"))))
                 )
         );
     }
 
-    private int givePlayerSlots(CommandSource source, Collection<ServerPlayerEntity> targets) throws CommandSyntaxException {
+    private int givePlayerSlots(CommandSourceStack source, Collection<ServerPlayer> targets) throws CommandSyntaxException {
         AtomicInteger result = new AtomicInteger(0);
 
-        List<ServerPlayerEntity> players = Lists.newArrayList();
+        List<ServerPlayer> players = Lists.newArrayList();
         if (targets != null && !targets.isEmpty())
             players.addAll(targets);
         else
-            players.add(source.asPlayer());
+            players.add(source.getPlayerOrException());
 
         players.forEach(player -> {
             IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
             if (playerSlots != null) {
                 result.getAndIncrement();
-                source.sendFeedback(new TranslationTextComponent("command.trophyslots.get_slots.success",
+                source.sendSuccess(new TranslatableComponent("command.trophyslots.get_slots.success",
                         player.getName(), playerSlots.getSlotsUnlocked()), false);
             }
         });

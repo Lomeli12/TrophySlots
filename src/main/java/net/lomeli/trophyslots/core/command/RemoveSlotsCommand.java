@@ -10,11 +10,11 @@ import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.network.PacketHandler;
 import net.lomeli.trophyslots.utils.InventoryUtils;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,11 +22,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RemoveSlotsCommand implements ISubCommand {
     private static final SimpleCommandExceptionType REMOVE_SLOTS_ERROR =
-            new SimpleCommandExceptionType(new TranslationTextComponent("command.trophyslots.remove_slots.error"));
+            new SimpleCommandExceptionType(new TranslatableComponent("command.trophyslots.remove_slots.error"));
 
     @Override
-    public void registerSubCommand(LiteralArgumentBuilder<CommandSource> argumentBuilder) {
-        argumentBuilder.then(Commands.literal(getName()).requires(source -> source.hasPermissionLevel(3))
+    public void registerSubCommand(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        argumentBuilder.then(Commands.literal(getName()).requires(source -> source.hasPermission(3))
                 .then(Commands.literal("all")
                         .executes(context -> removePlayersSlots(context.getSource(), null,
                                 InventoryUtils.getMaxUnlockableSlots()))
@@ -47,14 +47,14 @@ public class RemoveSlotsCommand implements ISubCommand {
         );
     }
 
-    private int removePlayersSlots(CommandSource source, Collection<ServerPlayerEntity> targets, int amount) throws CommandSyntaxException {
+    private int removePlayersSlots(CommandSourceStack source, Collection<ServerPlayer> targets, int amount) throws CommandSyntaxException {
         AtomicInteger result = new AtomicInteger(0);
 
-        List<ServerPlayerEntity> players = Lists.newArrayList();
+        List<ServerPlayer> players = Lists.newArrayList();
         if (targets != null && !targets.isEmpty())
             players.addAll(targets);
         else
-            players.add(source.asPlayer());
+            players.add(source.getPlayerOrException());
 
         players.forEach(profile -> {
             if (removePlayerSlots(source, profile, amount))
@@ -67,13 +67,13 @@ public class RemoveSlotsCommand implements ISubCommand {
         return result.intValue();
     }
 
-    private boolean removePlayerSlots(CommandSource source, ServerPlayerEntity player, int amount) {
+    private boolean removePlayerSlots(CommandSourceStack source, ServerPlayer player, int amount) {
         IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
         if (playerSlots == null)
             return false;
         playerSlots.unlockSlot(-amount);
         PacketHandler.sendToClient(new MessageSlotClient(playerSlots.getSlotsUnlocked()), player);
-        source.sendFeedback(new TranslationTextComponent("command.trophyslots.remove_slots.success",
+        source.sendSuccess(new TranslatableComponent("command.trophyslots.remove_slots.success",
                 amount, player.getGameProfile().getName()), false);
         return true;
     }

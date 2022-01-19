@@ -13,9 +13,9 @@ var FieldInsnNode = Java.type("org.objectweb.asm.tree.FieldInsnNode")
 var LabelNode = Java.type("org.objectweb.asm.tree.LabelNode")
 
 var NUM_OF_METHODS = 3;
-var ITEM_VALID = ASMAPI.mapMethod("func_75214_a");
-var TAKE_STACK = ASMAPI.mapMethod("func_82869_a");
-var IS_ENABLED = ASMAPI.mapMethod("func_111238_b");
+var MAY_PLACE = ASMAPI.mapMethod("m_5857_");
+var MAY_PICKUP = ASMAPI.mapMethod("m_8010_");
+var IS_ACTIVE = ASMAPI.mapMethod("m_6659_");
 
 function log(message) {
 	print("[Trophy Slots Slot Transformer]: " + message);
@@ -36,21 +36,21 @@ function initializeCoreMod() {
 		"Trophy Slots Slot Transformer": {
 			"target": {
 				"type": "CLASS",
-				"name": "net.minecraft.inventory.container.Slot"
+				"name": "net.minecraft.world.inventory.Slot"
 			},
 			"transformer": function(classNode) {
 				var methods = classNode.methods;
 				var count = 0;
 				for(var i in methods) {
-					if(patch(methods[i], ITEM_VALID, patchBoolCheck)) {
+					if(patch(methods[i], MAY_PLACE, patchBoolCheck)) {
 					    count++;
 					    continue;
 					}
-					if(patch(methods[i], TAKE_STACK, patchBoolCheck)) {
+					if(patch(methods[i], MAY_PICKUP, patchBoolCheck)) {
 					    count++;
                         continue;
                     }
-					if(patch(methods[i], IS_ENABLED, patchBoolCheck)) {
+					if(patch(methods[i], IS_ACTIVE, patchBoolCheck)) {
 					    count++;
                         continue;
                     }
@@ -85,7 +85,7 @@ function patchBoolCheck(instructions) {
     var label = new LabelNode();
 
     newInstructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-    newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "net/lomeli/trophyslots/core/capabilities/PlayerSlotHelper", "isSlotUnlocked", "(Lnet/minecraft/inventory/container/Slot;)Z", false));
+    newInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "net/lomeli/trophyslots/core/capabilities/PlayerSlotHelper", "isSlotUnlocked", "(Lnet/minecraft/world/inventory/Slot;)Z", false));
     newInstructions.add(new JumpInsnNode(Opcodes.IFNE, label));
     newInstructions.add(new InsnNode(Opcodes.ICONST_0));
     newInstructions.add(new InsnNode(Opcodes.IRETURN));

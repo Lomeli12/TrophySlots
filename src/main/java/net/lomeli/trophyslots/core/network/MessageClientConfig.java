@@ -2,30 +2,19 @@ package net.lomeli.trophyslots.core.network;
 
 import net.lomeli.trophyslots.client.ClientConfig;
 import net.lomeli.trophyslots.client.screen.SlotRenderType;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class MessageClientConfig implements IMessage {
+public record MessageClientConfig(boolean special,
+                                  SlotRenderType renderType) implements IMessage {
 
-    private final boolean special;
-    private final SlotRenderType renderType;
-
-    public MessageClientConfig() {
-        this(true, SlotRenderType.NONE);
-    }
-
-    public MessageClientConfig(boolean special, SlotRenderType renderType) {
-        this.special = special;
-        this.renderType = renderType;
-    }
-
-    public static MessageClientConfig fromBytes(PacketBuffer buffer) {
+    public static MessageClientConfig fromBytes(FriendlyByteBuf buffer) {
         return new MessageClientConfig(buffer.readBoolean(), SlotRenderType.values()[buffer.readInt()]);
     }
 
-    public static void toBytes(MessageClientConfig message, PacketBuffer buffer) {
+    public static void toBytes(MessageClientConfig message, FriendlyByteBuf buffer) {
         buffer.writeBoolean(message.special);
         buffer.writeInt(message.renderType.ordinal());
     }

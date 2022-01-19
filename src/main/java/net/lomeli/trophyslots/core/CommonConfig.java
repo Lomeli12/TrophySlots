@@ -3,14 +3,14 @@ package net.lomeli.trophyslots.core;
 import com.google.common.collect.Lists;
 import net.lomeli.trophyslots.TrophySlots;
 import net.lomeli.trophyslots.core.handlers.AdvancementHandler;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 
 import java.util.List;
 
-public class ServerConfig {
-    public static ModConfig serverConfig;
+public class CommonConfig {
+    private static ModConfig commonConfig;
     public static int loseSlotNum = 1;
     public static int startingSlots = 9;
     public static boolean unlockViaAdvancements = true;
@@ -31,7 +31,7 @@ public class ServerConfig {
     final ForgeConfigSpec.ConfigValue<String> advancementListSpec;
     final ForgeConfigSpec.EnumValue<AdvancementHandler.ListMode> listModeSpec;
 
-    public ServerConfig(final ForgeConfigSpec.Builder builder) {
+    public CommonConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
 
         loseSlotNumSpec = builder
@@ -52,7 +52,7 @@ public class ServerConfig {
                 .translation("config.trophyslots.can_use_trophy")
                 .define("canUseTrophy", true);
         canBuyTrophySpec = builder.comment("Allows you to buy trophies from villagers. " +
-                "Disabling this will disable any trophies bought from villagers!")
+                        "Disabling this will disable any trophies bought from villagers!")
                 .translation("config.trophyslots.can_buy_trophy")
                 .define("canBuyTrophy", false);
         loseSlotsSpec = builder
@@ -78,31 +78,21 @@ public class ServerConfig {
     }
 
     public static void reloadConfig() {
-        if (serverConfig != null) {
-            serverConfig.save();
-            bakeConfig(serverConfig);
+        if (commonConfig != null) {
+            commonConfig.save();
+            bakeConfig(commonConfig);
         }
     }
 
     public static void setBoolValue(String specName, boolean flag) {
-        ForgeConfigSpec.BooleanValue booleanSpec = null;
-        switch (specName.toLowerCase()) {
-            case "unlockviaadvancements":
-                booleanSpec = TrophySlots.SERVER.unlockViaAdvancementsSpec;
-                break;
-            case "canusetrophy":
-                booleanSpec = TrophySlots.SERVER.canUseTrophySpec;
-                break;
-            case "canbuytrophy":
-                booleanSpec = TrophySlots.SERVER.canBuyTrophySpec;
-                break;
-            case "loseslots":
-                booleanSpec = TrophySlots.SERVER.loseSlotsSpec;
-                break;
-            case "reverseorder":
-                booleanSpec = TrophySlots.SERVER.reverseOrderSpec;
-                break;
-        }
+        ForgeConfigSpec.BooleanValue booleanSpec = switch (specName.toLowerCase()) {
+            case "unlockviaadvancements" -> TrophySlots.COMMON.unlockViaAdvancementsSpec;
+            case "canusetrophy" -> TrophySlots.COMMON.canUseTrophySpec;
+            case "canbuytrophy" -> TrophySlots.COMMON.canBuyTrophySpec;
+            case "loseslots" -> TrophySlots.COMMON.loseSlotsSpec;
+            case "reverseorder" -> TrophySlots.COMMON.reverseOrderSpec;
+            default -> null;
+        };
 
         if (booleanSpec == null)
             return;
@@ -112,15 +102,11 @@ public class ServerConfig {
     }
 
     public static void setIntValue(String specName, int value) {
-        ForgeConfigSpec.IntValue intSpec = null;
-        switch (specName.toLowerCase()) {
-            case "startingslots":
-                intSpec = TrophySlots.SERVER.startingSlotspec;
-                break;
-            case "loseslotnum":
-                intSpec = TrophySlots.SERVER.loseSlotNumSpec;
-                break;
-        }
+        ForgeConfigSpec.IntValue intSpec = switch (specName.toLowerCase()) {
+            case "startingslots" -> TrophySlots.COMMON.startingSlotspec;
+            case "loseslotnum" -> TrophySlots.COMMON.loseSlotNumSpec;
+            default -> null;
+        };
         if (intSpec == null)
             return;
 
@@ -129,25 +115,25 @@ public class ServerConfig {
     }
 
     public static void setListMode(AdvancementHandler.ListMode mode) {
-        TrophySlots.SERVER.listModeSpec.set(mode);
-        TrophySlots.SERVER.listModeSpec.save();
+        TrophySlots.COMMON.listModeSpec.set(mode);
+        TrophySlots.COMMON.listModeSpec.save();
     }
 
     public static void bakeConfig(final ModConfig config) {
-        serverConfig = config;
+        commonConfig = config;
 
-        loseSlotNum = TrophySlots.SERVER.loseSlotNumSpec.get();
-        startingSlots = TrophySlots.SERVER.startingSlotspec.get();
+        loseSlotNum = TrophySlots.COMMON.loseSlotNumSpec.get();
+        startingSlots = TrophySlots.COMMON.startingSlotspec.get();
 
-        unlockViaAdvancements = TrophySlots.SERVER.unlockViaAdvancementsSpec.get();
-        canUseTrophy = TrophySlots.SERVER.canUseTrophySpec.get();
-        canBuyTrophy = TrophySlots.SERVER.canBuyTrophySpec.get();
-        loseSlots = TrophySlots.SERVER.loseSlotsSpec.get();
-        reverseOrder = TrophySlots.SERVER.reverseOrderSpec.get();
-        listMode = TrophySlots.SERVER.listModeSpec.get();
+        unlockViaAdvancements = TrophySlots.COMMON.unlockViaAdvancementsSpec.get();
+        canUseTrophy = TrophySlots.COMMON.canUseTrophySpec.get();
+        canBuyTrophy = TrophySlots.COMMON.canBuyTrophySpec.get();
+        loseSlots = TrophySlots.COMMON.loseSlotsSpec.get();
+        reverseOrder = TrophySlots.COMMON.reverseOrderSpec.get();
+        listMode = TrophySlots.COMMON.listModeSpec.get();
 
         advancementList.clear();
-        for (String s : TrophySlots.SERVER.advancementListSpec.get().split(";"))
+        for (String s : TrophySlots.COMMON.advancementListSpec.get().split(";"))
             advancementList.add(new ResourceLocation(s));
     }
 }

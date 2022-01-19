@@ -1,19 +1,16 @@
 package net.lomeli.trophyslots.client.screen.special;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.lomeli.trophyslots.client.handler.SpriteHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.inventory.container.PlayerContainer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.inventory.InventoryMenu;
 
 import java.util.Random;
 
-@OnlyIn(Dist.CLIENT)
 public class SnowFlake {
     private static final Random rand = new Random();
     private final float weight;
@@ -33,18 +30,18 @@ public class SnowFlake {
     }
 
     public void render() {
-        MatrixStack matrix = new MatrixStack();
-        matrix.push();
-        GlStateManager.enableBlend();
+        PoseStack matrix = new PoseStack();
+        matrix.pushPose();
+        GlStateManager._enableBlend();
 
-        RenderSystem.color4f(1f, 1f, 1f, alpha);
+        RenderSystem.setShaderColor(1f, 1f, 1f, alpha);
         TextureAtlasSprite snowflake = Minecraft.getInstance()
-                .getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE).apply(SpriteHandler.SNOWFLAKE);
-        Minecraft.getInstance().getTextureManager().bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
-        AbstractGui.func_238470_a_(matrix, this.xPos, this.yPos, 300, 6, 6, snowflake);
+                .getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(SpriteHandler.SNOWFLAKE);
+        RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
+        GuiComponent.blit(matrix, this.xPos, this.yPos, 300, 6, 6, snowflake);
 
-        GlStateManager.disableBlend();
-        matrix.pop();
+        GlStateManager._disableBlend();
+        matrix.popPose();
     }
 
     public void update(Wind wind, float gravity) {

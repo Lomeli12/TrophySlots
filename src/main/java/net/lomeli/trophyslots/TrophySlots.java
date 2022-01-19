@@ -2,16 +2,14 @@ package net.lomeli.trophyslots;
 
 import net.lomeli.trophyslots.client.ClientConfig;
 import net.lomeli.trophyslots.client.ClientProxy;
+import net.lomeli.trophyslots.core.CommonConfig;
 import net.lomeli.trophyslots.core.CommonProxy;
 import net.lomeli.trophyslots.core.IProxy;
-import net.lomeli.trophyslots.core.ServerConfig;
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
-import net.lomeli.trophyslots.core.capabilities.PlayerSlotManager;
-import net.lomeli.trophyslots.core.capabilities.PlayerSlotStorage;
 import net.lomeli.trophyslots.core.criterion.ModCriteria;
 import net.lomeli.trophyslots.core.network.PacketHandler;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -26,9 +24,9 @@ import org.apache.logging.log4j.Logger;
 public class TrophySlots {
     public static final String MOD_ID = "trophyslots";
     public static final ForgeConfigSpec CLIENT_SPEC;
-    public static final ForgeConfigSpec SERVER_SPEC;
+    public static final ForgeConfigSpec COMMON_SPEC;
     public static final ClientConfig CLIENT;
-    public static final ServerConfig SERVER;
+    public static final CommonConfig COMMON;
     static final String MOD_NAME = "Trophy Slots";
     public static Logger log = LogManager.getLogger(MOD_NAME);
 
@@ -41,22 +39,26 @@ public class TrophySlots {
             CLIENT_SPEC = specPair.getRight();
         }
         {
-            final Pair<ServerConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
-            SERVER = specPair.getLeft();
-            SERVER_SPEC = specPair.getRight();
+            final Pair<CommonConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
+            COMMON = specPair.getLeft();
+            COMMON_SPEC = specPair.getRight();
         }
     }
 
     public TrophySlots() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonInit);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::capabilityInit);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_SPEC);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_SPEC);
     }
 
     public void commonInit(final FMLCommonSetupEvent event) {
         PacketHandler.registerPackets();
         ModCriteria.initTriggers();
-        CapabilityManager.INSTANCE.register(IPlayerSlots.class, new PlayerSlotStorage(), PlayerSlotManager::new);
+    }
+
+    public void capabilityInit(final RegisterCapabilitiesEvent event) {
+        event.register(IPlayerSlots.class);
     }
 }

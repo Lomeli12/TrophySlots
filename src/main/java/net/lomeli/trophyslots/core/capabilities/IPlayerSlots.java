@@ -1,6 +1,6 @@
 package net.lomeli.trophyslots.core.capabilities;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 public interface IPlayerSlots {
     boolean unlockSlot(int amount);
@@ -13,7 +13,7 @@ public interface IPlayerSlots {
 
     boolean maxSlotsUnlocked();
 
-    void serialize(CompoundNBT nbt);
+    void serialize(CompoundTag nbt);
 
-    void deserialize(CompoundNBT nbt);
+    void deserialize(CompoundTag nbt);
 }

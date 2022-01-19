@@ -1,7 +1,7 @@
 package net.lomeli.trophyslots.items;
 
 import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.ServerConfig;
+import net.lomeli.trophyslots.core.CommonConfig;
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
 import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 import net.lomeli.trophyslots.core.criterion.ModCriteria;
@@ -9,18 +9,15 @@ import net.lomeli.trophyslots.core.network.MessageSlotClient;
 import net.lomeli.trophyslots.core.network.PacketHandler;
 import net.lomeli.trophyslots.utils.InventoryUtils;
 import net.lomeli.trophyslots.utils.NBTUtils;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,22 +30,22 @@ public class ItemTrophy extends Item {
     private final TrophyType trophyType;
 
     public ItemTrophy(TrophyType trophyType) {
-        super(new Item.Properties().maxStackSize(1).group(ItemGroup.MISC));
+        super(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC));
         this.setRegistryName(TrophySlots.MOD_ID, trophyType.getName());
         this.trophyType = trophyType;
     }
 
     @Override
     @SuppressWarnings("NullableProblems")
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
-        ItemStack stack = player.getHeldItem(hand);
-        ActionResult<ItemStack> result = ActionResult.resultFail(stack);
-        if (!world.isRemote && !stack.isEmpty()) {
-            if (!ServerConfig.canBuyTrophy && fromVillager(stack))
-                player.sendStatusMessage(new TranslationTextComponent("msg.trophyslots.villager"), false);
-            else if (!ServerConfig.canUseTrophy)
-                player.sendStatusMessage(new TranslationTextComponent("msg.trophyslots.trophy"), false);
-            else if (hand == Hand.MAIN_HAND) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, @Nonnull InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        InteractionResultHolder<ItemStack> result = InteractionResultHolder.fail(stack);
+        if (!level.isClientSide && !stack.isEmpty()) {
+            if (!CommonConfig.canBuyTrophy && fromVillager(stack))
+                player.sendMessage(new TranslatableComponent("msg.trophyslots.villager"), Util.NIL_UUID);
+            else if (!CommonConfig.canUseTrophy)
+                player.sendMessage(new TranslatableComponent("msg.trophyslots.trophy"), Util.NIL_UUID);
+            else if (hand == InteractionHand.MAIN_HAND) {
                 int amount = trophyType == TrophyType.MASTER ? InventoryUtils.getMaxUnlockableSlots() : getSlotAmounts(stack);
                 if (amount != 0) {
                     String msg = amount == InventoryUtils.getMaxUnlockableSlots() ? "msg.trophyslots.unlock_all" :
@@ -58,17 +55,17 @@ public class ItemTrophy extends Item {
                     IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
                     if (playerSlots != null && playerSlots.unlockSlot(amount)) {
                         if (amount == 1 || amount == -1 || amount == InventoryUtils.getMaxUnlockableSlots())
-                            player.sendStatusMessage(new TranslationTextComponent(msg), false);
+                            player.sendMessage(new TranslatableComponent(msg), Util.NIL_UUID);
                         else
-                            player.sendStatusMessage(new TranslationTextComponent(msg, amount), false);
+                            player.sendMessage(new TranslatableComponent(msg, amount), Util.NIL_UUID);
 
-                        if (!player.abilities.isCreativeMode)
+                        if (!player.isCreative())
                             stack.shrink(1);
-                        if (player instanceof ServerPlayerEntity) {
+                        if (player instanceof ServerPlayer) {
                             TrophySlots.log.info("Sending slot update packet to player {}.", player.getName().getString());
                             PacketHandler.sendToClient(new MessageSlotClient(playerSlots.getSlotsUnlocked()),
-                                    (ServerPlayerEntity) player);
-                            ModCriteria.UNLOCK_SLOT.trigger((ServerPlayerEntity) player);
+                                    (ServerPlayer) player);
+                            ModCriteria.UNLOCK_SLOT.trigger((ServerPlayer) player);
                         }
                     }
                 }
@@ -79,28 +76,26 @@ public class ItemTrophy extends Item {
 
     @Override
     @SuppressWarnings("NullableProblems")
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> toolTips, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> toolTips, TooltipFlag flag) {
         //if (ClientUtil.safeKeyDown(ClientUtil.LEFT_SHIFT)) {
         if (((ItemTrophy) stack.getItem()).getTrophyType() == TrophyType.MASTER)
-            toolTips.add(new TranslationTextComponent("subtext.trophyslots.trophy.cheat"));
+            toolTips.add(new TranslatableComponent("subtext.trophyslots.trophy.cheat"));
         else {
             int amount = getSlotAmounts(stack);
             if (amount > 1)
-                toolTips.add(new TranslationTextComponent("subtext.trophyslots.trophy.x", amount));
+                toolTips.add(new TranslatableComponent("subtext.trophyslots.trophy.x", amount));
             else if (amount == -1)
-                toolTips.add(new TranslationTextComponent("subtext.trophyslots.trophy.x.neg.one"));
+                toolTips.add(new TranslatableComponent("subtext.trophyslots.trophy.x.neg.one"));
             else if (amount < -1)
-                toolTips.add(new TranslationTextComponent("subtext.trophyslots.trophy.x.neg", amount * -1));
+                toolTips.add(new TranslatableComponent("subtext.trophyslots.trophy.x.neg", amount * -1));
             else
-                toolTips.add(new TranslationTextComponent("subtext.trophyslots.trophy"));
+                toolTips.add(new TranslatableComponent("subtext.trophyslots.trophy"));
         }
-        if (!ServerConfig.canUseTrophy)
-            toolTips.add(new TranslationTextComponent("subtext.trophyslots.trophy.cannot_use"));
-        if (fromVillager(stack) && !ServerConfig.canBuyTrophy)
-            toolTips.add(new TranslationTextComponent("subtext.trophyslots.trophy.villager"));
+        if (!CommonConfig.canUseTrophy)
+            toolTips.add(new TranslatableComponent("subtext.trophyslots.trophy.cannot_use"));
+        if (fromVillager(stack) && !CommonConfig.canBuyTrophy)
+            toolTips.add(new TranslatableComponent("subtext.trophyslots.trophy.villager"));
 
-        //} else
-        //    toolTips.add(new TranslationTextComponent("subtext.trophyslots.info"));
     }
 
     private int getSlotAmounts(ItemStack stack) {

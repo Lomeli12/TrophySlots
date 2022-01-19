@@ -1,18 +1,20 @@
 package net.lomeli.trophyslots.core.handlers;
 
 import net.lomeli.trophyslots.TrophySlots;
-import net.lomeli.trophyslots.core.ServerConfig;
+import net.lomeli.trophyslots.core.CommonConfig;
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
 import net.lomeli.trophyslots.core.capabilities.PlayerSlotHelper;
 import net.lomeli.trophyslots.core.network.MessageSlotClient;
+import net.lomeli.trophyslots.core.network.MessageSyncConfig;
+import net.lomeli.trophyslots.core.network.MessageUnSyncConfig;
 import net.lomeli.trophyslots.core.network.PacketHandler;
 import net.lomeli.trophyslots.utils.InventoryUtils;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -25,91 +27,97 @@ public class PlayerHandler {
 
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {
-        if (ServerConfig.loseSlots && (ServerConfig.loseSlotNum == -1 || ServerConfig.loseSlotNum > 0)) {
-            if (event.getEntityLiving() instanceof ServerPlayerEntity) {
-                ServerPlayerEntity player = (ServerPlayerEntity) event.getEntityLiving();
-                TrophySlots.log.info("{} died. Losing {} slot(s).", player.getName().getString(), ServerConfig.loseSlotNum);
+        if (event.getEntity().level.isClientSide) return;
+        if (event.getEntityLiving() instanceof ServerPlayer player) {
+            IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
+            if (playerSlots == null) return;
 
-                if (player.world.isRemote) return;
-                IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
-                if (playerSlots == null) return;
+            if (CommonConfig.loseSlots && (CommonConfig.loseSlotNum == -1 || CommonConfig.loseSlotNum > 0)) {
+                TrophySlots.log.info("{} died. Losing {} slot(s).", player.getName().getString(), CommonConfig.loseSlotNum);
 
                 int slots = playerSlots.getSlotsUnlocked();
-                if (ServerConfig.loseSlotNum == -1) slots = 0;
-                else slots -= ServerConfig.loseSlotNum;
+                if (CommonConfig.loseSlotNum == -1) slots = 0;
+                else slots -= CommonConfig.loseSlotNum;
                 playerSlots.setSlotsUnlocked(slots);
 
-                String msg = ServerConfig.loseSlotNum == 1 ? "msg.trophyslots.lost_slot" :
-                        ServerConfig.loseSlotNum == -1 ? "msg.trophyslots.lost_all" : "msg.trophyslots.lost_slot.multiple";
-                if (ServerConfig.loseSlotNum > 1)
-                    player.func_241151_a_(new TranslationTextComponent(msg, ServerConfig.loseSlotNum), ChatType.CHAT,
-                            Util.field_240973_b_);
-                else player.func_241151_a_(new TranslationTextComponent(msg), ChatType.CHAT, Util.field_240973_b_);
+                String msg = CommonConfig.loseSlotNum == 1 ? "msg.trophyslots.lost_slot" :
+                        CommonConfig.loseSlotNum == -1 ? "msg.trophyslots.lost_all" : "msg.trophyslots.lost_slot.multiple";
+                if (CommonConfig.loseSlotNum > 1)
+                    player.sendMessage(new TranslatableComponent(msg, CommonConfig.loseSlotNum), ChatType.CHAT,
+                            Util.NIL_UUID);
+                else player.sendMessage(new TranslatableComponent(msg), ChatType.CHAT, Util.NIL_UUID);
                 PacketHandler.sendToClient(new MessageSlotClient(playerSlots.getSlotsUnlocked()), player);
             }
+
+            // Prevent capability data being lost on death
+            PlayerSlotHelper.backupToPersist(player, playerSlots);
         }
     }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
-        PlayerEntity player = event.player;
-        if (player.world.isRemote || player.abilities.isCreativeMode) return;
+        Player player = event.player;
+        if (player.level.isClientSide || player.isCreative() || player.isDeadOrDying()) return;
 
         IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
         if (playerSlots == null || playerSlots.maxSlotsUnlocked()) return;
 
-        for (int i = 0; i < player.inventory.mainInventory.size(); i++) {
+        for (int i = 0; i < player.getInventory().items.size(); i++) {
             if (playerSlots.slotUnlocked(i)) continue;
-            ItemStack stack = player.inventory.mainInventory.get(i);
+            ItemStack stack = player.getInventory().items.get(i);
             if (stack.isEmpty()) continue;
-            int slot = InventoryUtils.getNextEmptySlot(playerSlots, player.inventory);
+            int slot = InventoryUtils.getNextEmptySlot(playerSlots, player.getInventory());
             if (slot <= -1) {
-                player.entityDropItem(stack, 0f);
-                player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
-            } else player.inventory.setInventorySlotContents(slot, player.inventory.removeStackFromSlot(i));
+                player.drop(stack, false);
+                player.getInventory().setItem(i, ItemStack.EMPTY);
+            } else player.getInventory().setItem(slot, player.getInventory().removeItem(i, stack.getCount()));
         }
     }
 
     @SubscribeEvent
     public static void onItemPickup(EntityItemPickupEvent event) {
-        PlayerEntity player = event.getPlayer();
-        if (player.world.isRemote || player.abilities.isCreativeMode) return;
+        Player player = event.getPlayer();
+        if (player.level.isClientSide || player.isCreative()) return;
         IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
         if (playerSlots == null || playerSlots.maxSlotsUnlocked()) return;
 
         ItemStack stack = event.getItem().getItem();
         if (stack.isEmpty()) return;
 
-        int slot = InventoryUtils.searchForPossibleSlots(playerSlots, player.inventory, stack);
+        int slot = InventoryUtils.searchForPossibleSlots(playerSlots, player.getInventory(), stack);
         if (slot == -1 || !playerSlots.slotUnlocked(slot))
             event.setCanceled(true);
     }
 
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        if (event.getPlayer() instanceof ServerPlayerEntity)
-            updateClientSlots((ServerPlayerEntity) event.getPlayer());
+        if (event.getPlayer() instanceof ServerPlayer)
+            updateClientSlots((ServerPlayer) event.getPlayer());
     }
 
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getPlayer() instanceof ServerPlayerEntity)
-            updateClientSlots((ServerPlayerEntity) event.getPlayer());
+        if (event.getPlayer() instanceof ServerPlayer)
+            updateClientSlots((ServerPlayer) event.getPlayer());
     }
 
     @SubscribeEvent
     public static void playerChangedDimensions(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (event.getPlayer() instanceof ServerPlayerEntity)
-            updateClientSlots((ServerPlayerEntity) event.getPlayer());
+        if (event.getPlayer() instanceof ServerPlayer)
+            updateClientSlots((ServerPlayer) event.getPlayer());
     }
 
-    private static void updateClientSlots(ServerPlayerEntity player) {
+    private static void updateClientSlots(ServerPlayer player) {
+        // This is done so that if the player logs into a server with a different config
+        // to their client, then loads into a single player world, we reload their local
+        // config to avoid cross-polluting configs
+        PacketHandler.sendToClient(new MessageUnSyncConfig(), player);
+        if (player.level.isClientSide)
+            return;
+        PacketHandler.sendToClient(new MessageSyncConfig(), player);
         IPlayerSlots playerSlots = PlayerSlotHelper.getPlayerSlots(player);
-        if (playerSlots == null) return;
-        //Don't need this anymore because Forge now syncs server configs to the client
-        //if (updateConfig)
-        //    PacketHandler.sendToClient(new MessageServerConfig(), player);
-        PacketHandler.sendToClient(new MessageSlotClient(playerSlots.getSlotsUnlocked()), player);
+        if (playerSlots != null)
+            PacketHandler.sendToClient(new MessageSlotClient(playerSlots.getSlotsUnlocked()), player);
     }
 }

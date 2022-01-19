@@ -1,11 +1,7 @@
 package net.lomeli.trophyslots.client.screen.special;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import static java.lang.Math.*;
 
-@OnlyIn(Dist.CLIENT)
 class Wind {
     private static final float maxWind = 6;
     private static final int maxDuration = 5000;

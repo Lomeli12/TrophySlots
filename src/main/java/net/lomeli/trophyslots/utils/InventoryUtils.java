@@ -1,9 +1,9 @@
 package net.lomeli.trophyslots.utils;
 
-import net.lomeli.trophyslots.core.ServerConfig;
+import net.lomeli.trophyslots.core.CommonConfig;
 import net.lomeli.trophyslots.core.capabilities.IPlayerSlots;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 public class InventoryUtils {
     /**
@@ -20,27 +20,27 @@ public class InventoryUtils {
     public static boolean canMergeStacks(ItemStack slotStack, ItemStack inputStack) {
         if (slotStack.getItem() != inputStack.getItem())
             return false;
-        else if (slotStack.getDamage() != inputStack.getDamage())
+        else if (slotStack.getDamageValue() != inputStack.getDamageValue())
             return false;
         else if (slotStack.getCount() >= slotStack.getMaxStackSize())
             return false;
         else
-            return ItemStack.areItemStackTagsEqual(slotStack, inputStack);
+            return ItemStack.matches(slotStack, inputStack);
     }
 
-    public static int getNextEmptySlot(IPlayerSlots slotManager, PlayerInventory inventory) {
-        for (int i = 0; i < inventory.mainInventory.size(); i++) {
-            if (slotManager.slotUnlocked(i) && inventory.getStackInSlot(i).isEmpty())
+    public static int getNextEmptySlot(IPlayerSlots slotManager, Inventory inventory) {
+        for (int i = 0; i < inventory.items.size(); i++) {
+            if (slotManager.slotUnlocked(i) && inventory.getItem(i).isEmpty())
                 return i;
         }
         return -1;
     }
 
     //God I hate this method but I need it for now.
-    public static int searchForPossibleSlots(IPlayerSlots slotManager, PlayerInventory inventory, ItemStack stack) {
-        for (int i = 0; i < inventory.mainInventory.size(); i++) {
+    public static int searchForPossibleSlots(IPlayerSlots slotManager, Inventory inventory, ItemStack stack) {
+        for (int i = 0; i < inventory.items.size(); i++) {
             if (slotManager.slotUnlocked(i)) {
-                ItemStack item = inventory.getStackInSlot(i);
+                ItemStack item = inventory.getItem(i);
                 if (item.isEmpty())
                     return i;
                 else if (canMergeStacks(item, stack))
@@ -51,6 +51,6 @@ public class InventoryUtils {
     }
 
     public static int getMaxUnlockableSlots() {
-        return MAX_SLOTS - ServerConfig.startingSlots;
+        return MAX_SLOTS - CommonConfig.startingSlots;
     }
 }
