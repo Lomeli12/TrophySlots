@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "net.lomeli.trophyslots.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "trophyslots.refmap.json",
+  "mixins": [
+    "SlotCommon"
+  ],
+  "client": [
+    "SlotClient"
+  ],
+  "minVersion": "0.8"
+}

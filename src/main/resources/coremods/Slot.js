@@ -1,3 +1,4 @@
+//THIS IS ALL DEPRECATED, YEETING THIS GOD FORSAKEN MESS OUT OF THE HIGHEST WINDOW FROM THE TALLEST TOWER
 // God I hate doing this, but it's the best way for compatibility
 // with other mods in a backwards way. Still icky though...
 var ASMAPI = Java.type("net.minecraftforge.coremod.api.ASMAPI");
